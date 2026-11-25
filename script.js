@@ -1,6 +1,7 @@
 'use strict';
 const $=s=>document.querySelector(s), $$=s=>Array.from(document.querySelectorAll(s));
-const header=$('.header'), menu=$('.menu'), nav=$('#navigation'), dock=$('.mobile-dock');
+document.documentElement.classList.add('js');
+const header=$('.site-header'), menu=$('.menu-toggle'), nav=$('#navigation'), dock=$('.mobile-dock');
 const mobile=matchMedia('(max-width:820px)'), reduced=matchMedia('(prefers-reduced-motion:reduce)');
 function setMenu(open){nav.inert=mobile.matches&&!open;menu.setAttribute('aria-expanded',String(open));nav.classList.toggle('open',open);if(typeof scheduleScroll==='function')requestAnimationFrame(updateScroll);menu.querySelector('span').textContent=open?'Fechar':'Menu';}
 menu.addEventListener('click',()=>setMenu(menu.getAttribute('aria-expanded')!=='true'));
@@ -11,7 +12,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('
 document.addEventListener('click',e=>{if(!header.contains(e.target))setMenu(false)});
 mobile.addEventListener('change',()=>{setMenu(false);updateScroll()});
 let dockDismissed=false;$('.dock-dismiss').addEventListener('click',()=>{dockDismissed=true;updateScroll();menu.focus({preventScroll:true})});
-const sections=$$('main section[id]'), navLinks=$$('#navigation a[href^="#"]');
+const sections=$('main section[id]'), navLinks=$('#navigation a[href^="#"]');
 let queued=false;
 function updateScroll(){queued=false;const y=window.scrollY;header.classList.toggle('scrolled',header.classList.contains('scrolled')?y>16:y>55);const full=document.documentElement.scrollHeight-innerHeight;header.style.setProperty('--read',String(full>0?Math.min(1,y/full):0));let current='';for(const section of sections)if(section.getBoundingClientRect().top<145)current=section.id;for(const a of navLinks){if(a.hash==='#'+current)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')}
 const hero=$('.hero').getBoundingClientRect(), contact=$('#contato').getBoundingClientRect();const focused=document.activeElement, box=focused?.getBoundingClientRect();const keyboardOverlap=focused?.matches(':focus-visible')&&!dock.contains(focused)&&box?.top<innerHeight&&box?.bottom>innerHeight-100;const show=mobile.matches&&innerHeight>450&&!dockDismissed&&!keyboardOverlap&&hero.bottom<80&&contact.top>innerHeight*.65&&menu.getAttribute('aria-expanded')!=='true'&&!document.querySelector('dialog[open]');dock.classList.toggle('visible',show);dock.inert=!show;dock.setAttribute('aria-hidden',String(!show));document.body.classList.toggle('dock-active',show);document.documentElement.classList.toggle('dock-active',show);}
