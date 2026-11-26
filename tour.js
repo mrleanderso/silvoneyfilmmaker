@@ -4,9 +4,24 @@ const dialog=document.querySelector('#sf-tour'),triggers=[...document.querySelec
 if(!dialog||typeof dialog.showModal!=='function'||!triggers.length)return;
 const title=dialog.querySelector('#sf-tour-title'),description=dialog.querySelector('#sf-tour-description'),kicker=dialog.querySelector('#sf-tour-kicker'),image=dialog.querySelector('#sf-tour-image'),link=dialog.querySelector('#sf-tour-link'),stepText=dialog.querySelector('#sf-tour-step'),bars=[...dialog.querySelectorAll('.sf-tour-bars i')],prev=dialog.querySelector('.sf-tour-prev'),next=dialog.querySelector('.sf-tour-next');
 let index=0,opener=null;
+
+// Primeiro convite: não modal, sem roubar foco, uma vez por navegador.
+const welcome=document.querySelector('#sf-tour-welcome'),welcomeKey='sf-tour-welcome-v2';let welcomeTimer=null,seen=false;
+try{seen=localStorage.getItem(welcomeKey)==='1'}catch{}
+function rememberWelcome(){seen=true;try{localStorage.setItem(welcomeKey,'1')}catch{}}
+function hideWelcome(){if(welcomeTimer!==null){clearTimeout(welcomeTimer);welcomeTimer=null}if(welcome)welcome.hidden=true}
+function dismissWelcome(){const focused=welcome?.contains(document.activeElement);hideWelcome();rememberWelcome();if(focused)document.querySelector('.sf-tour-invite')?.focus({preventScroll:true})}
+if(welcome){
+ welcome.querySelector('.sf-welcome-close').addEventListener('click',dismissWelcome);
+ welcome.querySelector('.sf-welcome-dismiss').addEventListener('click',dismissWelcome);
+ const reveal=()=>{welcomeTimer=null;if(seen||dialog.open||document.visibilityState==='hidden')return;welcome.hidden=false;rememberWelcome()};
+ const schedule=()=>{if(!seen&&welcomeTimer===null&&document.visibilityState!=='hidden')welcomeTimer=setTimeout(reveal,2500)};
+ schedule();document.addEventListener('visibilitychange',()=>{if(document.visibilityState==='hidden'&&welcomeTimer!==null){clearTimeout(welcomeTimer);welcomeTimer=null}else schedule()});
+}
+
 function render(focus=false){const step=steps[index];title.textContent=step.title;description.textContent=step.description;kicker.textContent=step.kicker;image.alt=step.alt;image.src=step.image;link.href=step.href;link.querySelector('span').textContent=step.link;stepText.textContent='Etapa '+(index+1)+' de '+steps.length;bars.forEach((bar,i)=>bar.classList.toggle('is-filled',i<=index));prev.disabled=index===0;next.querySelector('span').textContent=index===steps.length-1?'Concluir':'Próximo';if(focus)title.focus({preventScroll:true});}
 function close(){if(dialog.open)dialog.close()}
-triggers.forEach(button=>{button.hidden=false;button.addEventListener('click',()=>{if(document.querySelector('dialog[open]'))return;opener=button;index=0;render();dialog.showModal();title.focus({preventScroll:true});window.dispatchEvent(new Event('resize'));})});
+triggers.forEach(button=>{button.hidden=false;button.addEventListener('click',()=>{if(document.querySelector('dialog[open]'))return;opener=welcome?.contains(button)?document.querySelector('.sf-tour-invite')||button:button;hideWelcome();rememberWelcome();index=0;render();dialog.showModal();title.focus({preventScroll:true});window.dispatchEvent(new Event('resize'));})});
 dialog.querySelectorAll('[data-tour-close]').forEach(button=>button.addEventListener('click',close));
 prev.addEventListener('click',()=>{if(index>0){index--;render(true)}});
 next.addEventListener('click',()=>{if(index===steps.length-1)close();else{index++;render(true)}});
