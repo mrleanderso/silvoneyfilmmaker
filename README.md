@@ -68,7 +68,7 @@ Não ativar js/analytics-config.js até confirmar o ID GA4, consentimento e desa
 
 ## Decisões de experiência
 
-A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem depender das antigas classes hero. A Home usa o encontro entre mãe e bebê; Partos preserva a foto vertical da família no desktop e em tablets, com enquadramento central dedicado ao celular. O texto das categorias fica fora da fotografia. O portfólio mantém seis imagens iniciais em uma grade editorial e onze sob demanda. A exposição O instante integra os registros reais em três atos visíveis na página, com profundidade CSS 3D, navegação explícita e ampliação pelo visualizador existente. O álbum, a perspectiva antiga e o tour foram substituídos. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
+A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem depender das antigas classes hero. A Home usa o encontro entre mãe e bebê; Partos preserva a foto vertical da família no desktop e em tablets, com enquadramento central dedicado ao celular. O texto das categorias fica fora da fotografia. O portfólio reúne seis imagens na exposição, dez registros adicionais sob demanda e a fotografia de capa, todos em uma única coleção de ampliação. A exposição O instante é o próprio portfólio, em três atos visíveis na página, com profundidade CSS 3D, navegação explícita e ampliação pelo visualizador existente. O álbum, a perspectiva antiga e o tour foram substituídos. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
 
 ## Manutenção
 

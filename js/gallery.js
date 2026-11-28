@@ -5,7 +5,7 @@
   const dialog = q('#gallery');
   const large = q('#large-photo');
   const thumbs = q('.gallery-thumbs');
-  const photos = [...document.querySelectorAll('.photo-button')];
+  const photos = [...document.querySelectorAll('[data-sf-photo]')];
   const state = q('#gallery-state');
   const retry = q('#retry-photo');
   const caption = q('#large-caption');
@@ -18,6 +18,7 @@
 
   let index = 0, opener, animation, loadTimer, start = null;
   let thumbButtons = [];
+  const photoCaption = photo => photo.dataset.photoCaption || photo.closest('figure')?.querySelector('figcaption')?.textContent.trim() || photo.querySelector('img').alt;
   function ensureThumbs() {
     if (thumbButtons.length) return;
     thumbButtons = photos.map((photo,i) => {
@@ -27,7 +28,7 @@
       img.src = source.dataset.thumb || source.src;
       img.alt = ''; img.loading = 'lazy'; img.decoding = 'async';
       button.type = 'button';
-      button.setAttribute('aria-label','Ver fotografia '+(i+1)+': '+photo.closest('figure').querySelector('figcaption').textContent.trim());
+      button.setAttribute('aria-label','Ver fotografia '+(i+1)+': '+photoCaption(photo));
       button.append(img);
       button.addEventListener('click',()=>showPhoto(i));
       thumbs.append(button);
@@ -58,7 +59,7 @@
     const source=photos[index].querySelector('img');
     if (large.src!==source.src) large.src=source.src;
     large.alt=source.alt;
-    caption.textContent=photos[index].closest('figure').querySelector('figcaption span').textContent;
+    caption.textContent=photoCaption(photos[index]);
     count.textContent=(index+1)+' / '+photos.length;
     thumbButtons.forEach((button,j)=>button.setAttribute('aria-current',String(index===j)));
     const active=thumbButtons[index];
@@ -89,7 +90,7 @@
   photos.forEach((photo,i)=>{
     photo.setAttribute('aria-haspopup','dialog');
     photo.addEventListener('click',e=>{
-      if (e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
+      if (e.defaultPrevented||e.ctrlKey||e.metaKey||e.shiftKey||e.altKey) return;
       e.preventDefault();openGallery(i,photo);
     });
   });

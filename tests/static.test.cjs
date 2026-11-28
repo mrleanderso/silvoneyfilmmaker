@@ -63,3 +63,15 @@ test('CSS e JavaScript de produção estão nas pastas corretas',()=>{
     }
   }
 });
+
+test('Partos tem uma coleção única e 18 imagens distintas',()=>{
+  const html=pages['partos.html'];
+  const main=html.match(/<main\b[\s\S]*?<\/main>/)[0];
+  const photos=[...main.matchAll(/<a\b[^>]*data-sf-photo[^>]*href="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(photos.length,17);
+  assert.equal(new Set(photos).size,17);
+  const images=[...main.matchAll(/<img\b[^>]*src="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(images.length,18);
+  assert.equal(new Set(images).size,18);
+  assert.equal((main.match(/href="https:\/\/wa\.me\//g)||[]).length,2);
+});

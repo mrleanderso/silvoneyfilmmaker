@@ -10,7 +10,10 @@
 
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
   const fine = matchMedia('(hover:hover) and (pointer:fine)');
-  const photos = [...document.querySelectorAll('#galeria a.photo-button')];
+  const more = root.querySelector('#sf-gallery-panel');
+  function revealMore() {if (more && ['#galeria','#sf-gallery-panel'].includes(location.hash)) more.open=true;}
+  revealMore();
+  addEventListener('hashchange',revealMore);
   let index = 0;
   let frame = 0;
   let touch = null;
@@ -74,14 +77,9 @@
       }
     },{passive:true});
     act.querySelectorAll('.sf-exhibit-print').forEach(link => {
-      const photoIndex=photos.findIndex(photo => photo.href===link.href);
-      if (photoIndex<0) return;
       link.addEventListener('click',event => {
-        if (event.ctrlKey||event.metaKey||event.shiftKey||event.altKey) return;
-        if (Date.now()<suppressClickUntil) {event.preventDefault();return;}
-        const open=new CustomEvent('sf:open-photo',{cancelable:true,detail:{index:photoIndex,opener:link}});
-        if (!document.dispatchEvent(open)) event.preventDefault();
-      });
+        if (Date.now()<suppressClickUntil) {event.preventDefault();event.stopImmediatePropagation();}
+      },true);
     });
   });
   reduced.addEventListener?.('change',() => {

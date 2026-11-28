@@ -18,11 +18,11 @@ test('menu abre e fecha no celular',async({page},info)=>{
   await expect(menu).toHaveAttribute('aria-expanded','false');
 });
 test('galeria amplia e navega',async({page})=>{
-  await page.goto('/partos.html#galeria');
-  await page.locator('.photo-button').first().click();
+  await page.goto('/partos.html#experiencia');
+  await page.locator('.sf-exhibit-print--rear').first().click();
   await expect(page.locator('#gallery')).toBeVisible();
   await page.locator('#next').click();
-  await expect(page.locator('#photo-count')).toContainText('2 / 17');
+  await expect(page.locator('#photo-count')).toContainText('3 / 17');
   await page.locator('.close-gallery').click();
   await expect(page.locator('#gallery')).not.toBeVisible();
 });
@@ -59,7 +59,7 @@ test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
   const context=await browser.newContext({javaScriptEnabled:false});
   const page=await context.newPage();
   await page.goto('http://127.0.0.1:4173/partos.html#galeria');
-  const link=page.locator('a.photo-button').first();
+  const link=page.locator('.sf-exhibit-print--rear').first();
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute('href',/\.webp$/);
   expect(await link.evaluate(a=>getComputedStyle(a).pointerEvents)).not.toBe('none');
@@ -144,7 +144,7 @@ test('exposição visível sem abrir um modo, navegação e ampliação',async({
   await expect(page.locator('#gallery')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(photo).toBeFocused();
-  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
+  await expect(page.locator('#sf-gallery-panel summary')).toBeVisible();
 });
 test('link da bio chega à exposição',async({page})=>{
   await page.goto('/links');
@@ -159,4 +159,17 @@ test('primeiro ato e galeria funcionam sem JavaScript',async({browser})=>{
   await expect(page.locator('.sf-exhibit-controls')).not.toBeVisible();
   await expect(page.locator('#sf-gallery-panel')).toBeVisible();
   await context.close();
+});
+
+test('portfólio integrado não repete fotografias e mantém todos os registros',async({page})=>{
+  await page.goto('/partos.html#experiencia');
+  const collection=page.locator('[data-sf-photo]');
+  expect(await collection.count()).toBe(17);
+  const links=await collection.evaluateAll(nodes=>nodes.map(a=>a.href));
+  expect(new Set(links).size).toBe(17);
+  const more=page.locator('#sf-gallery-panel');
+  await expect(more).not.toHaveAttribute('open','');
+  await more.locator('summary').click();
+  await expect(more).toHaveAttribute('open','');
+  await expect(more.locator('a.photo-button')).toHaveCount(10);
 });
