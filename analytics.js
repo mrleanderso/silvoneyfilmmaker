@@ -1,0 +1,24 @@
+'use strict';
+(()=>{const id=window.SF_ANALYTICS_ID;if(!/^G-[A-Z0-9]+$/.test(id||''))return;
+const key='sf-analytics-consent-v1';let active=false,loaded=false;
+const get=()=>{try{return localStorage.getItem(key)||''}catch{return ''}};
+const save=v=>{try{localStorage.setItem(key,v)}catch{}};
+const path=location.pathname,page=path.includes('partos')?'partos':path.includes('ensaios')?'ensaios':path.includes('links')?'links':'inicio';
+const pagePaths={inicio:'/',partos:'/partos.html',ensaios:'/ensaios.html',links:'/links'};
+const pageLocation=location.origin+pagePaths[page];
+const settings={send_page_view:false,allow_google_signals:false,allow_ad_personalization_signals:false,page_location:pageLocation,page_referrer:''};
+const allowedEvents=new Set(['whatsapp_click','portfolio_click','experience_start','availability_click','form_preview']);
+const panel=document.createElement('section');panel.className='sf-privacy-panel';panel.hidden=true;panel.setAttribute('aria-label','Preferências de privacidade');panel.innerHTML='<h2>Preferências de privacidade</h2><p>Se você permitir, usamos o Google Analytics para medir visitas e cliques e melhorar o site. Não enviamos os dados do formulário nem o conteúdo das conversas. Você pode recusar ou alterar sua escolha no rodapé. <a href="https://policies.google.com/privacy?hl=pt-BR" target="_blank" rel="noopener noreferrer">Privacidade do Google</a>.</p><div class="sf-privacy-buttons"><button type="button" data-sf-decline>Recusar</button><button type="button" data-sf-accept>Aceitar medição</button></div>';
+document.body.append(panel);
+const footer=document.querySelector('.shell-footer nav,.bio-footer');
+if(footer){const btn=document.createElement('button');btn.type='button';btn.className='sf-privacy-link';btn.textContent='Preferências de privacidade';btn.addEventListener('click',()=>{panel.hidden=false;panel.querySelector('button').focus()});footer.append(btn)}
+function start(){if(active)return;active=true;window['ga-disable-'+id]=false;if(!loaded){loaded=true;window.dataLayer=window.dataLayer||[];window.gtag=function(){window.dataLayer.push(arguments)};window.gtag('consent','default',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});window.gtag('consent','update',{analytics_storage:'granted'});window.gtag('js',new Date());window.gtag('config',id,settings);const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(id);s.referrerPolicy='no-referrer';document.head.append(s)}else{window.gtag('consent','update',{analytics_storage:'granted'})}window.gtag('event','page_view',{page_location:pageLocation,page_referrer:'',page_title:page})}
+function stop(){active=false;window['ga-disable-'+id]=true;if(loaded)window.gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied',ad_user_data:'denied',ad_personalization:'denied'});for(const pair of document.cookie.split(';')){const name=pair.split('=')[0].trim();if(/^_ga(?:_|$)/.test(name)){document.cookie=name+'=; Max-Age=0; path=/';document.cookie=name+'=; Max-Age=0; path=/; domain='+location.hostname}}}
+function choose(v){save(v);panel.hidden=true;if(v==='yes')start();else stop()}
+panel.querySelector('[data-sf-decline]').addEventListener('click',()=>choose('no'));
+panel.querySelector('[data-sf-accept]').addEventListener('click',()=>choose('yes'));
+const preference=get();if(preference==='yes')start();else if(preference!=='no')panel.hidden=false;
+function event(name,source){if(!active||!allowedEvents.has(name))return;const safeSources=new Set(['floating','availability','header','bio','coverage','preview','contact','tour','other','portfolio']);window.gtag('event',name,{page_location:pageLocation,page_referrer:'',page_title:page,placement:safeSources.has(source)?source:'other'})}
+document.addEventListener('click',e=>{const target=e.target.closest?.('a,button');if(!target)return;if(target.matches('[data-tour-open]')){event('experience_start','tour');return}if(target.tagName!=='A')return;if(target.getAttribute('aria-disabled')==='true')return;let url;try{url=new URL(target.href,location.href)}catch{return}if(url.hostname==='wa.me'||url.hostname==='api.whatsapp.com'){let place=target.matches('[data-sf-availability]')?'availability':target.matches('.sf-whatsapp-float')?'floating':target.matches('.shell-book')?'header':target.matches('.bio-link')?'bio':target.closest('.service-list')?'coverage':target.id==='send-whatsapp'?'preview':target.closest('#contato')?'contact':'other';if(place==='availability')event('availability_click',place);event('whatsapp_click',place)}else if(url.origin===location.origin&&/\/(partos|ensaios)(\.html)?$/.test(url.pathname)){event('portfolio_click','portfolio')}},true);
+document.addEventListener('submit',e=>{if(e.target.id==='inquiry')event('form_preview','preview')},true);
+})();
