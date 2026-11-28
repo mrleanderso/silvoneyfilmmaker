@@ -74,3 +74,7 @@ A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem 
 ## Manutenção
 
 Antes de alterar layout, execute os testes e compare as seis páginas em 320, 390, 768 e 1440 px. Mantenha o WhatsApp direto disponível. Não publicar depoimentos, vídeos ou preços sem autorização.
+
+## Auditoria de usabilidade
+
+A galeria de Partos oferece ampliação nativa sem JavaScript. A página Ensaios mantém URLs de álbuns, histórico, foco e recuperação de falhas. O contato mobile prioriza as ações de contratação. O tour é voluntário e carregado apenas onde existe. As imagens de capa não têm animação de entrada que atrase sua apresentação. Consulte `docs/auditoria-ux.md` para decisões e limites da revisão.

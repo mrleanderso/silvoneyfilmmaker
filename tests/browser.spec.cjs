@@ -174,13 +174,15 @@ test('ensaios recuperam falha de carregamento da imagem',async({page})=>{
   await page.goto('/ensaios.html');
   const first=page.locator('#retratos .print').first();
   const href=await first.getAttribute('href');
-  await page.route('**/'+href,route=>route.abort());
   // Force an image URL not already cached by the thumbnail.
   await first.evaluate(a=>{a.href+='?viewer=1'});
-  await page.route('**/'+href+'?viewer=1',route=>route.abort());
+  await page.route(url=>url.pathname.endsWith('/'+href)&&url.searchParams.has('viewer'),route=>url.searchParams.has('retry')?route.continue():route.abort());
   await first.click();
   await expect(page.locator('#shoot-error')).toBeVisible();
   await expect(page.locator('#shoot-retry')).toBeVisible();
+  await page.locator('#shoot-retry').click();
+  await expect(page.locator('#shoot-error')).not.toBeVisible();
+  await expect.poll(()=>page.locator('#shoot-large').evaluate(img=>img.complete&&img.naturalWidth>0)).toBeTruthy();
   await page.keyboard.press('Escape');
   await expect(first).toBeFocused();
 });

@@ -12,8 +12,6 @@ to{opacity:1;
 to{opacity:1;
   transform:none}}
 .sf-revealed{animation:sf-reveal .42s ease-out both}
-.sf-cover-media img{animation:sf-cover-in .55s ease-out both}
-@keyframes sf-cover-in{from{opacity:.7}to{opacity:1}}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float){transition:background-color .18s,color .18s,border-color .18s,transform .16s,box-shadow .2s}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float):active{transform:scale(.98)}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button) svg,body .sf-choice-option svg{transition:transform .2s ease}
@@ -43,11 +41,6 @@ body .sf-revealed{animation:none}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-book-toggle,.sf-choice-option):focus-visible{outline:2px solid currentColor;
   outline-offset:4px}
 body :is(.shell-button,.editorial-button,.sf-convert-button,.sf-book-toggle){min-height:48px}
-@media(prefers-reduced-motion:no-preference){.sf-cover-copy h1{animation:sf-title-in .55s ease-out both}
-@keyframes sf-title-in{from{opacity:.7;
-  transform:translateY(7px)}
-to{opacity:1;
-  transform:none}}
-.sf-album-enter{animation:sf-reveal .3s ease-out both}}
+@media(prefers-reduced-motion:no-preference){.sf-album-enter{animation:sf-reveal .3s ease-out both}}
 
 body .shell-header.sf-header-scrolled{box-shadow:0 2px 12px #0002}
