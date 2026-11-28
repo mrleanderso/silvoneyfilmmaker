@@ -157,6 +157,8 @@ test('primeiro ato e galeria funcionam sem JavaScript',async({browser})=>{
   await page.goto('http://127.0.0.1:4173/partos.html#experiencia');
   await expect(page.locator('#exhibit-act-1 .sf-exhibit-print--front')).toBeVisible();
   await expect(page.locator('.sf-exhibit-controls')).not.toBeVisible();
+  await expect(page.locator('#exhibit-act-2')).toBeVisible();
+  await expect(page.locator('#exhibit-act-3')).toBeVisible();
   await expect(page.locator('#sf-gallery-panel')).toBeVisible();
   await context.close();
 });

@@ -86,6 +86,8 @@
     cancelAnimationFrame(frame);
     acts.forEach(act => {act.removeAttribute('data-enter');reset(act.querySelector('.sf-exhibit-stage'))});
   });
+  root.querySelector('.sf-exhibit-acts')?.classList.add('is-interactive');
+  acts.forEach((act,i)=>{act.hidden=i!==index});
   controls.hidden=false;
   if ('IntersectionObserver' in window && !reduced.matches) {
     const intro=new IntersectionObserver(entries => {

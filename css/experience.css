@@ -43,6 +43,7 @@
   gap:clamp(18px,3vw,42px);
   align-items:center;
 }
+.sf-exhibit-acts:not(.is-interactive) .sf-exhibit-act+.sf-exhibit-act {margin-top:28px}
 .sf-exhibit-act[hidden],.sf-exhibit-controls[hidden] {display:none!important}
 .sf-exhibit-print img[hidden] {display:none!important}
 .sf-exhibit-stage {

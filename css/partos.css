@@ -14,7 +14,8 @@
 .birth-local-nav a {display:flex;align-items:center;min-height:44px;font:500 13px/1.4 system-ui,sans-serif;text-decoration:none;color:#333}
 .birth-local-nav a:hover {text-decoration:underline;text-underline-offset:4px}
 .birth-local-nav a:focus-visible {outline:2px solid #111;outline-offset:3px}
-.birth-page .sf-cover-photo {display:grid;place-items:center;max-width:100%;width:100%;min-width:0;cursor:zoom-in}
+.birth-page .sf-cover-photo {display:grid;place-items:center;max-width:100%;width:100%;min-width:0;cursor:zoom-in;box-sizing:border-box}
+.birth-page .sf-cover-photo img {display:block}
 .birth-page .sf-cover-photo:focus-visible {outline:2px solid #fff;outline-offset:4px}
 .birth-page .sf-film-inline {padding-block:clamp(26px,4vw,52px);border-top:0}
 .birth-page .sf-film-inline h2 {font:400 clamp(28px,4vw,44px)/1.1 Georgia,serif;margin:0 0 12px}
