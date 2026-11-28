@@ -76,20 +76,23 @@ test('Partos tem uma coleção única e 18 imagens distintas',()=>{
   assert.equal((main.match(/href="https:\/\/wa\.me\//g)||[]).length,2);
 });
 
-test('imersão mantém seis fotos e alternativa nativa',()=>{
+test('Entre instantes mantém quatro capítulos e seis fotografias originais',()=>{
   const html=pages['imersao.html'];
-  assert.equal((html.match(/<article class="im-wall /g)||[]).length,3);
+  assert.equal((html.match(/class="im-scene"/g)||[]).length,4);
   const photos=[...html.matchAll(/<a class="im-photo[^"]*" href="([^"]+)"/g)].map(m=>m[1]);
-  assert.equal(photos.length,6);assert.equal(new Set(photos).size,6);
+  assert.equal(photos.length,6);
+  assert.equal(new Set(photos).size,6);
+  for(const p of photos)assert.ok(fs.existsSync(path.join(root,p)));
   assert.match(html,/<noscript>/);
+  assert.match(html,/id="im-sound" aria-pressed="false" hidden/);
+  assert.match(html,/Conversa guiada · automática/);
+  assert.match(html,/href="partos.html#cobertura"/);
   assert.match(pages['partos.html'],/href="imersao.html"/);
   assert.match(pages['links.html'],/href="\/imersao.html"/);
 });
-
-test('imersão integral tem quatro paredes navegáveis e orçamento',()=>{
-  const html=pages['imersao.html'];
-  assert.equal((html.match(/data-room="\d+"/g)||[]).length,4);
-  assert.match(html,/id="room-3"/);
-  assert.match(html,/class="im-cta" href="partos.html#cobertura"/);
-  assert.match(read('css/immersion.css'),/\.im-immersive \.im-viewport\[data-mode="3d"\]\{position:fixed;inset:0/);
+test('imersão reativa preserva alternativa calma e áudio opcional',()=>{
+  assert.match(read('css/immersion.css'),/prefers-reduced-motion:reduce/);
+  assert.match(read('js/immersion.js'),/pointermove/);
+  assert.match(read('js/immersion.js'),/visibilitychange/);
+  assert.match(read('js/immersion.js'),/encodeURIComponent\(text\)/);
 });

@@ -189,58 +189,41 @@ test('exposição sem sobreposição e navegação nativa',async({page})=>{
   }
 });
 
-test('imersão permite girar, ampliar e voltar à vista plana',async({page})=>{
+test('imersão reage ao ponteiro e mantém capítulos acessíveis',async({page})=>{
   await page.goto('/imersao.html');
-  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','3d');
-  await page.locator('[data-room="2"]').click();
-  await expect(page.locator('#im-title')).toHaveText('A família');
-  await expect(page.locator('#room-0')).toHaveAttribute('aria-hidden','true');
-  await expect(page.locator('#room-2')).not.toHaveAttribute('aria-hidden','true');
-  await page.locator('#room-2 .im-photo--0').click();
+  await expect(page.locator('.im-stage')).toHaveAttribute('data-mode','immersive');
+  for(let i=0;i<4;i++){
+    await page.locator('[data-scene-go="'+i+'"]').click();
+    await expect(page.locator('#scene-'+i)).toBeVisible();
+    await expect(page.locator('.im-scene:visible')).toHaveCount(1);
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBeTruthy();
+  }
+  await page.locator('[data-scene-go="0"]').click();
+  await page.mouse.move(160,180);
+  await expect.poll(()=>page.locator('.im-stage').evaluate(el=>el.style.getPropertyValue('--mx'))).not.toBe('');
+  await page.locator('.im-photo:visible').first().click();
   await expect(page.locator('.im-dialog')).toBeVisible();
   await page.keyboard.press('Escape');
-  await page.locator('.im-mode').click();
-  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','flat');
-  await expect(page.locator('#room-0')).toBeVisible();
+  await expect(page.locator('.im-dialog')).not.toBeVisible();
 });
-test('imersão respeita movimento reduzido',async({page})=>{
+test('conversa guiada prepara mensagem sem envio automático',async({page})=>{
+  await page.goto('/imersao.html');
+  await page.locator('[data-scene-go="3"]').click();
+  await page.getByRole('button',{name:'Cesárea',exact:true}).click();
+  await page.getByRole('button',{name:'Fotografias e filme',exact:true}).click();
+  const href=await page.locator('.im-send').getAttribute('href');
+  expect(decodeURIComponent(href)).toContain('Tipo de parto: Cesárea');
+  expect(decodeURIComponent(href)).toContain('Interesse: Fotografias e filme');
+  await page.getByRole('button',{name:'Recomeçar'}).click();
+  await expect(page.getByRole('button',{name:'Parto normal',exact:true})).toBeVisible();
+});
+test('vista calma e alternativa sem JavaScript',async({page,browser})=>{
   await page.emulateMedia({reducedMotion:'reduce'});
   await page.goto('/imersao.html');
-  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','flat');
-  await expect(page.locator('#room-2')).toBeVisible();
-});
-
-test('fotografias da sala 3D ficam dentro da área visível',async({page})=>{
-  await page.goto('/imersao.html');
-  for(let i=0;i<3;i++){
-    await page.locator('[data-room="'+i+'"]').click();
-    await expect.poll(()=>page.locator('#room-'+i+' img').evaluateAll(images=>{
-      const view=document.querySelector('#im-viewport').getBoundingClientRect();
-      return images.every(img=>{
-        const r=img.getBoundingClientRect();
-        return img.complete&&img.naturalWidth>0&&r.width>60&&r.height>60&&r.left>=view.left-2&&r.right<=view.right+2&&r.top>=view.top-2&&r.bottom<=view.bottom+2&&document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===img;
-      });
-    })).toBeTruthy();
-  }
-});
-test('galeria oferece os três ambientes sem JavaScript',async({browser})=>{
-  const context=await browser.newContext({javaScriptEnabled:false});
-  const page=await context.newPage();
-  await page.goto('http://127.0.0.1:4173/imersao.html');
-  await expect(page.locator('.im-toolbar')).not.toBeVisible();
-  for(let i=0;i<3;i++)await expect(page.locator('#room-'+i)).toBeVisible();
-  await context.close();
-});
-
-test('imersão ocupa toda a tela e a quarta parede leva às coberturas',async({page})=>{
-  await page.goto('/imersao.html');
-  const viewport=page.locator('#im-viewport');
-  await expect(viewport).toHaveAttribute('data-mode','3d');
-  expect(await viewport.evaluate(el=>{const r=el.getBoundingClientRect();return Math.abs(r.width-innerWidth)<2&&Math.abs(r.height-innerHeight)<2&&document.documentElement.scrollHeight<=innerHeight+2})).toBeTruthy();
-  await page.locator('[data-room="3"]').click();
-  await expect(page.locator('#im-title')).toHaveText('Seu registro');
-  await expect(page.locator('#room-3 .im-cta')).toHaveAttribute('href','partos.html#cobertura');
-  await expect.poll(()=>page.locator('#room-3 .im-cta').evaluate(el=>{const r=el.getBoundingClientRect();return el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})).toBeTruthy();
-  await page.locator('#room-3 .im-cta').click();
-  await expect(page).toHaveURL(/partos\.html#cobertura$/);
+  await expect(page.locator('.im-stage')).toHaveAttribute('data-mode','flat');
+  await expect(page.locator('.im-scene:visible')).toHaveCount(4);
+  const c=await browser.newContext({javaScriptEnabled:false});const p=await c.newPage();
+  await p.goto('http://127.0.0.1:4173/imersao.html');
+  await expect(p.locator('.im-scene:visible')).toHaveCount(4);
+  await c.close();
 });

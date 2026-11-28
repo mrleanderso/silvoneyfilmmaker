@@ -90,3 +90,7 @@ Validação desta versão: geometria da sala reproduzida em Chromium, oito largu
 ### Imersão em tela inteira
 
 A sala ocupa o viewport dinâmico, com controles sobrepostos fora das fotografias, rotação circular entre quatro paredes e uma última parede com acesso às coberturas. O modo plano permanece disponível. A câmera calcula a zona livre entre os controles e centraliza as obras. Validação geométrica em fixture Chromium com imagens de teste nas proporções originais: nove tamanhos, quatro posições (36 cenários), incluindo orientação horizontal; não equivale a validação integral do site publicado.
+
+### Entre instantes — experiência sensorial
+
+Substitui a antiga sala 3D por quatro capítulos cromáticos, luz que acompanha o ponteiro, fotografias com perspectiva CSS 3D, trilha ambiente sintetizada opcional e diálogo guiado local. A conversa não é atendimento humano ou IA e não transmite informações até a abertura voluntária do WhatsApp. A vista calma e a versão sem JavaScript preservam o acesso às fotografias. Validação local em Chromium com imagens substitutas nas proporções originais: oito dimensões, quatro capítulos, 32 cenários, além do diálogo, controle de áudio, ampliação e preferências de movimento. Não equivale à validação da implantação Vercel.

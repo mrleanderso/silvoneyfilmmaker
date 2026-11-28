@@ -4,82 +4,99 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#101010">
-  <meta name="description" content="Uma galeria virtual em três dimensões com fotografias reais de nascimento, por Silvoney Filmmaker.">
-  <title>Entre instantes — Galeria 3D | Silvoney Filmmaker</title>
+  <meta name="description" content="Uma experiência sensorial com fotografias reais de nascimento, luz, movimento e conversa guiada, por Silvoney Filmmaker.">
+  <title>Entre instantes — Experiência sensorial | Silvoney Filmmaker</title>
   <link rel="canonical" href="https://silvoneyfilmmaker.vercel.app/imersao.html">
-  <meta property="og:title" content="Entre instantes — Galeria 3D | Silvoney Filmmaker">
-  <meta property="og:description" content="Uma visita a uma galeria virtual de fotografias de nascimento.">
+  <meta property="og:title" content="Entre instantes — Experiência sensorial | Silvoney Filmmaker">
+  <meta property="og:description" content="Luz, memória e fotografias reais de nascimento.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://silvoneyfilmmaker.vercel.app/imersao.html">
   <meta property="og:image" content="https://silvoneyfilmmaker.vercel.app/assets/capa-compartilhamento-2026.jpg">
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/css/immersion.css?v=4">
-  <script src="/js/immersion.js?v=3" defer></script>
+  <link rel="stylesheet" href="/css/immersion.css?v=5">
+  <script src="/js/immersion.js?v=4" defer></script>
 </head>
 <body>
-  <a class="im-skip" href="#visita">Ir para a galeria</a>
-  <header class="im-header im-wrap">
-    <a class="im-mark" href="index.html" aria-label="Silvoney Filmmaker, início">SILVONEY <span>FILMMAKER</span></a>
-    <div class="im-header-actions">
-      <button type="button" class="im-mode" aria-pressed="false" hidden>Entrar em 3D</button>
-      <a class="im-back" href="partos.html#experiencia" aria-label="Voltar ao portfólio">← Voltar</a>
-    </div>
-  </header>
-  <main class="im-wrap" id="visita" tabindex="-1">
-    <div class="im-intro">
-      <div><p class="im-eyebrow">EXPOSIÇÃO VIRTUAL / 01</p><h1>Entre <em>instantes.</em></h1></div>
-      <p>Uma visita à memória do nascimento em uma sala virtual. Fotografias reais, por Silvoney Martins.</p>
-    </div>
-    <section class="im-gallery" aria-label="Galeria virtual de nascimento">
-      <div class="im-viewport" id="im-viewport" aria-label="Espaço da exposição" aria-describedby="im-help">
-        <div class="im-world">
-          <div class="im-floor" aria-hidden="true"></div>
-          <div class="im-ceiling" aria-hidden="true"></div>
-          <article class="im-wall im-wall--0" id="room-0" aria-labelledby="room-title-0">
-            <div class="im-art">
-              <a class="im-photo im-photo--0" href="assets/ensaios/foto-49.webp" draggable="false"><img draggable="false" src="assets/ensaios/foto-49.webp" alt="Recém-nascido no colo da mãe" width="1280" height="1025" fetchpriority="high" decoding="async"></a>
-              <a class="im-photo im-photo--1" href="assets/claro-beijo.webp" draggable="false"><img draggable="false" src="assets/claro-beijo.webp" alt="Pai beija o bebê no colo" width="538" height="673" fetchpriority="auto" decoding="async"></a>
-            </div>
-            <div class="im-wall-label"><h2 id="room-title-0">01 / O encontro</h2><p>O primeiro olhar, o primeiro beijo.</p></div>
-          </article>
-          <article class="im-wall im-wall--1" id="room-1" aria-labelledby="room-title-1">
-            <div class="im-art">
-              <a class="im-photo im-photo--0" href="assets/detalhe.webp" draggable="false"><img draggable="false" src="assets/detalhe.webp" alt="Pé do recém-nascido em preto e branco" width="819" height="1024" loading="lazy" decoding="async"></a>
-              <a class="im-photo im-photo--1" href="assets/retrato.webp" draggable="false"><img draggable="false" src="assets/retrato.webp" alt="Recém-nascido envolto em manta branca" width="768" height="1024" loading="lazy" decoding="async"></a>
-            </div>
-            <div class="im-wall-label"><h2 id="room-title-1">02 / Os detalhes</h2><p>Pequenos gestos que merecem permanecer.</p></div>
-          </article>
-          <article class="im-wall im-wall--2" id="room-2" aria-labelledby="room-title-2">
-            <div class="im-art">
-              <a class="im-photo im-photo--0" href="assets/familia.webp" draggable="false"><img draggable="false" src="assets/familia.webp" alt="Pais abraçados junto ao bebê" width="819" height="1024" loading="lazy" decoding="async"></a>
-              <a class="im-photo im-photo--1" href="assets/ensaios/foto-34.webp" draggable="false"><img draggable="false" src="assets/ensaios/foto-34.webp" alt="Família reunida na maternidade" width="720" height="406" loading="lazy" decoding="async"></a>
-            </div>
-            <div class="im-wall-label"><h2 id="room-title-2">03 / A família</h2><p>O início de uma história compartilhada.</p></div>
-          </article>
-          <section class="im-wall im-wall--entry im-end" id="room-3" aria-labelledby="room-title-3">
-            <div class="im-room-caption"><h2 id="room-title-3">O próximo instante é seu.</h2><p>Conheça as coberturas de parto e converse comigo sobre o seu registro.</p></div>
-            <a class="im-cta" href="partos.html#cobertura">Conhecer coberturas <span aria-hidden="true">↗</span></a>
-          </section>
-        </div>
+  <a class="im-skip" href="#visita">Ir para o conteúdo</a>
+  <main class="im-stage" id="visita" data-scene="0">
+    <div class="im-orbits" aria-hidden="true"><i></i><i></i><i></i></div>
+    <header class="im-header">
+      <a class="im-mark" href="index.html">SILVONEY<small>FILMMAKER</small></a>
+      <div class="im-actions">
+        <button class="im-control" id="im-sound" aria-pressed="false" hidden>Som desligado</button>
+        <button class="im-control" id="im-mode" aria-pressed="false" hidden>Vista calma</button>
+        <a class="im-back" href="partos.html#experiencia">Voltar</a>
       </div>
-      <div class="im-dock">
-        <div class="im-status" role="status" aria-live="polite" hidden><span id="im-count">01 / 04</span><span id="im-title">O encontro</span></div>
-        <p class="im-help" id="im-help" hidden>Arraste para girar. Toque nas fotos para ampliar.</p>
-        <div class="im-toolbar" hidden>
-          <div class="im-stops" role="group" aria-label="Escolha um ambiente">
-            <button type="button" data-room="0" aria-pressed="true"><span aria-hidden="true">01</span>O encontro</button>
-            <button type="button" data-room="1" aria-pressed="false"><span aria-hidden="true">02</span>Os detalhes</button>
-            <button type="button" data-room="2" aria-pressed="false"><span aria-hidden="true">03</span>A família</button>
-            <button type="button" data-room="3" aria-pressed="false"><span aria-hidden="true">04</span>Seu registro</button>
-          </div>
+    </header>
+    <h1 class="im-intro">Entre instantes</h1>
+    <div class="im-content">
+      <section class="im-scene" id="scene-0" aria-labelledby="title-0">
+        <div class="im-copy">
+          <p class="im-eyebrow">01 / 04 · O encontro</p>
+          <h2 id="title-0">Antes de tudo, <em>um encontro.</em></h2>
+          <p>Há um instante em que o mundo parece parar. O primeiro olhar, o primeiro toque. É isso que eu quero guardar.</p>
+          <button class="im-next" data-next="1" hidden>Continuar <span aria-hidden="true">→</span></button>
         </div>
+        <div class="im-art">
+          <a class="im-photo im-photo--0" href="assets/ensaios/foto-49.webp"><figure><img src="assets/ensaios/foto-49.webp" alt="Recém-nascido no colo da mãe" width="1280" height="1025" fetchpriority="high" decoding="async"><figcaption>Recém-nascido no colo da mãe</figcaption></figure></a>
+          <a class="im-photo im-photo--1" href="assets/claro-beijo.webp"><figure><img src="assets/claro-beijo.webp" alt="Pai beija o bebê no colo" width="538" height="673" fetchpriority="auto" decoding="async"><figcaption>Pai beija o bebê no colo</figcaption></figure></a>
+        </div>
+      </section>
+      <section class="im-scene" id="scene-1" aria-labelledby="title-1">
+        <div class="im-copy">
+          <p class="im-eyebrow">02 / 04 · Os detalhes</p>
+          <h2 id="title-1">O tempo passa. <em>O detalhe fica.</em></h2>
+          <p>Pezinhos, mãos e expressões que mudam tão depressa. Pequenos registros de uma vida que começa.</p>
+          <button class="im-next" data-next="2" hidden>Continuar <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="im-art">
+          <a class="im-photo im-photo--0" href="assets/detalhe.webp"><figure><img src="assets/detalhe.webp" alt="Pé do recém-nascido" width="819" height="1024" loading="lazy" decoding="async"><figcaption>Pé do recém-nascido</figcaption></figure></a>
+          <a class="im-photo im-photo--1" href="assets/retrato.webp"><figure><img src="assets/retrato.webp" alt="Recém-nascido envolto em manta" width="768" height="1024" loading="lazy" decoding="async"><figcaption>Recém-nascido envolto em manta</figcaption></figure></a>
+        </div>
+      </section>
+      <section class="im-scene" id="scene-2" aria-labelledby="title-2">
+        <div class="im-copy">
+          <p class="im-eyebrow">03 / 04 · A família</p>
+          <h2 id="title-2">De repente, <em>somos mais.</em></h2>
+          <p>O primeiro abraço de uma família que acaba de ganhar uma nova história.</p>
+          <button class="im-next" data-next="3" hidden>Continuar <span aria-hidden="true">→</span></button>
+        </div>
+        <div class="im-art">
+          <a class="im-photo im-photo--0" href="assets/familia.webp"><figure><img src="assets/familia.webp" alt="Pais abraçados junto ao bebê" width="819" height="1024" loading="lazy" decoding="async"><figcaption>Pais abraçados junto ao bebê</figcaption></figure></a>
+          <a class="im-photo im-photo--1" href="assets/ensaios/foto-34.webp"><figure><img src="assets/ensaios/foto-34.webp" alt="Família reunida na maternidade" width="720" height="406" loading="lazy" decoding="async"><figcaption>Família reunida na maternidade</figcaption></figure></a>
+        </div>
+      </section>
+      <section class="im-scene" id="scene-3" aria-labelledby="title-3">
+        <div class="im-copy">
+          <p class="im-eyebrow">04 / 04 · Seu registro</p>
+          <h2 id="title-3">Agora, <em>a sua história.</em></h2>
+          <p>Vamos descobrir o que você gostaria de registrar?</p>
+          <a class="im-cta" href="partos.html#cobertura">Ver coberturas ↗</a>
+        </div>
+        <div class="im-chat" hidden>
+          <p class="im-chat-label">Conversa guiada · automática</p>
+          <p class="im-chat-answer" hidden></p>
+          <p class="im-chat-message" role="status" aria-live="polite"></p>
+          <div class="im-chat-choices"></div>
+          <a class="im-cta im-send" href="https://wa.me/5565984010597" target="_blank" rel="noopener noreferrer" hidden>Continuar no WhatsApp ↗</a>
+          <button class="im-reset" type="button" hidden>Recomeçar</button>
+          <p class="im-chat-note">Suas escolhas ficam nesta página até você abrir o WhatsApp. Não é atendimento em tempo real.</p>
+        </div>
+      </section>
+    </div>
+    <nav class="im-dock" aria-label="Capítulos" hidden>
+      <div class="im-meta"><span id="im-progress-text" role="status">01 / 04 · O encontro</span><span>Entre instantes · experiência interativa</span></div>
+      <div class="im-progress">
+        <button type="button" data-scene-go="0" aria-pressed="true"><span>01</span>O encontro</button>
+        <button type="button" data-scene-go="1" aria-pressed="false"><span>02</span>Os detalhes</button>
+        <button type="button" data-scene-go="2" aria-pressed="false"><span>03</span>A família</button>
+        <button type="button" data-scene-go="3" aria-pressed="false"><span>04</span>Seu registro</button>
       </div>
-      <noscript><p class="im-note">As fotografias estão disponíveis na vista plana. Selecione uma imagem para abrir o arquivo original.</p></noscript>
-    </section>
+    </nav>
+    <noscript><p class="im-note">Explore as fotos na vista estática.</p></noscript>
   </main>
-  <footer class="im-footer im-wrap"><span>Silvoney Filmmaker · Cuiabá e região</span><a href="https://www.instagram.com/silvoneyfilmmaker/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></footer>
   <dialog class="im-dialog" aria-label="Fotografia ampliada">
-    <button type="button" class="im-close">Fechar ×</button>
+    <button class="im-close" type="button">Fechar ×</button>
     <img class="im-large" alt="">
     <p class="im-dialog-caption"></p>
   </dialog>

@@ -1,145 +1,33 @@
 'use strict';
 (() => {
-  const view = document.querySelector('#im-viewport');
-  const toolbar = document.querySelector('.im-toolbar');
-  const stops = [...document.querySelectorAll('[data-room]')];
-  const mode = document.querySelector('.im-mode');
-  const help = document.querySelector('#im-help');
-  const status = document.querySelector('.im-status');
-  const count = document.querySelector('#im-count');
-  const title = document.querySelector('#im-title');
-  const walls = [...document.querySelectorAll('.im-world > .im-wall')];
-  const header = document.querySelector('.im-header');
-  const intro = document.querySelector('.im-intro');
-  const dock = document.querySelector('.im-dock');
-  const names = ['O encontro','Os detalhes','A família','Seu registro'];
-  if (![view,toolbar,mode,help,status,count,title,header,intro,dock].every(Boolean) || walls.length!==4 || stops.length!==4) return;
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const supported = typeof CSS !== 'undefined' && CSS.supports('transform-style','preserve-3d') && CSS.supports('perspective','600px');
-  let current=0, angle=0, active=false, drag=null, suppressUntil=0, resizeFrame=0;
-  const mod=(n,m)=>((n%m)+m)%m;
-  function measure() {
-    if (!active) return;
-    const w=view.clientWidth,h=view.clientHeight;
-    if (!w||!h) return;
-    const top=Math.max(header.getBoundingClientRect().bottom,intro.getBoundingClientRect().bottom);
-    const bottom=dock.getBoundingClientRect().top;
-    const available=bottom-top;
-    if(available<145){setMode(false);return;}
-    const depth=600,lens=Math.min(w*.48,available*.88), scale=depth/lens;
-    const values={
-      '--lens':lens+'px', '--scene-center':((top+bottom)/2)+'px',
-      '--wall-height':(available*1.06*scale)+'px',
-      '--art-width':Math.min(1080,w*.88*scale)+'px',
-      '--room-title':(Math.min(62,Math.max(24,w*.046),available*.15)*scale)+'px',
-      '--room-text':(Math.min(17,Math.max(12,w*.031),available*.062)*scale)+'px',
-      '--room-gap':(Math.min(17,available*.045)*scale)+'px',
-      '--room-button':(44*scale)+'px'
-    };
-    for(const [key,value] of Object.entries(values))view.style.setProperty(key,value);
-  }
-  function rotate(value) {
-    angle=value;
-    view.style.setProperty('--angle',-angle+'deg');
-  }
-  function select(i,nearest=true) {
-    if (!active || !Number.isInteger(i) || i<0 || i>=walls.length) return;
-    if(walls.some((wall,n)=>n!==i&&wall.contains(document.activeElement)))stops[i].focus({preventScroll:true});
-    current=i;
-    const delta=mod(i*90-angle+180,360)-180;
-    rotate(nearest?angle+delta:i*90);
-    stops.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));
-    walls.forEach((wall,n)=>{
-      wall.inert=n!==i;
-      if(n!==i)wall.setAttribute('aria-hidden','true');else wall.removeAttribute('aria-hidden');
-      wall.querySelectorAll('img').forEach(img=>{if(n===i)img.loading='eager'});
-    });
-    count.textContent='0'+(i+1)+' / 04';
-    title.textContent=names[i];
-  }
-  function setMode(next) {
-    active=next&&supported;
-    drag=null;
-    view.classList.remove('is-dragging');
-    document.body.classList.toggle('im-immersive',active);
-    view.dataset.mode=active?'3d':'flat';
-    mode.textContent=active?'Vista plana':'Entrar em 3D';
-    mode.setAttribute('aria-pressed',String(active));
-    toolbar.hidden=!active;
-    help.hidden=!active;
-    status.hidden=!active;
-    view.tabIndex=active?0:-1;
-    if(active){window.scrollTo(0,0);select(current,false);measure();}
-    else walls.forEach(w=>{w.inert=false;w.removeAttribute('aria-hidden')});
-  }
-  if (supported) {
-    mode.hidden=false;
-    setMode(!reduced.matches);
-    mode.addEventListener('click',()=>setMode(!active));
-    stops.forEach((b,i)=>b.addEventListener('click',()=>select(i)));
-    view.addEventListener('keydown',e=>{
-      if(!active||e.target!==view)return;
-      if(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key==='Home'||e.key==='End'){
-        e.preventDefault();
-        select(e.key==='Home'?0:e.key==='End'?3:mod(current+(e.key==='ArrowRight'?1:-1),4));
-      }
-    });
-    view.addEventListener('dragstart',e=>{if(active)e.preventDefault()});
-    view.addEventListener('pointerdown',e=>{
-      if(!active||!e.isPrimary||e.button!==0)return;
-      suppressUntil=0;
-      drag={id:e.pointerId,x:e.clientX,y:e.clientY,angle,moved:false};
-    });
-    view.addEventListener('pointermove',e=>{
-      if(!drag||drag.id!==e.pointerId)return;
-      const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
-      if(!drag.moved){
-        if(Math.abs(dy)>12&&Math.abs(dy)>Math.abs(dx)){drag=null;return}
-        if(Math.abs(dx)<10)return;
-        drag.moved=true;
-        view.classList.add('is-dragging');
-        view.setPointerCapture?.(e.pointerId);
-      }
-      rotate(drag.angle-dx*180/Math.max(1,view.clientWidth));
-    });
-    function endDrag(e){
-      if(!drag||drag.id!==e.pointerId)return;
-      const moved=drag.moved;drag=null;
-      view.classList.remove('is-dragging');
-      if(view.hasPointerCapture?.(e.pointerId))view.releasePointerCapture(e.pointerId);
-      if(moved){suppressUntil=Date.now()+400;select(mod(Math.round(angle/90),4))}
-    }
-    view.addEventListener('pointerup',endDrag);
-    view.addEventListener('pointercancel',endDrag);
-    view.addEventListener('lostpointercapture',endDrag);
-    view.addEventListener('pointerleave',()=>{if(drag&&!drag.moved)drag=null});
-    view.addEventListener('click',e=>{if(Date.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation()}},true);
-    function scheduleMeasure(){cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(measure)}
-    if('ResizeObserver' in window){const ro=new ResizeObserver(scheduleMeasure);[view,header,intro,dock].forEach(el=>ro.observe(el));}
-    addEventListener('resize',scheduleMeasure);
-    reduced.addEventListener?.('change',()=>{if(reduced.matches)setMode(false)});
-  }
-  const dialog=document.querySelector('.im-dialog');
-  const large=dialog?.querySelector('.im-large');
-  const caption=dialog?.querySelector('.im-dialog-caption');
-  const close=dialog?.querySelector('.im-close');
-  let opener=null;
-  large?.addEventListener('load',()=>{if(opener)caption.textContent=opener.querySelector('img').alt});
-  view.querySelectorAll('.im-photo').forEach(link=>{
-    link.addEventListener('click',e=>{
-      if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!dialog||!large||!caption||!close||dialog.open||typeof dialog.showModal!=='function')return;
-      e.preventDefault();
-      opener=link;
-      const img=link.querySelector('img');
-      large.src=link.href;
-      large.alt=img.alt;
-      caption.textContent=img.alt;
-      dialog.showModal();
-    });
-  });
-  if(dialog&&close){
-    close.addEventListener('click',()=>dialog.close());
-    large?.addEventListener('error',()=>{caption.textContent='Não foi possível carregar esta imagem. Feche e tente novamente.'});
-    dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));
-  }
+  const root=document.querySelector('.im-stage');
+  if(!root)return;
+  const scenes=[...root.querySelectorAll('.im-scene')], nav=[...root.querySelectorAll('[data-scene-go]')];
+  const mode=root.querySelector('#im-mode'), sound=root.querySelector('#im-sound'), dock=root.querySelector('.im-dock'), progress=root.querySelector('#im-progress-text');
+  const reduced=matchMedia('(prefers-reduced-motion: reduce)');
+  let current=0, flat=false, frame=0, point=null, context=null, voices=[], timer=0, master=null, playing=false, audioRequest=0;
+  const names=['O encontro','Os detalhes','A família','Seu registro'];
+  function resetMotion(){cancelAnimationFrame(frame);frame=0;point=null;for(const key of ['--mx','--my','--dx','--dy','--rx','--ry'])root.style.removeProperty(key)}
+  function select(i,focus=false){if(!Number.isInteger(i)||i<0||i>=scenes.length)return;current=i;root.dataset.scene=String(i);scenes.forEach((s,n)=>s.hidden=!flat&&n!==i);nav.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));progress.textContent='0'+(i+1)+' / 04 · '+names[i];resetMotion();if(focus){const h=scenes[i].querySelector('h2');h.tabIndex=-1;h.focus({preventScroll:true});scenes[i].scrollIntoView({block:'nearest',behavior:'instant'})}}
+  function setFlat(value){flat=value;root.dataset.mode=flat?'flat':'immersive';mode.textContent=flat?'Imersão':'Vista calma';mode.setAttribute('aria-pressed',String(flat));dock.hidden=flat;select(current);root.querySelectorAll('[data-next]').forEach(b=>b.hidden=flat)}
+  mode.hidden=false;sound.hidden=false;setFlat(reduced.matches);
+  nav.forEach((b,i)=>b.addEventListener('click',()=>select(i,true)));
+  root.querySelectorAll('[data-next]').forEach(b=>b.addEventListener('click',()=>select(Number(b.dataset.next),true)));
+  mode.addEventListener('click',()=>setFlat(!flat));
+  reduced.addEventListener?.('change',()=>{if(reduced.matches)setFlat(true)});
+  root.addEventListener('pointermove',e=>{if(flat||reduced.matches)return;const r=root.getBoundingClientRect();point=[Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))];if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(!point)return;const [x,y]=point;root.style.setProperty('--mx',x*100+'%');root.style.setProperty('--my',y*100+'%');root.style.setProperty('--dx',(x-.5)*12+'px');root.style.setProperty('--dy',(y-.5)*10+'px');root.style.setProperty('--rx',(y-.5)*-8+'deg');root.style.setProperty('--ry',(x-.5)*10+'deg')})});
+  root.addEventListener('pointerleave',resetMotion);root.addEventListener('pointercancel',resetMotion);
+  // Original ambient sound, synthesized locally; never autoplay.
+  function stopSound(){audioRequest++;playing=false;clearInterval(timer);timer=0;for(const v of voices){try{v.stop()}catch{}}voices=[];if(master){master.disconnect();master=null}if(context?.state==='running')context.suspend().catch(()=>{});sound.textContent='Som desligado';sound.setAttribute('aria-pressed','false')}
+  sound.addEventListener('click',async()=>{if(playing||sound.dataset.loading){stopSound();delete sound.dataset.loading;return}const request=++audioRequest;try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('unsupported');context??=new Audio();sound.dataset.loading='1';await context.resume();if(request!==audioRequest){if(context.state==='running'&&!playing)context.suspend().catch(()=>{});return}master=context.createGain();master.gain.value=.055;master.connect(context.destination);let step=0;const tones=[261.63,329.63,392,523.25,440,329.63,293.66,392];function note(){if(!playing||!master)return;const t=context.currentTime,o=context.createOscillator(),g=context.createGain();o.type='sine';o.frequency.value=tones[step++%tones.length];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.28,t+.7);g.gain.exponentialRampToValueAtTime(.001,t+3.8);o.connect(g);g.connect(master);o.start(t);o.stop(t+4);voices.push(o);o.onended=()=>{voices=voices.filter(v=>v!==o);o.disconnect();g.disconnect()}}playing=true;note();timer=setInterval(note,1800);sound.textContent='Som ligado';sound.setAttribute('aria-pressed','true')}catch{stopSound();sound.textContent='Som indisponível'}finally{if(request===audioRequest)delete sound.dataset.loading}});
+  document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSound();delete sound.dataset.loading;resetMotion()}});addEventListener('pagehide',stopSound);
+  const chat=root.querySelector('.im-chat'), message=chat.querySelector('.im-chat-message'), choices=chat.querySelector('.im-chat-choices'), answer=chat.querySelector('.im-chat-answer'), send=chat.querySelector('.im-send'), restart=chat.querySelector('.im-reset');
+  let kind='',service='';
+  function options(items,fn){choices.replaceChildren();items.forEach(label=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>fn(label));choices.append(b)})}
+  function summary(){answer.textContent=[kind,service].filter(Boolean).join(' · ');answer.hidden=!answer.textContent}
+  function begin(){kind=service='';summary();message.textContent='Você já sabe como será o parto?';send.hidden=true;restart.hidden=true;options(['Cesárea','Parto normal','Ainda não sei'],label=>{kind=label;summary();message.textContent='O que você gostaria de guardar desse dia?';options(['Fotografias','Filme','Fotografias e filme','Ainda quero conhecer'],label=>{service=label;summary();message.textContent='Tudo certo. Se quiser, podemos continuar pelo WhatsApp.';choices.replaceChildren();const text='Olá, Silvoney! Conheci a experiência Entre instantes e gostaria de saber mais. Tipo de parto: '+kind+'. Interesse: '+service+'.';send.href='https://wa.me/5565984010597?text='+encodeURIComponent(text);send.hidden=false;restart.hidden=false;send.focus({preventScroll:true})});choices.firstElementChild?.focus({preventScroll:true})})}
+  restart.addEventListener('click',()=>{begin();choices.firstElementChild?.focus()});chat.hidden=false;begin();
+  const dialog=document.querySelector('.im-dialog'), large=dialog.querySelector('.im-large'), caption=dialog.querySelector('.im-dialog-caption');let opener=null;
+  root.querySelectorAll('.im-photo').forEach(a=>a.addEventListener('click',e=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||typeof dialog.showModal!=='function')return;e.preventDefault();opener=a;large.src=a.href;large.alt=a.querySelector('img').alt;caption.textContent=large.alt;dialog.showModal()}));
+  dialog.querySelector('.im-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));large.addEventListener('error',()=>{caption.textContent='Não foi possível carregar a fotografia. Feche e tente novamente.'});large.addEventListener('load',()=>{caption.textContent=large.alt});
 })();
