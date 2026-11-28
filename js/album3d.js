@@ -8,11 +8,14 @@
     const img = fig.querySelector('img');
     return {src:img?.getAttribute('src'),alt:img?.alt || '',caption:fig.querySelector('figcaption span')?.textContent || ''};
   }).filter(photo => photo.src);
-  const toggle=q('.sf-book-toggle'), panel=q('#sf-book-panel'), stage=q('.sf-book-stage');
+  const toggle=document.querySelector('.sf-book-toggle'), galleryToggle=document.querySelector('.sf-gallery-toggle');
+  const switcher=document.querySelector('.birth-view-switch'), gallery=document.querySelector('#sf-gallery-panel');
+  const help=document.querySelector('#birth-gallery-help');
+  const panel=q('#sf-book-panel'), stage=q('.sf-book-stage');
   const leaf=q('.sf-book-right'), img=q('#sf-book-image'), caption=q('#sf-book-caption');
   const count=q('#sf-book-count'), number=q('.sf-book-number'), prev=q('[data-book-prev]'), next=q('[data-book-next]');
   const err=q('#sf-book-error');
-  if (!photos.length || ![toggle,panel,stage,leaf,img,caption,count,number,prev,next].every(Boolean)) return;
+  if (!photos.length || ![toggle,galleryToggle,switcher,gallery,panel,stage,leaf,img,caption,count,number,prev,next].every(Boolean)) return;
   let index=0, busy=false, changeTimer=0, endTimer=0, start=null;
   function render() {
     const photo=photos[index];
@@ -47,14 +50,18 @@
   leaf.addEventListener('animationend', e => {
     if (busy && e.target===leaf) finish();
   });
-  toggle.addEventListener('click', () => {
-    const open=panel.hidden;
-    panel.hidden=!open;
-    toggle.setAttribute('aria-expanded',String(open));
-    toggle.textContent=open?'Fechar álbum ↑':'Abrir álbum ↗';
-    if (open) render();
-    else if (busy) finish();
-  });
+  function setMode(isBook) {
+    if (!isBook && busy) finish();
+    toggle.setAttribute('aria-pressed',String(isBook));
+    galleryToggle.setAttribute('aria-pressed',String(!isBook));
+    gallery.hidden=isBook;
+    book.hidden=!isBook;
+    panel.hidden=!isBook;
+    if(help) help.textContent=isBook?'Use as setas ou deslize para folhear as seis fotografias.':'Toque nas fotografias para ampliar.';
+    if(isBook) render();
+  }
+  toggle.addEventListener('click',()=>setMode(true));
+  galleryToggle.addEventListener('click',()=>setMode(false));
   prev.addEventListener('click',()=>move(-1));
   next.addEventListener('click',()=>move(1));
   panel.addEventListener('keydown', e => {
@@ -75,5 +82,6 @@
   reduced.addEventListener?.('change',()=>{if(busy)finish()});
   img.addEventListener('error',()=>{if(err){err.hidden=false;img.hidden=true}});
   img.addEventListener('load',()=>{if(err)err.hidden=true;img.hidden=false});
-  book.hidden=false;
+  switcher.hidden=false;
+  setMode(false);
 })();

@@ -35,6 +35,10 @@ test('álbum opcional e teclado',async({page})=>{
   await page.locator('.sf-book-stage').focus();
   await page.keyboard.press('ArrowLeft');
   await expect(page.locator('#sf-book-count')).toHaveText('1 / 6');
+  await expect(page.locator('#sf-gallery-panel')).not.toBeVisible();
+  await page.locator('.sf-gallery-toggle').click();
+  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
+  await expect(page.locator('#sf-book-panel')).not.toBeVisible();
 });
 test('orçamento opcional e mensagens',async({page})=>{
   await page.goto('/partos.html#planejar');

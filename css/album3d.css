@@ -1,9 +1,11 @@
 /* A lightweight, optional photographic book; the regular gallery stays available. */
-body.birth-page .sf-book-experience{margin:24px 0 32px;
-  padding:clamp(16px,3vw,30px);
-  border:1px solid #d3d3d3;
+body.birth-page .sf-book-experience {
+  margin:18px 0 24px;
+  padding:clamp(12px,3vw,26px);
   background:#f4f3f0;
-  color:#171717}
+  color:#171717;
+  border:1px solid #ddd;
+}
 body .sf-book-experience[hidden],body #sf-book-panel[hidden]{display:none!important}
 .sf-book-heading{display:flex;
   align-items:center;
@@ -12,7 +14,7 @@ body .sf-book-experience[hidden],body #sf-book-panel[hidden]{display:none!import
   flex-wrap:wrap}
 .sf-book-heading h3{font:400 clamp(25px,3.5vw,38px)/1.15 Georgia,serif;
   margin:5px 0}
-.sf-book-toggle,.sf-book-controls button{border:1px solid #171717;
+.sf-book-controls button{border:1px solid #171717;
   background:#171717;
   color:#fff;
   min-height:44px;

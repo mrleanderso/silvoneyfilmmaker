@@ -39,8 +39,9 @@ test('orçamento compõe texto sem campos vazios e sincroniza cobertura',()=>{
   button.dataset.sfChoice='filme';
   const nodes={'sf-plan-service':service,'sf-plan-birth':birth,'sf-plan-month':month,'sf-plan-hospital':hospital,'sf-plan-send':send};
   const preview=node(),title=node(),desc=node(),contact=node();
-  const selectors={'#planejar':plan,'#sf-choice-image':preview,'#sf-choice-title':title,'#sf-choice-desc':desc,'#sf-choice-contact':contact};
-  const document={querySelector:s=>selectors[s]||null,querySelectorAll:()=>[button],getElementById:s=>nodes[s]};
+  const selectors={'#planejar':plan,'#sf-choice-preview':preview,'#sf-choice-title':title,'#sf-choice-desc':desc,'#sf-choice-contact':contact};
+  const root={querySelector:s=>selectors[s]||null,querySelectorAll:s=>s==='[data-sf-choice]'?[button]:[]};
+  const document={querySelector:s=>s==='#cobertura'?root:null,getElementById:s=>nodes[s]};
   vm.runInNewContext(read('js/booking.js'),{document,matchMedia:()=>({matches:true}),location:{hash:'#planejar'},addEventListener(){}});
   let text=decodeURIComponent(send.href);
   for(const v of ['Cobertura: Fotografia e filme','Tipo de parto: Cesárea','Previsão: 01/2027','Maternidade: Hospital & Maternidade'])assert.ok(text.includes(v));
