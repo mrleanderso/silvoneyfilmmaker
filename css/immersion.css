@@ -10,3 +10,5 @@
 @media(max-width:360px){.im-header{flex-wrap:wrap}.im-actions{margin-left:auto}.im-copy h2{font-size:36px}}
 @media(max-height:500px) and (min-width:741px){.im-scene{padding-block:14px}.im-copy h2{font-size:40px}.im-copy>p:not(.im-eyebrow){margin-top:8px;font-size:14px}.im-next{margin-top:12px}.im-photo img{max-height:46vh}}
 @media(prefers-reduced-motion:reduce){.im-photo,.im-orbits i{transform:none!important;transition:none!important}} .im-stage[data-mode="flat"] .im-photo,.im-stage[data-mode="flat"] .im-orbits i{transform:none;transition:none}
+
+@media(prefers-reduced-motion:no-preference){.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-copy,.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-art,.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-chat{animation:im-arrive .48s ease-out both}@keyframes im-arrive{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
