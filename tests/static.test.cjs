@@ -33,20 +33,21 @@ test('cabeçalhos de segurança e rewrite',()=>{
   assert.ok(conf.rewrites.some(x=>x.source==='/links'&&x.destination==='/links.html'));
   assert.ok(conf.headers.flatMap(x=>x.headers).some(x=>x.key==='Content-Security-Policy'));
 });
-test('orçamento compõe texto sem campos vazios e sincroniza cobertura',()=>{
-  const node=(value='')=>({value,hidden:true,href:'',dataset:{},listeners:{},addEventListener(k,fn){(this.listeners[k]??=[]).push(fn)},fire(k){for(const fn of this.listeners[k]||[])fn({})},getAttribute(){return 'false'},setAttribute(){}});
-  const service=node('Fotografia e filme'),birth=node('Cesárea'),month=node('2027-01'),hospital=node('Hospital & Maternidade'),send=node(),plan=node(),button=node();
+test('cobertura opcional e orçamento em um único link',()=>{
+  const node=(value='')=>({value,hidden:true,href:'',dataset:{},attrs:{},listeners:{},addEventListener(k,fn){(this.listeners[k]??=[]).push(fn)},fire(k){for(const fn of this.listeners[k]||[])fn({})},setAttribute(k,v){this.attrs[k]=v}});
+  const birth=node('Cesárea'),month=node('2027-01'),hospital=node('Hospital & Maternidade'),send=node(),plan=node(),button=node();
   button.dataset.sfChoice='filme';
-  const nodes={'sf-plan-service':service,'sf-plan-birth':birth,'sf-plan-month':month,'sf-plan-hospital':hospital,'sf-plan-send':send};
-  const preview=node(),title=node(),desc=node(),contact=node();
-  const selectors={'#planejar':plan,'#sf-choice-preview':preview,'#sf-choice-title':title,'#sf-choice-desc':desc,'#sf-choice-contact':contact};
-  const root={querySelector:s=>selectors[s]||null,querySelectorAll:s=>s==='[data-sf-choice]'?[button]:[]};
-  const document={querySelector:s=>s==='#cobertura'?root:null,getElementById:s=>nodes[s]};
-  vm.runInNewContext(read('js/booking.js'),{document,matchMedia:()=>({matches:true}),location:{hash:'#planejar'},addEventListener(){}});
+  const nodes={'sf-plan-birth':birth,'sf-plan-month':month,'sf-plan-hospital':hospital};
+  const root={querySelector:s=>s==='#planejar'?plan:send,querySelectorAll:()=>[button]};
+  const document={querySelector:()=>root,getElementById:s=>nodes[s]};
+  vm.runInNewContext(read('js/booking.js'),{document,location:{hash:'#planejar'},addEventListener(){}});
   let text=decodeURIComponent(send.href);
-  for(const v of ['Cobertura: Fotografia e filme','Tipo de parto: Cesárea','Previsão: 01/2027','Maternidade: Hospital & Maternidade'])assert.ok(text.includes(v));
+  for(const v of ['Tipo de parto: Cesárea','Previsão: 01/2027','Maternidade: Hospital & Maternidade'])assert.ok(text.includes(v));
   assert.equal(plan.hidden,false);assert.equal(plan.open,true);
+  assert.doesNotMatch(text,/Cobertura:/);
   button.fire('click');assert.ok(decodeURIComponent(send.href).includes('Cobertura: Filme'));
-  for(const n of [service,birth,month,hospital])n.value='';
+  assert.equal(button.attrs['aria-pressed'],'true');
+  button.fire('click');assert.doesNotMatch(decodeURIComponent(send.href),/Cobertura:/);
+  for(const n of [birth,month,hospital])n.value='';
   plan.fire('input');assert.doesNotMatch(decodeURIComponent(send.href),/Tipo de parto:|Previsão:|Maternidade:|Cobertura:/);
 });

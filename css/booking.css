@@ -1,78 +1,95 @@
-/* Coberturas e orçamento opcional — página Partos */
+/* Partos — comparação compacta e contato direto */
+.birth-page .birth-coverage {padding-block:clamp(32px,5vw,56px)}
 .birth-coverage-options {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:14px;
-  margin:28px auto 0;
-  max-width:1080px;
+  max-width:720px;
+  margin:22px auto 0;
+  border-top:1px solid #ddd;
 }
-.birth-coverage-card {
+.birth-coverage-option {
+  display:grid;
+  grid-template-columns:24px minmax(0,1fr) 20px;
+  align-items:center;
+  gap:14px;
+  width:100%;
+  min-height:76px;
+  padding:14px 12px;
+  border:0;
+  border-bottom:1px solid #ddd;
+  background:#fff;
+  color:#111;
+  text-align:left;
+  cursor:pointer;
+}
+.birth-coverage-option svg {flex:none}
+.birth-coverage-copy strong {
+  display:block;
+  font:400 23px/1.2 Georgia,serif;
+}
+.birth-coverage-copy small {
+  display:block;
+  color:#555;
+  font:400 13px/1.5 system-ui,sans-serif;
+  margin-top:5px;
+}
+.birth-coverage-check {
+  width:18px;
+  height:18px;
+  border:1px solid #777;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+}
+.birth-coverage-option[aria-pressed=true] {background:#f3f3f3;box-shadow:inset 2px 0 #111}
+.birth-coverage-option[aria-pressed=true] .birth-coverage-check::after {
+  content:'';
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#111;
+}
+.birth-coverage-option:disabled {cursor:default;opacity:1}
+.birth-coverage-option:disabled .birth-coverage-check {visibility:hidden}
+.birth-coverage-option:focus-visible,.birth-coverage-actions :focus-visible {outline:2px solid #111;outline-offset:3px}
+.birth-coverage-actions {max-width:720px;margin:14px auto 0}
+.birth-coverage-actions>.editorial-button {
   display:flex;
-  flex-direction:column;
-  min-width:0;
-  gap:12px;
-  padding:clamp(18px,3vw,30px);
-  border:1px solid #d2d2d2;
+  justify-content:center;
+  align-items:center;
+  width:100%;
+  min-height:48px;
+  margin-top:14px;
+  text-align:center;
+}
+.birth-page .sf-plan {
+  margin:0;
+  border:0;
+  border-bottom:1px solid #ddd;
   background:#fff;
   color:#111;
 }
-.birth-card-heading {display:flex;align-items:center;justify-content:space-between;gap:10px;min-height:24px}
-.birth-card-heading svg {flex:none}
-.birth-card-note {font:500 11px/1.4 system-ui,sans-serif;text-transform:uppercase;letter-spacing:.06em}
-.birth-coverage-card h3 {font:400 clamp(23px,2.6vw,30px)/1.15 Georgia,serif;margin:0}
-.birth-coverage-card p {font:400 14px/1.6 system-ui,sans-serif;color:#444;margin:0 0 6px}
-.birth-coverage-complete {border-color:#111;background:#f5f5f3}
-.birth-coverage-button,.birth-coverage-select {
-  display:flex;align-items:center;justify-content:space-between;gap:8px;
-  width:100%;min-height:48px;margin-top:auto;padding:10px 12px;
-  border:1px solid #111;background:#fff;color:#111;text-align:left;
-  font:500 14px/1.35 system-ui,sans-serif;cursor:pointer;text-decoration:none;
-}
-.birth-coverage-button[aria-pressed=true] {background:#111;color:white}
-.birth-coverage-button[hidden],.birth-coverage-select[hidden],.birth-selection[hidden],.sf-plan[hidden] {display:none!important}
-.birth-coverage-button:focus-visible,.birth-coverage-select:focus-visible {outline:2px solid #111;outline-offset:4px}
-.birth-selection {
-  display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;
-  gap:20px;max-width:1080px;margin:16px auto 0;padding:22px;border:1px solid #ddd;
-}
-.birth-selection-copy h3 {font:400 26px/1.2 Georgia,serif;margin:8px 0}
-.birth-selection-copy p:not(.label) {font:400 14px/1.6 system-ui,sans-serif;margin:0;color:#444}
-.birth-coverage-note {text-align:center;font:400 13px/1.6 system-ui,sans-serif;margin:20px 0 0;color:#555}
-.birth-coverage-note a {color:#111;text-decoration:underline;text-underline-offset:3px;display:inline-flex;align-items:center;min-height:44px}
-body .sf-plan{max-width:650px;
-  margin:24px auto 0;
-  text-align:left;
-  border:1px solid #ccc;
-  background:#fff;
-  color:#111}
-body .sf-plan summary{padding:16px;
-  min-height:48px;
+.birth-page .sf-plan[hidden] {display:none!important}
+.birth-page .sf-plan summary {
+  min-height:44px;
   cursor:pointer;
-  font:600 15px/1.5 system-ui,sans-serif}
-body .sf-plan summary span{float:right;
-  font:400 12px system-ui,sans-serif;
-  color:#555}
-body .sf-plan-inner{padding:0 16px 20px;
-  display:grid;
-  gap:10px}
-body .sf-plan-inner p{font:13px/1.6 system-ui,sans-serif;
-  margin:0;
-  color:#555}
-body .sf-plan-inner label{font:600 14px/1.5 system-ui,sans-serif}
-body .sf-plan-inner>input,body .sf-plan-inner>select{width:100%;
+  padding:12px 0;
+  font:400 13px/1.5 system-ui,sans-serif;
+  text-decoration:underline;
+  text-underline-offset:3px;
+}
+.birth-page .sf-plan-inner {display:grid;gap:8px;padding:4px 0 16px}
+.birth-page .sf-plan-inner label {font:500 13px/1.4 system-ui,sans-serif}
+.birth-page .sf-plan-inner>input,.birth-page .sf-plan-inner>select {
+  box-sizing:border-box;
+  width:100%;
   min-height:44px;
   border:1px solid #aaa;
   background:#fff;
   color:#111;
   font:16px system-ui,sans-serif;
   padding:10px;
-  border-radius:2px}
-body .sf-plan-inner .editorial-button{width:100%;
-  margin:8px 0 0}
-body .sf-plan :focus-visible{outline:2px solid #111;
-  outline-offset:2px}
-@media(max-width:820px) {
-  .birth-coverage-options {grid-template-columns:1fr;gap:10px;margin-top:22px}
-  .birth-coverage-card {gap:9px;padding:18px}
-  .birth-selection {grid-template-columns:1fr;gap:12px;padding:18px}
+  border-radius:2px;
+}
+@media(max-width:480px) {
+  .birth-coverage-option {gap:10px;padding:12px 8px;min-height:68px}
+  .birth-coverage-copy strong {font-size:20px}
 }

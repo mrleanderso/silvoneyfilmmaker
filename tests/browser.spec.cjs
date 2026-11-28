@@ -44,7 +44,7 @@ test('orçamento opcional e mensagens',async({page})=>{
   await page.goto('/partos.html#planejar');
   await expect(page.locator('#planejar')).toHaveAttribute('open','');
   await page.locator('[data-sf-choice="filme"]').click();
-  await expect(page.locator('#sf-plan-service')).toHaveValue('Filme');
+  await expect(page.locator('[data-sf-choice="filme"]')).toHaveAttribute('aria-pressed','true');
   await page.locator('#sf-plan-hospital').fill('Hospital & Maternidade');
   const href=await page.locator('#sf-plan-send').getAttribute('href');
   expect(decodeURIComponent(href)).toContain('Cobertura: Filme');
