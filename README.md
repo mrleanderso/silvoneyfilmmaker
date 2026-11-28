@@ -35,7 +35,7 @@ Não ativar analytics-config.js até confirmar o ID GA4, consentimento e desativ
 
 ## Decisões de experiência
 
-A fotografia principal não compete com molduras flutuantes. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva abre o mesmo visualizador acessível. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
+A fotografia principal não compete com molduras flutuantes. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva e o link de ampliação do álbum abrem o mesmo visualizador acessível. A navegação do livro preserva o foco nos limites e carrega páginas adjacentes sob demanda. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
 
 ## Manutenção
 

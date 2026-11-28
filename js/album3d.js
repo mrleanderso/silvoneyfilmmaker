@@ -15,9 +15,16 @@
   const panel=q('#sf-book-panel'),stage=q('.sf-book-stage'),leaf=q('.sf-book-leaf'),cover=q('.sf-book-cover');
   const leafImage=leaf?.querySelector('img'),leafText=leaf?.querySelector('p');
   const img=q('#sf-book-image'),caption=q('#sf-book-caption'),count=q('#sf-book-count'),number=q('.sf-book-number');
-  const prev=q('[data-book-prev]'),next=q('[data-book-next]'),err=q('#sf-book-error');
-  if(!photos.length||![toggle,galleryToggle,switcher,gallery,panel,stage,leaf,cover,leafImage,leafText,img,caption,count,number,prev,next].every(Boolean))return;
-  let index=0,busy=false,first=true,animationTimer=0,start=null,mode='gallery';
+  const prev=q('[data-book-prev]'),next=q('[data-book-next]'),expand=q('[data-book-expand]'),err=q('#sf-book-error');
+  if(!photos.length||![toggle,galleryToggle,switcher,gallery,panel,stage,leaf,cover,leafImage,leafText,img,caption,count,number,prev,next,expand].every(Boolean))return;
+  let index=0,busy=false,first=true,animationTimer=0,start=null,mode=null;
+  const cached=new Map();
+  function preload(){
+    if(typeof Image!=='function')return;
+    for(const i of [index-1,index+1])if(photos[i]&&!cached.has(i)){
+      const image=new Image();image.decoding='async';image.src=photos[i].src;cached.set(i,image);
+    }
+  }
   function render(){
     const photo=photos[index];
     if(img.getAttribute('src')!==photo.src){
@@ -28,8 +35,9 @@
     caption.textContent=photo.caption;
     number.textContent=String(index+1).padStart(2,'0');
     count.textContent=(index+1)+' / '+photos.length;
-    prev.disabled=index===0;next.disabled=index===photos.length-1;
     prev.setAttribute('aria-disabled',String(busy||index===0));next.setAttribute('aria-disabled',String(busy||index===photos.length-1));
+    expand.href=photo.src;expand.setAttribute('aria-disabled',String(busy));
+    if(mode==='book')preload();
   }
   function finish(){
     clearTimeout(animationTimer);
@@ -49,7 +57,7 @@
   leaf.addEventListener('animationend',e=>{if(e.target===leaf&&busy)finish()});
   cover.addEventListener('animationend',e=>{if(e.target===cover&&busy)finish()});
   function setMode(value){
-    if(mode===value&&value!=='gallery')return;
+    if(mode===value)return;
     if(busy)finish();
     mode=value;
     toggle.setAttribute('aria-pressed',String(value==='book'));
@@ -70,12 +78,18 @@
   toggle.addEventListener('click',()=>setMode('book'));
   galleryToggle.addEventListener('click',()=>setMode('gallery'));
   if(depthToggle&&depth){
-    // The depth module is initialized later in the deferred script queue.
+    const ready=()=>{depthToggle.hidden=depth.dataset.ready!=='true'};
     depthToggle.addEventListener('click',()=>{if(depth.dataset.ready==='true')setMode('depth')});
-    document.addEventListener('DOMContentLoaded',()=>{depthToggle.hidden=depth.dataset.ready!=='true'});
+    document.addEventListener('DOMContentLoaded',ready);ready();
   }
   prev.addEventListener('click',()=>move(-1));
   next.addEventListener('click',()=>move(1));
+  expand.addEventListener('click',e=>{
+    if(busy){e.preventDefault();return}
+    if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey)return;
+    const event=new CustomEvent('sf:open-photo',{cancelable:true,detail:{index,opener:expand}});
+    if(!document.dispatchEvent(event))e.preventDefault();
+  });
   panel.addEventListener('keydown',e=>{
     if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();move(e.key==='ArrowLeft'?-1:1)}
   });

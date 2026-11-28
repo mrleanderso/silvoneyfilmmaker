@@ -102,3 +102,25 @@ test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
   await expect(link).toHaveAttribute('href',/\.webp$/);
   await context.close();
 });
+
+test('álbum preserva foco no limite e amplia fotografia',async({page})=>{
+  await page.goto('/partos.html#galeria');
+  await page.locator('.sf-book-toggle').click();
+  const next=page.locator('[data-book-next]');
+  for(let i=2;i<=6;i++){
+    await next.click();
+    await expect(page.locator('#sf-book-count')).toHaveText(i+' / 6');
+  }
+  await expect(next).toHaveAttribute('aria-disabled','true');
+  await expect(next).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.locator('#sf-book-count')).toHaveText('6 / 6');
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.locator('#sf-book-count')).toHaveText('5 / 6');
+  const expand=page.locator('[data-book-expand]');
+  await expand.click();
+  await expect(page.locator('#gallery')).toBeVisible();
+  await expect(page.locator('#photo-count')).toHaveText('5 / 17');
+  await page.keyboard.press('Escape');
+  await expect(expand).toBeFocused();
+});
