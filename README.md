@@ -9,7 +9,7 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 - js/ensaios.js: álbuns de ensaios; js/motion.js: animações.
 - js/album3d.js: álbum interativo; js/booking.js: opções e orçamento.
 - css/motion.css, css/booking.css e css/album3d.css: estilos dos módulos.
-- js/cinema.js e css/cinema.css: abertura cinematográfica, capítulos editoriais e galeria em perspectiva (CSS 3D, sem biblioteca externa).
+- js/cinema.js e css/cinema.css: abertura editorial e galeria em perspectiva (CSS 3D, sem biblioteca externa).
 - css/partos.css: navegação contextual, confiança e modos do portfólio na página Partos.
 - CSS anterior permanece enquanto não houver comparação visual de todas as páginas.
 - Scripts antigos não são carregados pelas seis páginas atuais, mas foram preservados no histórico e na raiz para revisão de dependências externas.
@@ -32,6 +32,10 @@ Valide também em Safari/iPhone e Chrome/Android físicos, inclusive navegador i
 ## Analytics
 
 Não ativar analytics-config.js até confirmar o ID GA4, consentimento e desativação da medição otimizada automática de links externos e formulários. Não enviar tipo de parto, previsão, maternidade ou texto da conversa ao Analytics. Configurar eventos como cliques, não como confirmação de contrato.
+
+## Decisões de experiência
+
+A fotografia principal não compete com molduras flutuantes. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva abre o mesmo visualizador acessível. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
 
 ## Manutenção
 

@@ -83,3 +83,22 @@ test('galeria 3D alterna e navega',async({page})=>{
   await expect(page.locator('#sf-depth-panel')).not.toBeVisible();
   await expect(page.locator('#sf-gallery-panel')).toBeVisible();
 });
+
+test('fotografia central em perspectiva amplia e devolve foco',async({page})=>{
+  await page.goto('/partos.html#galeria');
+  await page.locator('.sf-depth-toggle').click();
+  const current=page.locator('.sf-depth-card[aria-current=true]');
+  await current.click();
+  await expect(page.locator('#gallery')).toBeVisible();
+  await page.locator('.close-gallery').click();
+  await expect(current).toBeFocused();
+});
+test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false});
+  const page=await context.newPage();
+  await page.goto('http://127.0.0.1:4173/partos.html#galeria');
+  const link=page.locator('a.photo-button').first();
+  await expect(link).toBeVisible();
+  await expect(link).toHaveAttribute('href',/\.webp$/);
+  await context.close();
+});

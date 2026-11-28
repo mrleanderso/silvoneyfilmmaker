@@ -28,7 +28,8 @@
     caption.textContent=photo.caption;
     number.textContent=String(index+1).padStart(2,'0');
     count.textContent=(index+1)+' / '+photos.length;
-    prev.disabled=busy||index===0;next.disabled=busy||index===photos.length-1;
+    prev.disabled=index===0;next.disabled=index===photos.length-1;
+    prev.setAttribute('aria-disabled',String(busy||index===0));next.setAttribute('aria-disabled',String(busy||index===photos.length-1));
   }
   function finish(){
     clearTimeout(animationTimer);

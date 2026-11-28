@@ -21,3 +21,6 @@ body.birth-page .sf-contact-options{min-width:0}
 @media(max-width:820px){body .sf-whatsapp-float{right:calc(13px + env(safe-area-inset-right,0px));bottom:calc(13px + env(safe-area-inset-bottom,0px));width:52px;height:52px;min-width:52px}body .sf-tour-welcome.sf-welcome-editorial{bottom:calc(77px + env(safe-area-inset-bottom,0px));max-height:calc(100dvh - 92px)}body .shell-footer-row{padding-bottom:80px}}
 @media(prefers-reduced-motion:reduce){body .sf-whatsapp-float{transition:none}}
 @media(forced-colors:active){body .sf-whatsapp-float{border:2px solid ButtonText}}
+
+/* Do not duplicate an action already visible; preserve a focused shortcut. */
+body .sf-whatsapp-float[data-sf-suppressed=true]:not(:focus){visibility:hidden;pointer-events:none}

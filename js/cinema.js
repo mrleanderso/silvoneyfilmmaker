@@ -1,43 +1,5 @@
 'use strict';
 (() => {
-  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const fine = matchMedia('(hover:hover) and (pointer:fine)');
-  const hero = document.querySelector('.sf-cinematic-hero');
-  if (hero) {
-    let frame = 0;
-    const reset = () => {
-      cancelAnimationFrame(frame);
-      hero.style.removeProperty('--cinema-x');
-      hero.style.removeProperty('--cinema-y');
-    };
-    hero.addEventListener('pointermove', e => {
-      if (reduced.matches || !fine.matches || e.pointerType==='touch') return;
-      const r=hero.getBoundingClientRect();
-      if (!r.width || !r.height) return;
-      const x=Math.max(-.5,Math.min(.5,(e.clientX-r.left)/r.width-.5));
-      const y=Math.max(-.5,Math.min(.5,(e.clientY-r.top)/r.height-.5));
-      cancelAnimationFrame(frame);
-      frame=requestAnimationFrame(()=>{
-        hero.style.setProperty('--cinema-x',x*26+'px');
-        hero.style.setProperty('--cinema-y',y*18+'px');
-      });
-    });
-    hero.addEventListener('pointerleave',reset);
-    reduced.addEventListener?.('change',reset);
-  }
-  const chapters=[...document.querySelectorAll('[data-sf-story]')];
-  if (chapters.length && 'IntersectionObserver' in window && !reduced.matches) {
-    const observer=new IntersectionObserver(items=>{
-      items.forEach(({target,isIntersecting})=>{
-        if(!isIntersecting)return;
-        target.classList.add('sf-story-seen');
-        observer.unobserve(target);
-      });
-    },{threshold:.15});
-    chapters.forEach(chapter=>observer.observe(chapter));
-    reduced.addEventListener?.('change',()=>{if(reduced.matches)observer.disconnect()});
-  }
-
   const panel=document.querySelector('#sf-depth-panel');
   if(!panel)return;
   const stage=panel.querySelector('.sf-depth-stage');
@@ -62,7 +24,14 @@
       const img=document.createElement('img');
       img.src=photo.src;img.alt=photo.alt;img.decoding='async';img.loading='lazy';
       card.append(img);
-      card.addEventListener('click',()=>{index=i;render();card.focus({preventScroll:true})});
+      card.addEventListener('click',()=>{
+        if(i===index){
+          const event=new CustomEvent('sf:open-photo',{cancelable:true,detail:{index:i,opener:card}});
+          if(document.dispatchEvent(event))location.assign(photo.src);
+          return;
+        }
+        index=i;render();card.focus({preventScroll:true});
+      });
       track.append(card);
       return card;
     });
@@ -85,6 +54,7 @@
       card.hidden=!visible;
       card.tabIndex=offset===0?0:-1;
       card.setAttribute('aria-current',offset===0?'true':'false');
+      card.setAttribute('aria-label',(offset===0?'Ampliar':'Selecionar')+' fotografia '+(i+1)+': '+photos[i].caption);
     });
     caption.textContent=photos[index].caption;
     count.textContent=(index+1)+' / '+photos.length;
