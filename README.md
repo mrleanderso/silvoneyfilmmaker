@@ -30,9 +30,9 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 | site-shell.css | Cabeçalho, navegação e estrutura compartilhada |
 | editorial.css | Composição editorial compartilhada |
 | partos.css / ensaios.css / portfolio.css / links.css | Layouts específicos |
-| cinema.css / album3d.css / motion.css | Experiências fotográficas e movimento |
+| cinema.css / experience.css / motion.css | Capa editorial, exposição espacial e movimento |
 | booking.css / conversion.css / contact-access.css | Orçamento e acesso ao contato |
-| tour.css / analytics.css | Tour e privacidade |
+| analytics.css | Privacidade |
 
 ### JavaScript
 
@@ -40,10 +40,9 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 |---|---|
 | navigation.js | Menu e foco |
 | gallery.js / ensaios.js | Visualizadores e álbuns |
-| cinema.js / album3d.js | Portfólio em perspectiva e livro 3D |
+| experience.js | Exposição em três atos e interação espacial |
 | motion.js | Movimento e visibilidade do atalho de contato |
 | booking.js | Coberturas e orçamento |
-| tour.js | Tour fotográfico |
 | analytics-config.js / analytics.js | Configuração, consentimento e eventos |
 
 Todos os CSS e JS de produção ficam nas suas pastas. As seis páginas continuam na raiz para manter suas URLs. A configuração da Vercel mantém compatibilidade com os caminhos antigos dos recursos ativos; os arquivos legados removidos continuam recuperáveis no histórico Git. A ordem de carregamento dos estilos foi preservada.
@@ -69,7 +68,7 @@ Não ativar js/analytics-config.js até confirmar o ID GA4, consentimento e desa
 
 ## Decisões de experiência
 
-A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem depender das antigas classes hero. A Home usa o encontro entre mãe e bebê; Partos preserva a foto vertical da família no desktop e em tablets, com enquadramento central dedicado ao celular. O texto das categorias fica fora da fotografia. O portfólio mantém seis imagens iniciais em uma grade editorial e onze sob demanda. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva e o link de ampliação do álbum abrem o mesmo visualizador acessível. A navegação do livro preserva o foco nos limites e carrega páginas adjacentes sob demanda. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
+A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem depender das antigas classes hero. A Home usa o encontro entre mãe e bebê; Partos preserva a foto vertical da família no desktop e em tablets, com enquadramento central dedicado ao celular. O texto das categorias fica fora da fotografia. O portfólio mantém seis imagens iniciais em uma grade editorial e onze sob demanda. A exposição O instante integra os registros reais em três atos visíveis na página, com profundidade CSS 3D, navegação explícita e ampliação pelo visualizador existente. O álbum, a perspectiva antiga e o tour foram substituídos. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
 
 ## Manutenção
 
@@ -77,4 +76,4 @@ Antes de alterar layout, execute os testes e compare as seis páginas em 320, 39
 
 ## Auditoria de usabilidade
 
-A galeria de Partos oferece ampliação nativa sem JavaScript. A página Ensaios mantém URLs de álbuns, histórico, foco e recuperação de falhas. O contato mobile prioriza as ações de contratação. O tour é voluntário e carregado apenas onde existe. As imagens de capa não têm animação de entrada que atrase sua apresentação. Consulte `docs/auditoria-ux.md` para decisões e limites da revisão.
+A galeria de Partos oferece ampliação nativa sem JavaScript. A página Ensaios mantém URLs de álbuns, histórico, foco e recuperação de falhas. O contato mobile prioriza as ações de contratação. A exposição não exige modal nem reprodução automática. As imagens de capa não têm animação de entrada que atrase sua apresentação. Consulte `docs/auditoria-ux.md` para decisões e limites da revisão.

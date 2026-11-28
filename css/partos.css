@@ -13,14 +13,14 @@
 .birth-local-nav {display:flex;justify-content:center;flex-wrap:wrap;gap:6px 22px;padding-block:8px;border-bottom:1px solid #ddd}
 .birth-local-nav a {display:flex;align-items:center;min-height:44px;font:500 13px/1.4 system-ui,sans-serif;text-decoration:none;color:#333}
 .birth-local-nav a:hover {text-decoration:underline;text-underline-offset:4px}
-.birth-local-nav a:focus-visible,.birth-view-switch button:focus-visible {outline:2px solid #111;outline-offset:3px}
+.birth-local-nav a:focus-visible {outline:2px solid #111;outline-offset:3px}
 .birth-portfolio-toolbar {display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-top:24px}
 .birth-portfolio-count {font:400 13px/1.4 system-ui,sans-serif;color:#555;margin:0}
-.birth-view-switch {display:flex;border:1px solid #111;border-radius:3px;padding:3px;gap:3px}
-.birth-view-switch[hidden],#sf-gallery-panel[hidden],.sf-book-experience[hidden] {display:none!important}
-.birth-view-switch button {width:auto;min-width:0;border:0;background:#fff;color:#111;font:500 13px/1.4 system-ui,sans-serif;min-height:44px;padding:9px 17px;cursor:pointer}
-.birth-view-switch button[aria-pressed=true] {background:#111;color:#fff}
-.birth-tour-note {font:400 12px/1.5 system-ui,sans-serif;color:#555;margin-top:8px}
+
+
+
+
+
 
 @media(max-width:820px) {
   .birth-page .birth-trust {padding-block:14px}
@@ -29,14 +29,14 @@
   .birth-trust small {font-size:12px;line-height:1.4}
   .birth-local-nav {gap:4px 16px}
   .birth-portfolio-toolbar {margin-top:18px}
-  .birth-view-switch {width:100%}
-  .birth-view-switch button {flex:1;width:auto;padding-inline:6px;font-size:12px}
+
+
 }
 @media(max-width:360px) {
   .birth-trust small {display:none}
   .birth-local-nav {gap:2px 12px}
   .birth-local-nav a {font-size:12px}
-  .birth-view-switch button {font-size:11px}
+
 }
 
 /* Portfólio editorial: seis imagens, sem um card de texto no meio. */
@@ -73,12 +73,12 @@ body.birth-page #sf-gallery-panel .album figcaption {
 body.birth-page #sf-gallery-panel .album figcaption span {
   font:400 clamp(15px,1.6vw,20px)/1.4 Georgia,serif;
 }
-body.birth-page .birth-view-switch {
+
   border-color:#c8c8c8;
   background:#f4f4f4;
 }
-body.birth-page .birth-view-switch button {background:transparent}
-body.birth-page .birth-view-switch button[aria-pressed=true] {background:#111;color:#fff}
+
+
 @media(max-width:820px) {
   body.birth-page #sf-gallery-panel .album {grid-template-columns:repeat(2,minmax(0,1fr));gap:20px 12px}
   body.birth-page .portfolio-heading {margin-bottom:14px}

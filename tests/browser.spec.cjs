@@ -26,20 +26,7 @@ test('galeria amplia e navega',async({page})=>{
   await page.locator('.close-gallery').click();
   await expect(page.locator('#gallery')).not.toBeVisible();
 });
-test('álbum opcional e teclado',async({page})=>{
-  await page.goto('/partos.html#galeria');
-  await page.locator('.sf-book-toggle').click();
-  await expect(page.locator('#sf-book-count')).toHaveText('1 / 6');
-  await page.locator('[data-book-next]').click();
-  await expect(page.locator('#sf-book-count')).toHaveText('2 / 6');
-  await page.locator('.sf-book-stage').focus();
-  await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('#sf-book-count')).toHaveText('1 / 6');
-  await expect(page.locator('#sf-gallery-panel')).not.toBeVisible();
-  await page.locator('.sf-gallery-toggle').click();
-  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
-  await expect(page.locator('#sf-book-panel')).not.toBeVisible();
-});
+
 test('orçamento opcional e mensagens',async({page})=>{
   await page.goto('/partos.html#planejar');
   await expect(page.locator('#planejar')).toHaveAttribute('open','');
@@ -50,13 +37,7 @@ test('orçamento opcional e mensagens',async({page})=>{
   expect(decodeURIComponent(href)).toContain('Cobertura: Filme');
   expect(decodeURIComponent(href)).toContain('Hospital & Maternidade');
 });
-test('tour pode abrir e fechar',async({page})=>{
-  await page.goto('/links');
-  await page.locator('[data-tour-open]').first().click();
-  await expect(page.locator('#sf-tour')).toBeVisible();
-  await page.locator('#sf-tour [data-tour-close]').first().click();
-  await expect(page.locator('#sf-tour')).not.toBeVisible();
-});
+
 test('ensaios personalizam o contato',async({page})=>{
   await page.goto('/ensaios.html');
   await page.locator('[data-album="familias"]').click();
@@ -71,28 +52,9 @@ test('WhatsApp permanece sem JavaScript',async({browser})=>{
   await context.close();
 });
 
-test('galeria 3D alterna e navega',async({page})=>{
-  await page.goto('/partos.html#galeria');
-  await page.locator('.sf-depth-toggle').click();
-  await expect(page.locator('#sf-depth-panel')).toBeVisible();
-  await expect(page.locator('#sf-gallery-panel')).not.toBeVisible();
-  await expect(page.locator('#sf-depth-count')).toHaveText('1 / 6');
-  await page.locator('[data-depth-next]').click();
-  await expect(page.locator('#sf-depth-count')).toHaveText('2 / 6');
-  await page.locator('.sf-gallery-toggle').click();
-  await expect(page.locator('#sf-depth-panel')).not.toBeVisible();
-  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
-});
 
-test('fotografia central em perspectiva amplia e devolve foco',async({page})=>{
-  await page.goto('/partos.html#galeria');
-  await page.locator('.sf-depth-toggle').click();
-  const current=page.locator('.sf-depth-card[aria-current=true]');
-  await current.click();
-  await expect(page.locator('#gallery')).toBeVisible();
-  await page.locator('.close-gallery').click();
-  await expect(current).toBeFocused();
-});
+
+
 test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
   const context=await browser.newContext({javaScriptEnabled:false});
   const page=await context.newPage();
@@ -104,27 +66,7 @@ test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
   await context.close();
 });
 
-test('álbum preserva foco no limite e amplia fotografia',async({page})=>{
-  await page.goto('/partos.html#galeria');
-  await page.locator('.sf-book-toggle').click();
-  const next=page.locator('[data-book-next]');
-  for(let i=2;i<=6;i++){
-    await next.click();
-    await expect(page.locator('#sf-book-count')).toHaveText(i+' / 6');
-  }
-  await expect(next).toHaveAttribute('aria-disabled','true');
-  await expect(next).toBeFocused();
-  await page.keyboard.press('Enter');
-  await expect(page.locator('#sf-book-count')).toHaveText('6 / 6');
-  await page.keyboard.press('ArrowLeft');
-  await expect(page.locator('#sf-book-count')).toHaveText('5 / 6');
-  const expand=page.locator('[data-book-expand]');
-  await expand.click();
-  await expect(page.locator('#gallery')).toBeVisible();
-  await expect(page.locator('#photo-count')).toHaveText('5 / 17');
-  await page.keyboard.press('Escape');
-  await expect(expand).toBeFocused();
-});
+
 
 for(const url of ['/','/partos.html'])test('capa editorial preserva fotografia e ações '+url,async({page})=>{
   await page.goto(url);
@@ -185,4 +127,36 @@ test('ensaios recuperam falha de carregamento da imagem',async({page})=>{
   await expect.poll(()=>page.locator('#shoot-large').evaluate(img=>img.complete&&img.naturalWidth>0)).toBeTruthy();
   await page.keyboard.press('Escape');
   await expect(first).toBeFocused();
+});
+
+test('exposição visível sem abrir um modo, navegação e ampliação',async({page})=>{
+  await page.goto('/partos.html#experiencia');
+  const root=page.locator('#experiencia');
+  await expect(root.locator('#exhibit-act-1')).toBeVisible();
+  await expect(root.locator('#exhibit-act-2')).not.toBeVisible();
+  await root.locator('[data-exhibit-act="1"]').click();
+  await expect(root.locator('#exhibit-act-2')).toBeVisible();
+  await expect(root.locator('[data-exhibit-act="1"]')).toHaveAttribute('aria-pressed','true');
+  await page.keyboard.press('ArrowRight');
+  await expect(root.locator('#exhibit-act-3')).toBeVisible();
+  const photo=root.locator('#exhibit-act-3 .sf-exhibit-print--front');
+  await photo.click();
+  await expect(page.locator('#gallery')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(photo).toBeFocused();
+  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
+});
+test('link da bio chega à exposição',async({page})=>{
+  await page.goto('/links');
+  await page.locator('a[href="/partos.html#experiencia"]').click();
+  await expect(page.locator('#exhibit-act-1')).toBeVisible();
+});
+test('primeiro ato e galeria funcionam sem JavaScript',async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false});
+  const page=await context.newPage();
+  await page.goto('http://127.0.0.1:4173/partos.html#experiencia');
+  await expect(page.locator('#exhibit-act-1 .sf-exhibit-print--front')).toBeVisible();
+  await expect(page.locator('.sf-exhibit-controls')).not.toBeVisible();
+  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
+  await context.close();
 });

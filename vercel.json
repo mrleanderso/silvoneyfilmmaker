@@ -41,10 +41,6 @@
       "destination": "/css/site-shell.css"
     },
     {
-      "source": "/tour.css",
-      "destination": "/css/tour.css"
-    },
-    {
       "source": "/style.css",
       "destination": "/css/portfolio-base.css"
     },
@@ -55,10 +51,6 @@
     {
       "source": "/analytics.js",
       "destination": "/js/analytics.js"
-    },
-    {
-      "source": "/tour.js",
-      "destination": "/js/tour.js"
     }
   ],
   "headers": [
