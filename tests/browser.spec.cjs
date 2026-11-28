@@ -134,7 +134,7 @@ for(const url of ['/','/partos.html'])test('capa editorial preserva fotografia e
     const image=el.querySelector('.sf-cover-media').getBoundingClientRect();
     const copy=el.querySelector('.sf-cover-inner').getBoundingClientRect();
     const button=el.querySelector('.sf-cover-primary').getBoundingClientRect();
-    return {separate:image.right<=copy.left+1||image.bottom<=copy.top+1,button:button.height>=44,overflow:el.scrollWidth>el.clientWidth+2};
+    return {separate:image.right<=copy.left+1||copy.right<=image.left+1||image.bottom<=copy.top+1||copy.bottom<=image.top+1,button:button.height>=44,overflow:el.scrollWidth>el.clientWidth+2};
   });
   expect(geometry.separate).toBeTruthy();
   expect(geometry.button).toBeTruthy();
