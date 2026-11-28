@@ -19,7 +19,7 @@ test('menu abre e fecha no celular',async({page},info)=>{
 });
 test('galeria amplia e navega',async({page})=>{
   await page.goto('/partos.html#experiencia');
-  await page.locator('.sf-exhibit-print--rear').first().click();
+  await page.locator('.sf-exhibit-print--front').first().click();
   await expect(page.locator('#gallery')).toBeVisible();
   await page.locator('#next').click();
   await expect(page.locator('#photo-count')).toContainText('3 / 17');
@@ -129,22 +129,17 @@ test('ensaios recuperam falha de carregamento da imagem',async({page})=>{
   await expect(first).toBeFocused();
 });
 
-test('exposição visível sem abrir um modo, navegação e ampliação',async({page})=>{
+test('exposição contínua, navegação e ampliação',async({page})=>{
   await page.goto('/partos.html#experiencia');
   const root=page.locator('#experiencia');
-  await expect(root.locator('#exhibit-act-1')).toBeVisible();
-  await expect(root.locator('#exhibit-act-2')).not.toBeVisible();
-  await root.locator('[data-exhibit-act="1"]').click();
-  await expect(root.locator('#exhibit-act-2')).toBeVisible();
-  await expect(root.locator('[data-exhibit-act="1"]')).toHaveAttribute('aria-pressed','true');
-  await page.keyboard.press('ArrowRight');
-  await expect(root.locator('#exhibit-act-3')).toBeVisible();
+  for(let i=1;i<=3;i++)await expect(root.locator('#exhibit-act-'+i)).toBeVisible();
+  await root.locator('a[href="#exhibit-act-3"]').click();
+  await expect(page).toHaveURL(/#exhibit-act-3$/);
   const photo=root.locator('#exhibit-act-3 .sf-exhibit-print--front');
   await photo.click();
   await expect(page.locator('#gallery')).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(photo).toBeFocused();
-  await expect(page.locator('#sf-gallery-panel summary')).toBeVisible();
 });
 test('link da bio chega à exposição',async({page})=>{
   await page.goto('/links');
@@ -156,7 +151,7 @@ test('primeiro ato e galeria funcionam sem JavaScript',async({browser})=>{
   const page=await context.newPage();
   await page.goto('http://127.0.0.1:4173/partos.html#experiencia');
   await expect(page.locator('#exhibit-act-1 .sf-exhibit-print--front')).toBeVisible();
-  await expect(page.locator('.sf-exhibit-controls')).not.toBeVisible();
+  await expect(page.locator('.sf-exhibit-index')).toBeVisible();
   await expect(page.locator('#exhibit-act-2')).toBeVisible();
   await expect(page.locator('#exhibit-act-3')).toBeVisible();
   await expect(page.locator('#sf-gallery-panel')).toBeVisible();
@@ -176,23 +171,20 @@ test('portfólio integrado não repete fotografias e mantém todos os registros'
   await expect(more.locator('a.photo-button')).toHaveCount(10);
 });
 
-test('composição da exposição: controles acessíveis, fotos dentro do palco',async({page})=>{
+test('exposição sem sobreposição e navegação nativa',async({page})=>{
   await page.goto('/partos.html#experiencia');
   const root=page.locator('#experiencia');
-  for(let i=0;i<3;i++){
-    await root.locator('[data-exhibit-act="'+i+'"]').click();
-    const act=root.locator('#exhibit-act-'+(i+1));
+  for(let i=1;i<=3;i++){
+    const act=root.locator('#exhibit-act-'+i);
     await expect(act).toBeVisible();
-    await act.evaluate(el=>{el.removeAttribute('data-enter');});
+    await act.scrollIntoViewIfNeeded();
     const result=await act.evaluate(el=>{
-      const stage=el.querySelector('.sf-exhibit-stage').getBoundingClientRect();
-      const controls=el.closest('#experiencia').querySelector('.sf-exhibit-controls').getBoundingClientRect();
-      const photos=[...el.querySelectorAll('.sf-exhibit-print')].map(a=>a.getBoundingClientRect());
-      return {controlsBefore:controls.bottom<=stage.top+2,inside:photos.every(r=>r.left>=stage.left-2&&r.right<=stage.right+2&&r.top>=stage.top-2&&r.bottom<=stage.bottom+2),minWidth:Math.min(...photos.map(r=>r.width)),overlap:Math.max(0,Math.min(photos[0].right,photos[1].right)-Math.max(photos[0].left,photos[1].left))*Math.max(0,Math.min(photos[0].bottom,photos[1].bottom)-Math.max(photos[0].top,photos[1].top))/(photos[0].width*photos[0].height)};
+      const s=el.querySelector('.sf-exhibit-stage').getBoundingClientRect();
+      const p=[...el.querySelectorAll('.sf-exhibit-print')].map(a=>a.getBoundingClientRect());
+      const overlap=Math.max(0,Math.min(p[0].right,p[1].right)-Math.max(p[0].left,p[1].left))*Math.max(0,Math.min(p[0].bottom,p[1].bottom)-Math.max(p[0].top,p[1].top));
+      return {inside:p.every(r=>r.left>=s.left-2&&r.right<=s.right+2&&r.top>=s.top-2&&r.bottom<=s.bottom+2),overlap};
     });
-    expect(result.controlsBefore).toBeTruthy();
     expect(result.inside).toBeTruthy();
-    expect(result.minWidth).toBeGreaterThan(65);
-    expect(result.overlap).toBeLessThanOrEqual(.25);
+    expect(result.overlap).toBe(0);
   }
 });

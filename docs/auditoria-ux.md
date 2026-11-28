@@ -35,3 +35,7 @@ Uma única coleção com 17 fotografias (capa, seis na exposição e dez adicion
 ## Refinamento de direção de arte
 
 O palco da exposição ocupa a largura editorial disponível. As fotografias usam caixas proporcionais a cada formato e uma composição vertical dedicada a telas pequenas. Os controles antecedem a obra e a ação selecionada tem contraste e indicador. A tipografia serifada utiliza fontes locais com fallback, mantendo o preto e branco e evitando dependências externas. Sem novos modos ou imagens duplicadas.
+
+## Assinatura editorial contínua
+
+Substituição da seleção de atos por três capítulos na rolagem normal, com índice nativo, pares de fotografias sem sobreposição e composição alternada. A profundidade é discreta: o plano secundário recebe perspectiva e deslocamento limitado à área visível, com respeito a movimento reduzido. Não há captura de gestos ou rolagem. Home com três compromissos compactos e tipografia editorial compartilhada. Validação isolada em Chromium, dez larguras, três capítulos e dois estados de movimento (60 cenários), além de cinco verificações de interação, com imagens de teste nas proporções originais. Não equivale a teste integral da Vercel nem a teste com clientes.
