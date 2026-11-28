@@ -38,9 +38,9 @@ body .sf-read-progress i{display:block;
 body .sf-revealed{animation:none}
 ::view-transition-old(root),::view-transition-new(root){animation:none}}
 
-body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-book-toggle,.sf-choice-option):focus-visible{outline:2px solid currentColor;
+body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option):focus-visible{outline:2px solid currentColor;
   outline-offset:4px}
-body :is(.shell-button,.editorial-button,.sf-convert-button,.sf-book-toggle){min-height:48px}
+body :is(.shell-button,.editorial-button,.sf-convert-button){min-height:48px}
 @media(prefers-reduced-motion:no-preference){.sf-album-enter{animation:sf-reveal .3s ease-out both}}
 
 body .shell-header.sf-header-scrolled{box-shadow:0 2px 12px #0002}

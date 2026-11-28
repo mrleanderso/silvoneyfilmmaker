@@ -23,3 +23,7 @@ Reduzir atrito na jornada Instagram → portfólio → orçamento, preservar fot
 
 ## Limites
 A revisão abrangeu o inventário completo, as seis páginas, os dez módulos JavaScript e verificações estruturais das 16 folhas de estilo, incluindo seletores sensíveis. Não é certificação WCAG, teste com clientes, auditoria visual integral ou medição Lighthouse. Os arquivos CSS históricos permanecem quando sua remoção depender de comparação de renderização. Os testes de navegador foram ampliados, mas dependem da execução em ambiente com o repositório completo e Playwright. A Vercel não pôde ser acessada pelo ambiente da revisão. Nenhuma conversão ou ganho de desempenho foi medido.
+
+## Evolução da experiência fotográfica
+
+O álbum tridimensional, o carrossel em perspectiva e o tour anterior foram substituídos pela exposição O instante. A experiência aparece diretamente em Partos, sem exigir uma abertura ou substituir a galeria normal. Seis fotografias reais foram selecionadas em três atos temáticos, sem sugerir que todas pertencem à mesma família. As fotos mantêm sua proporção; o espaço utiliza CSS 3D, sem WebGL, dependências ou reprodução automática. Navegação por botões, teclado e toque; respeito a movimento reduzido e links nativos como alternativa. O link da bio conduz à exposição. A medição de interesse continua desativada até configuração de consentimento e GA4.

@@ -31,4 +31,3 @@ h1{font:400 23px/1.22 Georgia,'Times New Roman',serif;letter-spacing:-.025em;mar
 @media(max-width:350px){.bio-links{padding-inline:14px}.bio-link{padding:10px 12px}.bio-link strong{font-size:13px}h1{font-size:21px}}
 @media(prefers-reduced-motion:reduce){.bio-link{transition:none}}
 
-.bio-link.bio-tour{font:inherit;color:#f5f5f5;text-align:left;width:100%;cursor:pointer;appearance:none;-webkit-appearance:none}.bio-link.bio-tour[hidden]{display:none!important}.bio-link.bio-tour:focus-visible{outline:2px solid #fff;outline-offset:4px}.bio-link.bio-tour .bio-link-icon{color:#eee}

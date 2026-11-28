@@ -44,6 +44,7 @@
   align-items:center;
 }
 .sf-exhibit-act[hidden],.sf-exhibit-controls[hidden] {display:none!important}
+.sf-exhibit-print img[hidden] {display:none!important}
 .sf-exhibit-stage {
   --tilt-x:0deg;
   --tilt-y:0deg;
@@ -79,21 +80,26 @@
   position:absolute;
   display:grid;
   place-items:center;
-  padding:clamp(4px,.7vw,10px);
-  background:#d5d3ce;
-  border:1px solid #ece9e0;
-  box-shadow:0 2px 0 #77746d,0 16px 30px #0009;
+  padding:0;
+  background:transparent;
+  border:0;
   transform-origin:center;
   outline-offset:5px;
 }
 .sf-exhibit-print img {
   display:block;
-  width:100%;
-  height:100%;
+  width:auto;
+  height:auto;
+  max-width:100%;
+  max-height:100%;
   min-width:0;
   min-height:0;
+  box-sizing:border-box;
   object-fit:contain;
-  background:#181818;
+  padding:clamp(4px,.7vw,10px);
+  border:1px solid #ece9e0;
+  background:#d5d3ce;
+  box-shadow:0 2px 0 #77746d,0 16px 30px #0009;
   filter:grayscale(1);
 }
 .sf-exhibit-print--front {
@@ -168,17 +174,17 @@
   .sf-exhibit-world {transition:transform .22s ease-out}
   .sf-exhibit-act[data-enter=next] .sf-exhibit-world {animation:sf-exhibit-travel-next .76s cubic-bezier(.18,.65,.22,1) both}
   .sf-exhibit-act[data-enter=prev] .sf-exhibit-world {animation:sf-exhibit-travel-prev .76s cubic-bezier(.18,.65,.22,1) both}
-  @keyframes sf-exhibit-travel-next {from{transform:translate3d(12%,0,-180px) rotateY(-13deg);opacity:.35}to{transform:rotateX(var(--tilt-x)) rotateY(var(--tilt-y));opacity:1}}
-  @keyframes sf-exhibit-travel-prev {from{transform:translate3d(-12%,0,-180px) rotateY(13deg);opacity:.35}to{transform:rotateX(var(--tilt-x)) rotateY(var(--tilt-y));opacity:1}}
+  @keyframes sf-exhibit-travel-next {from{transform:translate3d(12%,0,-180px) rotateY(-13deg)}to{transform:rotateX(var(--tilt-x)) rotateY(var(--tilt-y))}}
+  @keyframes sf-exhibit-travel-prev {from{transform:translate3d(-12%,0,-180px) rotateY(13deg)}to{transform:rotateX(var(--tilt-x)) rotateY(var(--tilt-y))}}
 }
 @media(max-width:820px) {
   .sf-exhibit-heading,.sf-exhibit-act {grid-template-columns:minmax(0,1fr);gap:16px}
   .sf-exhibit-heading {margin-bottom:18px}
-  .sf-exhibit-stage {height:clamp(260px,68vw,460px);perspective:760px}
+  .sf-exhibit-stage {height:clamp(275px,72vw,460px);perspective:760px}
   .sf-exhibit-print--front {left:6%;width:54%;height:84%;top:7%}
   .sf-exhibit-print--rear {right:4%;width:41%;height:68%;top:15%;transform:translateZ(-80px) rotateY(-19deg)}
   .sf-exhibit-stage--wide .sf-exhibit-print--front {left:3%;width:64%;height:72%;top:13%}
-  .sf-exhibit-stage--wide .sf-exhibit-print--rear {right:2%;width:34%;height:70%;top:14%}
+  .sf-exhibit-stage--wide .sf-exhibit-print--rear {right:2%;width:32%;height:70%;top:14%}
   .sf-exhibit-caption .sf-exhibit-eyebrow {margin-bottom:6px}
   .sf-exhibit-caption h3 {font-size:clamp(27px,6.5vw,38px);margin-bottom:8px}
   .sf-exhibit-controls {margin-top:18px}

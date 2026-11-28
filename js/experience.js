@@ -14,6 +14,7 @@
   let index = 0;
   let frame = 0;
   let touch = null;
+  let suppressClickUntil = 0;
 
   function reset(stage) {
     stage.style.removeProperty('--tilt-x');
@@ -22,6 +23,7 @@
   function select(next) {
     if (!Number.isInteger(next) || next < 0 || next >= acts.length || next === index) return;
     const direction = next > index ? 'next' : 'prev';
+    cancelAnimationFrame(frame);
     acts.forEach((act,i) => {
       act.hidden = i !== next;
       act.removeAttribute('data-enter');
@@ -67,6 +69,7 @@
       const dy=event.changedTouches[0].clientY-touch[1];
       touch=null;
       if (Math.abs(dx)>65 && Math.abs(dx)>Math.abs(dy)*1.6) {
+        suppressClickUntil=Date.now()+350;
         select(index+(dx<0?1:-1));
       }
     },{passive:true});
@@ -75,6 +78,7 @@
       if (photoIndex<0) return;
       link.addEventListener('click',event => {
         if (event.ctrlKey||event.metaKey||event.shiftKey||event.altKey) return;
+        if (Date.now()<suppressClickUntil) {event.preventDefault();return;}
         const open=new CustomEvent('sf:open-photo',{cancelable:true,detail:{index:photoIndex,opener:link}});
         if (!document.dispatchEvent(open)) event.preventDefault();
       });
@@ -85,4 +89,12 @@
     acts.forEach(act => {act.removeAttribute('data-enter');reset(act.querySelector('.sf-exhibit-stage'))});
   });
   controls.hidden=false;
+  if ('IntersectionObserver' in window && !reduced.matches) {
+    const intro=new IntersectionObserver(entries => {
+      if (!entries.some(entry=>entry.isIntersecting)) return;
+      intro.disconnect();
+      if (index===0 && !reduced.matches) acts[0].dataset.enter='next';
+    },{threshold:.3});
+    intro.observe(acts[0].querySelector('.sf-exhibit-stage'));
+  }
 })();
