@@ -3,8 +3,8 @@
 const key='sf-analytics-consent-v1';let active=false,loaded=false;
 const get=()=>{try{return localStorage.getItem(key)||''}catch{return ''}};
 const save=v=>{try{localStorage.setItem(key,v)}catch{}};
-const path=location.pathname,page=path.includes('partos')?'partos':path.includes('ensaios')?'ensaios':path.includes('links')?'links':'inicio';
-const pagePaths={inicio:'/',partos:'/partos.html',ensaios:'/ensaios.html',links:'/links'};
+const path=location.pathname,page=path.includes('partos')?'partos':path.includes('ensaios')?'ensaios':path.includes('links')?'links':path.includes('sobre')?'sobre':path.includes('contato')?'contato':'inicio';
+const pagePaths={inicio:'/',partos:'/partos.html',ensaios:'/ensaios.html',links:'/links',sobre:'/sobre.html',contato:'/contato.html'};
 const safeCampaigns={utm_source:['instagram','facebook','google','linkedin','whatsapp','indicacao'],utm_medium:['social','organic','cpc','paid_social','referral','bio'],utm_campaign:['bio','partos','primeiros_dias','ensaios','portfolio','institucional']};
 const incoming=new URLSearchParams(location.search),safe=new URLSearchParams();
 for(const [k,allowed] of Object.entries(safeCampaigns)){const value=incoming.get(k);if(allowed.includes(value))safe.set(k,value)}
