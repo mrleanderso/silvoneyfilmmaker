@@ -1,0 +1,62 @@
+/* Memórias em movimento — hero, narrativa editorial e galeria CSS 3D. */
+.sf-cinematic-hero{--cinema-x:0px;--cinema-y:0px}
+.sf-hero-layer{display:none}
+@media(min-width:821px){
+  body.home-page .sf-cinematic-hero .hero-photo,body.birth-page.fine-art .sf-cinematic-hero .cinema-photo.hero-art{
+    perspective:1200px;overflow:hidden;
+  }
+  body.home-page .sf-cinematic-hero .hero-inner{min-height:clamp(510px,48vw,710px)}
+  body.birth-page .sf-cinematic-hero .cinema-inner{min-height:clamp(480px,44vw,650px)}
+  .sf-hero-layer{display:block;position:absolute;z-index:3;right:7%;bottom:7%;width:clamp(110px,15vw,215px);padding:8px 8px 11px;background:#f5f4f0;color:#111;box-shadow:0 18px 45px #0007;transform:translate3d(var(--cinema-x),var(--cinema-y),35px) rotateY(-8deg) rotateZ(3deg);pointer-events:none}
+  body.home-page .sf-hero-layer img,body.birth-page.fine-art .sf-cinematic-hero .sf-hero-layer img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1);translate:none;animation:none}
+  .sf-hero-layer span{display:block;padding-top:8px;font:500 9px/1.2 system-ui,sans-serif;letter-spacing:.12em}
+}
+.sf-story{background:#111;color:#fff;padding-block:clamp(36px,6vw,84px)}
+.sf-story-heading{max-width:620px;margin:0 auto 30px;text-align:center}
+.sf-story-heading h2{font:400 clamp(30px,4.5vw,55px)/1.1 Georgia,serif;letter-spacing:-.035em}
+.sf-story-heading .eyebrow{color:#ccc}
+.sf-story-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(14px,3vw,38px);align-items:start}
+.sf-story-chapter{min-width:0;margin:0}
+.sf-story-chapter:nth-child(2){margin-top:clamp(15px,4vw,55px)}
+.sf-story-chapter:nth-child(3){margin-top:clamp(30px,8vw,110px)}
+.sf-story-photo{overflow:hidden;aspect-ratio:4/5;background:#252525}
+.sf-story-photo img{width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.sf-story-chapter figcaption{padding-top:14px}
+.sf-story-chapter figcaption span{font:500 10px/1.4 system-ui,sans-serif;letter-spacing:.12em;text-transform:uppercase;color:#ccc}
+.sf-story-chapter figcaption p{font:400 clamp(18px,2.3vw,28px)/1.25 Georgia,serif;margin:8px 0 0}
+.sf-story-link{display:flex;justify-content:center;align-items:center;gap:8px;min-height:44px;width:max-content;max-width:100%;margin:24px auto 0;color:#fff;text-decoration:underline;text-underline-offset:5px;font-size:14px}
+.sf-story-link:focus-visible{outline:2px solid #fff;outline-offset:3px}
+@media(prefers-reduced-motion:no-preference){
+  .sf-hero-layer{transition:transform .25s ease-out}
+  .sf-story-seen .sf-story-photo img{animation:sf-story-arrive .95s cubic-bezier(.2,.7,.2,1) both}
+  .sf-story-seen figcaption{animation:sf-story-text .55s ease-out both}
+  @keyframes sf-story-arrive{from{transform:scale(1.08);opacity:.75}to{transform:scale(1);opacity:1}}
+  @keyframes sf-story-text{from{transform:translateY(9px);opacity:.7}to{transform:none;opacity:1}}
+}
+.sf-depth-panel[hidden],.sf-depth-card[hidden],.birth-view-switch button[hidden]{display:none!important}
+.sf-depth-panel{background:#111;color:#fff;padding:clamp(16px,3vw,36px);margin:18px 0 24px;overflow:hidden}
+.sf-depth-stage{position:relative;height:clamp(265px,43vw,480px);perspective:1100px;touch-action:pan-y;overflow:hidden}
+.sf-depth-photos{position:absolute;inset:0;transform-style:preserve-3d}
+.sf-depth-card{position:absolute;left:50%;top:50%;width:clamp(150px,31%,310px);aspect-ratio:4/5;padding:6px;border:0;background:#f4f2ed;color:#111;box-shadow:0 18px 35px #0007;cursor:pointer;transform:translate(-50%,-50%) translateX(calc(var(--offset,0)*53%)) translateZ(calc(var(--distance,0)*-115px)) rotateY(calc(var(--offset,0)*-21deg));z-index:calc(10 - var(--distance,0));filter:brightness(calc(1 - var(--distance,0)*.23))}
+.sf-depth-card img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
+.sf-depth-card[aria-current=true]{filter:none}
+.sf-depth-controls{display:flex;justify-content:center;align-items:center;gap:16px;margin:16px 0 0}
+.sf-depth-controls button{min-width:44px;min-height:44px;border:1px solid #888;color:#fff;background:#191919;font:22px system-ui;cursor:pointer}
+.sf-depth-controls>div{text-align:center;min-width:0;flex:0 1 240px}
+.sf-depth-controls span,.sf-depth-controls small{display:block}
+.sf-depth-controls span{font:400 20px/1.25 Georgia,serif}
+.sf-depth-controls small,.sf-depth-hint{font:400 12px/1.5 system-ui,sans-serif;color:#ccc}
+.sf-depth-hint{text-align:center;margin-top:12px}
+.sf-depth-controls button:focus-visible,.sf-depth-stage:focus-visible,.sf-depth-card:focus-visible{outline:2px solid #fff;outline-offset:4px}
+@media(prefers-reduced-motion:no-preference){.sf-depth-card{transition:transform .48s cubic-bezier(.2,.7,.2,1),filter .4s}}
+@media(max-width:820px){
+  .sf-story-grid{grid-template-columns:1fr;gap:20px}
+  .sf-story-chapter,.sf-story-chapter:nth-child(2),.sf-story-chapter:nth-child(3){display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:center;margin:0}
+  .sf-story-photo{aspect-ratio:1}
+  .sf-story-chapter figcaption{padding:0}
+  .sf-story-heading{margin-bottom:24px}
+  .sf-depth-card{width:48%;transform:translate(-50%,-50%) translateX(calc(var(--offset,0)*42%)) translateZ(calc(var(--distance,0)*-85px)) rotateY(calc(var(--offset,0)*-18deg))}
+  .birth-view-switch button{flex:1;padding-inline:6px;font-size:12px}
+}
+@media(max-width:360px){.birth-view-switch button{font-size:11px}.sf-depth-controls span{font-size:17px}}
+@media(prefers-reduced-motion:reduce){.sf-depth-card{transition:none}.sf-hero-layer{transform:rotateZ(3deg)}}

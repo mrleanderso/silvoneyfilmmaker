@@ -9,6 +9,7 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 - js/ensaios.js: álbuns de ensaios; js/motion.js: animações.
 - js/album3d.js: álbum interativo; js/booking.js: opções e orçamento.
 - css/motion.css, css/booking.css e css/album3d.css: estilos dos módulos.
+- js/cinema.js e css/cinema.css: abertura cinematográfica, capítulos editoriais e galeria em perspectiva (CSS 3D, sem biblioteca externa).
 - css/partos.css: navegação contextual, confiança e modos do portfólio na página Partos.
 - CSS anterior permanece enquanto não houver comparação visual de todas as páginas.
 - Scripts antigos não são carregados pelas seis páginas atuais, mas foram preservados no histórico e na raiz para revisão de dependências externas.

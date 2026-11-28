@@ -70,3 +70,16 @@ test('WhatsApp permanece sem JavaScript',async({browser})=>{
   await expect(page.locator('.cinema-actions a[href*="wa.me"]')).toBeVisible();
   await context.close();
 });
+
+test('galeria 3D alterna e navega',async({page})=>{
+  await page.goto('/partos.html#galeria');
+  await page.locator('.sf-depth-toggle').click();
+  await expect(page.locator('#sf-depth-panel')).toBeVisible();
+  await expect(page.locator('#sf-gallery-panel')).not.toBeVisible();
+  await expect(page.locator('#sf-depth-count')).toHaveText('1 / 6');
+  await page.locator('[data-depth-next]').click();
+  await expect(page.locator('#sf-depth-count')).toHaveText('2 / 6');
+  await page.locator('.sf-gallery-toggle').click();
+  await expect(page.locator('#sf-depth-panel')).not.toBeVisible();
+  await expect(page.locator('#sf-gallery-panel')).toBeVisible();
+});
