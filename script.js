@@ -12,7 +12,7 @@ document.addEventListener('keydown',e=>{if(e.key==='Escape'&&menu.getAttribute('
 document.addEventListener('click',e=>{if(!header.contains(e.target))setMenu(false)});
 mobile.addEventListener('change',()=>{setMenu(false);updateScroll()});
 
-const sections=$('main section[id]'), navLinks=$('#navigation a[href^="#"]');
+const sections=$$('main section[id]'), navLinks=$$('#navigation a[href^="#"]');
 let queued=false;
 function updateScroll(){queued=false;const y=window.scrollY;header.classList.toggle('scrolled',header.classList.contains('scrolled')?y>16:y>55);const full=document.documentElement.scrollHeight-innerHeight;header.style.setProperty('--read',String(full>0?Math.min(1,y/full):0));let current='';for(const section of sections)if(section.getBoundingClientRect().top<145)current=section.id;for(const a of navLinks){if(a.hash==='#'+current)a.setAttribute('aria-current','location');else a.removeAttribute('aria-current')}
 }
