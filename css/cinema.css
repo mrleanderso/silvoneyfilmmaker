@@ -8,7 +8,7 @@
   body.home-page .sf-cinematic-hero .hero-inner{min-height:clamp(510px,48vw,710px)}
   body.birth-page .sf-cinematic-hero .cinema-inner{min-height:clamp(480px,44vw,650px)}
   .sf-hero-layer{display:block;position:absolute;z-index:3;right:7%;bottom:7%;width:clamp(110px,15vw,215px);padding:8px 8px 11px;background:#f5f4f0;color:#111;box-shadow:0 18px 45px #0007;transform:translate3d(var(--cinema-x),var(--cinema-y),35px) rotateY(-8deg) rotateZ(3deg);pointer-events:none}
-  body.home-page .sf-hero-layer img,body.birth-page.fine-art .sf-cinematic-hero .sf-hero-layer img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1);translate:none;animation:none}
+  body.home-page .sf-cinematic-hero .hero-photo .sf-hero-layer img,body.birth-page.fine-art .sf-cinematic-hero .cinema-photo.hero-art .sf-hero-layer img{position:static;display:block;width:100%;height:auto;aspect-ratio:4/5;object-fit:cover;filter:grayscale(1);translate:none;animation:none;transform:none}
   .sf-hero-layer span{display:block;padding-top:8px;font:500 9px/1.2 system-ui,sans-serif;letter-spacing:.12em}
 }
 .sf-story{background:#111;color:#fff;padding-block:clamp(36px,6vw,84px)}
@@ -37,7 +37,7 @@
 .sf-depth-panel{background:#111;color:#fff;padding:clamp(16px,3vw,36px);margin:18px 0 24px;overflow:hidden}
 .sf-depth-stage{position:relative;height:clamp(265px,43vw,480px);perspective:1100px;touch-action:pan-y;overflow:hidden}
 .sf-depth-photos{position:absolute;inset:0;transform-style:preserve-3d}
-.sf-depth-card{position:absolute;left:50%;top:50%;width:clamp(150px,31%,310px);aspect-ratio:4/5;padding:6px;border:0;background:#f4f2ed;color:#111;box-shadow:0 18px 35px #0007;cursor:pointer;transform:translate(-50%,-50%) translateX(calc(var(--offset,0)*53%)) translateZ(calc(var(--distance,0)*-115px)) rotateY(calc(var(--offset,0)*-21deg));z-index:calc(10 - var(--distance,0));filter:brightness(calc(1 - var(--distance,0)*.23))}
+.sf-depth-card{position:absolute;left:50%;top:50%;width:clamp(150px,31%,310px);aspect-ratio:4/5;padding:6px;border:0;background:#f4f2ed;color:#111;box-shadow:0 18px 35px #0007;cursor:pointer;transform:translate(-50%,-50%) translateX(var(--card-x,0%)) translateZ(var(--card-z,0px)) rotateY(var(--card-angle,0deg));z-index:var(--card-order,10);filter:brightness(var(--card-brightness,1))}
 .sf-depth-card img{display:block;width:100%;height:100%;object-fit:cover;filter:grayscale(1)}
 .sf-depth-card[aria-current=true]{filter:none}
 .sf-depth-controls{display:flex;justify-content:center;align-items:center;gap:16px;margin:16px 0 0}
@@ -55,7 +55,7 @@
   .sf-story-photo{aspect-ratio:1}
   .sf-story-chapter figcaption{padding:0}
   .sf-story-heading{margin-bottom:24px}
-  .sf-depth-card{width:48%;transform:translate(-50%,-50%) translateX(calc(var(--offset,0)*42%)) translateZ(calc(var(--distance,0)*-85px)) rotateY(calc(var(--offset,0)*-18deg))}
+  .sf-depth-card{width:48%;transform:translate(-50%,-50%) translateX(var(--card-x-mobile,0%)) translateZ(var(--card-z-mobile,0px)) rotateY(var(--card-angle-mobile,0deg))}
   .birth-view-switch button{flex:1;padding-inline:6px;font-size:12px}
 }
 @media(max-width:360px){.birth-view-switch button{font-size:11px}.sf-depth-controls span{font-size:17px}}

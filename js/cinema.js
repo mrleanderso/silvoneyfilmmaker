@@ -62,7 +62,7 @@
       const img=document.createElement('img');
       img.src=photo.src;img.alt=photo.alt;img.decoding='async';img.loading='lazy';
       card.append(img);
-      card.addEventListener('click',()=>{index=i;render()});
+      card.addEventListener('click',()=>{index=i;render();card.focus({preventScroll:true})});
       track.append(card);
       return card;
     });
@@ -73,8 +73,15 @@
       if(offset>photos.length/2)offset-=photos.length;
       if(offset< -photos.length/2)offset+=photos.length;
       const visible=Math.abs(offset)<=2;
-      card.style.setProperty('--offset',offset);
-      card.style.setProperty('--distance',Math.abs(offset));
+      const distance=Math.abs(offset);
+      card.style.setProperty('--card-x',offset*53+'%');
+      card.style.setProperty('--card-z',distance*-115+'px');
+      card.style.setProperty('--card-angle',offset*-21+'deg');
+      card.style.setProperty('--card-x-mobile',offset*42+'%');
+      card.style.setProperty('--card-z-mobile',distance*-85+'px');
+      card.style.setProperty('--card-angle-mobile',offset*-18+'deg');
+      card.style.setProperty('--card-order',String(10-distance));
+      card.style.setProperty('--card-brightness',String(1-distance*.23));
       card.hidden=!visible;
       card.tabIndex=offset===0?0:-1;
       card.setAttribute('aria-current',offset===0?'true':'false');
