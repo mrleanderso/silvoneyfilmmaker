@@ -23,12 +23,12 @@
 .birth-coverage-option svg {flex:none}
 .birth-coverage-copy strong {
   display:block;
-  font:400 23px/1.2 Georgia,serif;
+  font:400 23px/1.2 Baskerville,'Iowan Old Style','Palatino Linotype',Georgia,serif;
 }
 .birth-coverage-copy small {
   display:block;
   color:#555;
-  font:400 13px/1.5 system-ui,sans-serif;
+  font:400 14px/1.5 system-ui,sans-serif;
   margin-top:5px;
 }
 .birth-coverage-check {
@@ -39,7 +39,7 @@
   display:grid;
   place-items:center;
 }
-.birth-coverage-option[aria-pressed=true] {background:#f3f3f3;box-shadow:inset 2px 0 #111}
+.birth-coverage-option[aria-pressed=true] {background:#f5f3ef;box-shadow:inset 2px 0 #111}
 .birth-coverage-option[aria-pressed=true] .birth-coverage-check::after {
   content:'';
   width:10px;

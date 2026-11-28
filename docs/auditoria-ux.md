@@ -31,3 +31,7 @@ O álbum tridimensional, o carrossel em perspectiva e o tour anterior foram subs
 ## Integração e redução de redundâncias
 
 Uma única coleção com 17 fotografias (capa, seis na exposição e dez adicionais); filme com imagem independente. Nenhuma fotografia repetida no conteúdo principal. A âncora #galeria abre os registros complementares com JavaScript, e continua chegando ao controle nativo sem JavaScript. A ação de orçamento permanece direta na capa e nas coberturas; o encerramento retorna ao orçamento, preservando a seleção. Processo e dúvidas concentram informações complementares. A página mantém os endereços e âncoras anteriores.
+
+## Refinamento de direção de arte
+
+O palco da exposição ocupa a largura editorial disponível. As fotografias usam caixas proporcionais a cada formato e uma composição vertical dedicada a telas pequenas. Os controles antecedem a obra e a ação selecionada tem contraste e indicador. A tipografia serifada utiliza fontes locais com fallback, mantendo o preto e branco e evitando dependências externas. Sem novos modos ou imagens duplicadas.

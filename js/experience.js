@@ -17,7 +17,7 @@
   let index = 0;
   let frame = 0;
   let touch = null;
-  let suppressClickUntil = 0;
+    let suppressClickUntil = 0;
 
   function reset(stage) {
     stage.style.removeProperty('--tilt-x');
@@ -64,7 +64,9 @@
     stage.addEventListener('pointerleave',() => {cancelAnimationFrame(frame);reset(stage)});
     stage.addEventListener('touchstart',event => {
       touch=event.touches.length === 1 ? [event.touches[0].clientX,event.touches[0].clientY] : null;
+
     },{passive:true});
+    stage.addEventListener('touchmove',event=>{if(event.touches.length!==1)touch=null;},{passive:true});
     stage.addEventListener('touchcancel',() => {touch=null},{passive:true});
     stage.addEventListener('touchend',event => {
       if (!touch) return;

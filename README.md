@@ -77,3 +77,5 @@ Antes de alterar layout, execute os testes e compare as seis páginas em 320, 39
 ## Auditoria de usabilidade
 
 A galeria de Partos oferece ampliação nativa sem JavaScript. A página Ensaios mantém URLs de álbuns, histórico, foco e recuperação de falhas. O contato mobile prioriza as ações de contratação. A exposição não exige modal nem reprodução automática. As imagens de capa não têm animação de entrada que atrase sua apresentação. Consulte `docs/auditoria-ux.md` para decisões e limites da revisão.
+
+A exposição usa proporções específicas de cada fotografia, palco integral, seleção antes da obra e layout móvel próprio; nenhuma fonte externa ou biblioteca gráfica é necessária.

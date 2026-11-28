@@ -40,13 +40,13 @@
 <link rel="stylesheet" href="/css/motion.css?v=4">
 <script src="/js/navigation.js?v=3" defer></script>
 <script src="/js/motion.js?v=3" defer></script>
-<link rel="stylesheet" href="/css/booking.css?v=3">
+<link rel="stylesheet" href="/css/booking.css?v=4">
 <script src="/js/gallery.js?v=5" defer></script>
 <script src="/js/booking.js?v=6" defer></script>
-<link rel="stylesheet" href="/css/partos.css?v=7">
-<link rel="stylesheet" href="/css/cinema.css?v=6">
-<link rel="stylesheet" href="/css/experience.css?v=4">
-<script src="/js/experience.js?v=4" defer></script>
+<link rel="stylesheet" href="/css/partos.css?v=8">
+<link rel="stylesheet" href="/css/cinema.css?v=7">
+<link rel="stylesheet" href="/css/experience.css?v=5">
+<script src="/js/experience.js?v=5" defer></script>
 </head>
 <body class="fine-art birth-page">
 <a class="skip" href="#inicio">Ir para o conteúdo</a>
@@ -86,18 +86,22 @@
   <div class="wrap sf-exhibit-inner">
     <header class="sf-exhibit-heading">
       <div><p class="sf-exhibit-eyebrow">PORTFÓLIO DE NASCIMENTOS</p><h2 id="experience-title">O instante.<br><em>Uma vida inteira.</em></h2></div>
-      <p>Registros reais, em três momentos.</p>
+      <p>Explore três momentos do nascimento. Toque nas fotografias para ampliar.</p>
     </header>
+    <div class="sf-exhibit-controls" hidden role="group" aria-label="Atos da exposição">
+      <button type="button" data-exhibit-act="0" aria-controls="exhibit-act-1" aria-pressed="true"><span aria-hidden="true">01</span>O encontro</button>
+      <button type="button" data-exhibit-act="1" aria-controls="exhibit-act-2" aria-pressed="false"><span aria-hidden="true">02</span>Os detalhes</button>
+      <button type="button" data-exhibit-act="2" aria-controls="exhibit-act-3" aria-pressed="false"><span aria-hidden="true">03</span>A família</button>
+    </div>
     <div class="sf-exhibit-acts">
       <article class="sf-exhibit-act" id="exhibit-act-1" aria-labelledby="exhibit-title-1">
-        <div class="sf-exhibit-stage sf-exhibit-stage--wide">
+        <div class="sf-exhibit-stage">
           <div class="sf-exhibit-floor" aria-hidden="true"></div>
           <div class="sf-exhibit-world">
             <a class="sf-exhibit-print sf-exhibit-print--rear" data-sf-photo data-photo-caption="Um beijo" href="assets/claro-beijo.webp" aria-label="Ampliar: Pai beija o bebê no colo"><img src="assets/claro-beijo.webp" alt="Pai beija o bebê no colo" width="538" height="673" loading="lazy" decoding="async"></a>
-            <a class="sf-exhibit-print sf-exhibit-print--front" data-sf-photo data-photo-caption="No colo da mãe" href="assets/ensaios/foto-49.webp" aria-label="Ampliar: Recém-nascido no colo da mãe"><img src="assets/ensaios/foto-49.webp" alt="Recém-nascido no colo da mãe" width="1280" height="1025" loading="lazy" decoding="async"></a>
+            <a class="sf-exhibit-print sf-exhibit-print--front" data-shape="landscape" data-sf-photo data-photo-caption="No colo da mãe" href="assets/ensaios/foto-49.webp" aria-label="Ampliar: Recém-nascido no colo da mãe"><img src="assets/ensaios/foto-49.webp" alt="Recém-nascido no colo da mãe" width="1280" height="1025" loading="lazy" decoding="async"></a>
           </div>
-          <span class="sf-exhibit-edition" aria-hidden="true">01 / 03</span>
-        </div>
+          </div>
         <div class="sf-exhibit-caption">
           
           <h3 id="exhibit-title-1">O mundo muda em um instante.</h3>
@@ -108,11 +112,10 @@
         <div class="sf-exhibit-stage">
           <div class="sf-exhibit-floor" aria-hidden="true"></div>
           <div class="sf-exhibit-world">
-            <a class="sf-exhibit-print sf-exhibit-print--rear" data-sf-photo data-photo-caption="O primeiro retrato" href="assets/retrato.webp" aria-label="Ampliar: Recém-nascido envolto em manta branca"><img src="assets/retrato.webp" alt="Recém-nascido envolto em manta branca" width="768" height="1024" loading="lazy" decoding="async"></a>
+            <a class="sf-exhibit-print sf-exhibit-print--rear" data-shape="tall" data-sf-photo data-photo-caption="O primeiro retrato" href="assets/retrato.webp" aria-label="Ampliar: Recém-nascido envolto em manta branca"><img src="assets/retrato.webp" alt="Recém-nascido envolto em manta branca" width="768" height="1024" loading="lazy" decoding="async"></a>
             <a class="sf-exhibit-print sf-exhibit-print--front" data-sf-photo data-photo-caption="Os detalhes" href="assets/detalhe.webp" aria-label="Ampliar: Pequeno pé do recém-nascido em preto e branco"><img src="assets/detalhe.webp" alt="Pequeno pé do recém-nascido em preto e branco" width="819" height="1024" loading="lazy" decoding="async"></a>
           </div>
-          <span class="sf-exhibit-edition" aria-hidden="true">02 / 03</span>
-        </div>
+          </div>
         <div class="sf-exhibit-caption">
           
           <h3 id="exhibit-title-2">Tão pequenos, por tão pouco tempo.</h3>
@@ -123,11 +126,10 @@
         <div class="sf-exhibit-stage">
           <div class="sf-exhibit-floor" aria-hidden="true"></div>
           <div class="sf-exhibit-world">
-            <a class="sf-exhibit-print sf-exhibit-print--rear" data-sf-photo data-photo-caption="A família reunida" href="assets/ensaios/foto-34.webp" aria-label="Ampliar: Família reunida na maternidade"><img src="assets/ensaios/foto-34.webp" alt="Família reunida na maternidade" width="720" height="406" loading="lazy" decoding="async"></a>
+            <a class="sf-exhibit-print sf-exhibit-print--rear" data-shape="wide" data-sf-photo data-photo-caption="A família reunida" href="assets/ensaios/foto-34.webp" aria-label="Ampliar: Família reunida na maternidade"><img src="assets/ensaios/foto-34.webp" alt="Família reunida na maternidade" width="720" height="406" loading="lazy" decoding="async"></a>
             <a class="sf-exhibit-print sf-exhibit-print--front" data-sf-photo data-photo-caption="O primeiro abraço" href="assets/familia.webp" aria-label="Ampliar: Pais abraçados junto ao bebê recém-nascido"><img src="assets/familia.webp" alt="Pais abraçados junto ao bebê recém-nascido" width="819" height="1024" loading="lazy" decoding="async"></a>
           </div>
-          <span class="sf-exhibit-edition" aria-hidden="true">03 / 03</span>
-        </div>
+          </div>
         <div class="sf-exhibit-caption">
           
           <h3 id="exhibit-title-3">O começo de uma nova história.</h3>
@@ -135,11 +137,7 @@
         </div>
       </article>
     </div>
-    <div class="sf-exhibit-controls" hidden role="group" aria-label="Atos da exposição">
-      <button type="button" data-exhibit-act="0" aria-controls="exhibit-act-1" aria-pressed="true"><span aria-hidden="true">01</span>O encontro</button>
-      <button type="button" data-exhibit-act="1" aria-controls="exhibit-act-2" aria-pressed="false"><span aria-hidden="true">02</span>Os detalhes</button>
-      <button type="button" data-exhibit-act="2" aria-controls="exhibit-act-3" aria-pressed="false"><span aria-hidden="true">03</span>A família</button>
-    </div>
+
     <p class="sf-exhibit-sr" id="exhibit-status" role="status" aria-live="polite"></p>
     
       <div id="galeria" class="sf-exhibit-more" tabindex="-1">

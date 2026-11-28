@@ -175,3 +175,23 @@ test('portfólio integrado não repete fotografias e mantém todos os registros'
   await expect(more).toHaveAttribute('open','');
   await expect(more.locator('a.photo-button')).toHaveCount(10);
 });
+
+test('composição da exposição: controles acessíveis, fotos dentro do palco',async({page})=>{
+  await page.goto('/partos.html#experiencia');
+  const root=page.locator('#experiencia');
+  for(let i=0;i<3;i++){
+    await root.locator('[data-exhibit-act="'+i+'"]').click();
+    const act=root.locator('#exhibit-act-'+(i+1));
+    await expect(act).toBeVisible();
+    await act.evaluate(el=>{el.removeAttribute('data-enter');});
+    const result=await act.evaluate(el=>{
+      const stage=el.querySelector('.sf-exhibit-stage').getBoundingClientRect();
+      const controls=el.closest('#experiencia').querySelector('.sf-exhibit-controls').getBoundingClientRect();
+      const photos=[...el.querySelectorAll('.sf-exhibit-print')].map(a=>a.getBoundingClientRect());
+      return {controlsBefore:controls.bottom<=stage.top+2,inside:photos.every(r=>r.left>=stage.left-2&&r.right<=stage.right+2&&r.top>=stage.top-2&&r.bottom<=stage.bottom+2),minWidth:Math.min(...photos.map(r=>r.width))};
+    });
+    expect(result.controlsBefore).toBeTruthy();
+    expect(result.inside).toBeTruthy();
+    expect(result.minWidth).toBeGreaterThan(65);
+  }
+});

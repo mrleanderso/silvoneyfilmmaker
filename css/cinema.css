@@ -2,7 +2,8 @@
    Imagens mantêm proporção; texto e fotografia nunca se sobrepõem. */
 .sf-cover {
   --cover-ink:#101010;
-  --cover-paper:#f5f5f3;
+  --cover-paper:#f7f5f1;
+  --cover-display:Baskerville,'Iowan Old Style','Palatino Linotype',Georgia,serif;
   --cover-muted:#d4d4d4;
   --cover-pad:clamp(28px,5vw,76px);
   display:grid;
@@ -21,7 +22,7 @@
   min-width:0;
   margin:0;
   padding:clamp(12px,2vw,30px);
-  background:#171717;
+  background:#151515;
 }
 .sf-cover-media img {
   display:block;
@@ -58,8 +59,8 @@
 .sf-cover-kicker span {white-space:normal}
 body.home-page .sf-cover h1,
 body.birth-page .sf-cover h1 {
-  font:400 clamp(38px,4.4vw,68px)/1.06 Georgia,'Times New Roman',serif;
-  letter-spacing:-.045em;
+  font:400 clamp(40px,4.8vw,74px)/1.03 var(--cover-display);
+  letter-spacing:-.04em;
   margin:0 0 20px;
   max-width:13ch;
   color:var(--cover-paper);
@@ -91,8 +92,8 @@ body .sf-cover-actions {
 .sf-cover-primary {
   padding:12px 18px;
   border:1px solid #fff;
-  border-radius:2px;
-  background:#fff;
+  border-radius:0;
+  background:#f7f5f1;
   color:#111;
 }
 .sf-cover-primary:hover {background:#e2e2e2}
@@ -134,7 +135,7 @@ body .sf-cover-actions {
   .sf-cover-kicker {font-size:10px;margin-bottom:12px}
   body.home-page .sf-cover h1,
   body.birth-page .sf-cover h1 {
-    font-size:clamp(34px,9vw,52px);
+    font-size:clamp(36px,9vw,54px);
     margin-bottom:12px;
     max-width:16ch;
   }
