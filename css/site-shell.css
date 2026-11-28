@@ -65,20 +65,3 @@ body.fine-art .cinema-hero .cinema-photo:after{background:linear-gradient(90deg,
 @media(max-width:480px){body.fine-art .cinema-hero .cinema-photo{inset:0}.cinema-photo img{height:62%;object-position:50% 25%}body.fine-art .cinema-hero .cinema-photo:after{background:linear-gradient(0deg,#101010 35%,#101010e8 42%,#10101000 78%),linear-gradient(90deg,#10101025,#10101000)}.cinema-inner{min-height:510px;padding-top:205px;padding-bottom:40px}.cinema-description{line-height:1.6}.cinema-actions{gap:8px}body .cinema-hero .shell-button{font-size:14px;padding-inline:10px}.home-page .hero-photo img{object-position:50% 18%}.home-page .hero h1{font-size:clamp(33px,10vw,42px)}}
 @media(max-width:360px){.cinema-actions{align-items:flex-start;flex-direction:column}body .shell-wordmark>span{font-size:21px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}body .shell-nav a:after,body .shell-button{transition:none}}
-
-/* Capa de nascimento: imagem em camada explícita, sem altura percentual
-   dependente do hero antigo. No celular, fotografia em fluxo normal. */
-body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art{align-self:stretch;z-index:0;min-height:0;overflow:hidden;pointer-events:none}
-body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art img{display:block;position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 32%;filter:grayscale(1);opacity:1;visibility:visible}
-body.birth-page.fine-art .cinema-hero .cinema-inner{position:relative;z-index:2}
-@media(max-width:820px){
- body.birth-page.fine-art .cinema-hero{min-height:0}
- body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art{position:relative;inset:auto;width:100%;height:clamp(210px,74vw,390px);max-width:none;max-height:none;display:block;margin:0;padding:0;aspect-ratio:auto}
- body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art img{object-position:50% 42%}
- body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art::after{display:block;inset:0;background:linear-gradient(180deg,transparent 60%,#10101022 74%,#101010b0 91%,#101010 100%);border:0}
- body.birth-page.fine-art .cinema-hero .cinema-inner{min-height:0;margin-top:-14px;padding-top:0;padding-bottom:40px;align-items:flex-start}
-}
-@media(max-width:480px){
- body.birth-page.fine-art .cinema-hero .cinema-photo.hero-art{height:clamp(205px,76vw,355px)}
- body.birth-page.fine-art .cinema-hero .cinema-inner{padding-bottom:36px}
-}

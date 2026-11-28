@@ -13,9 +13,7 @@ function motion(){
 }
 motion();reduced.addEventListener?.('change',motion);
 })();
-;(()=>{const reduced=matchMedia('(prefers-reduced-motion: reduce)'),fine=matchMedia('(hover:hover) and (pointer:fine)');
-const hero=document.querySelector('[data-sf-depth-hero]');function bind(el,area,heroMode){if(!el||!area)return;let frame=0;const reset=()=>{cancelAnimationFrame(frame);for(const key of ['--sf-rx','--sf-ry','--sf-x','--sf-y'])el.style.removeProperty(key)};area.addEventListener('pointermove',e=>{if(reduced.matches||!fine.matches||e.pointerType==='touch')return;const r=area.getBoundingClientRect();if(!r.width||!r.height)return;const x=Math.max(-.5,Math.min(.5,(e.clientX-r.left)/r.width-.5)),y=Math.max(-.5,Math.min(.5,(e.clientY-r.top)/r.height-.5));cancelAnimationFrame(frame);frame=requestAnimationFrame(()=>{if(heroMode){el.style.setProperty('--sf-x',x*8+'px');el.style.setProperty('--sf-y',y*6+'px')}else{el.style.setProperty('--sf-rx',-y*5+'deg');el.style.setProperty('--sf-ry',x*7+'deg')}})});area.addEventListener('pointerleave',reset);reduced.addEventListener?.('change',reset)}const birth=document.querySelector('.birth-page .cinema-photo.hero-art');bind(hero,hero?.closest('.hero'),true);bind(birth,birth?.closest('.cinema-hero'),true);
-})();
+
 
 /* The floating contact is useful only when an inline WhatsApp action is not in view. */
 ;(()=>{

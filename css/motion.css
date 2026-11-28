@@ -12,11 +12,8 @@ to{opacity:1;
 to{opacity:1;
   transform:none}}
 .sf-revealed{animation:sf-reveal .42s ease-out both}
-body.home-page .hero-photo img,body.birth-page .cinema-photo.hero-art img{animation:sf-cover-in .75s ease-out both}
-@keyframes sf-cover-in{from{opacity:.8;
-  scale:1.025}
-to{opacity:1;
-  scale:1}}
+.sf-cover-media img{animation:sf-cover-in .55s ease-out both}
+@keyframes sf-cover-in{from{opacity:.7}to{opacity:1}}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float){transition:background-color .18s,color .18s,border-color .18s,transform .16s,box-shadow .2s}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float):active{transform:scale(.98)}
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button) svg,body .sf-choice-option svg{transition:transform .2s ease}
@@ -42,20 +39,15 @@ body .sf-read-progress i{display:block;
 @media(prefers-reduced-motion:reduce){body .shell-header{transition:none}
 body .sf-revealed{animation:none}
 ::view-transition-old(root),::view-transition-new(root){animation:none}}
-@media(prefers-reduced-motion:no-preference){.sf-choice-preview[data-sf-depth]{perspective:900px}
-.sf-choice-preview[data-sf-depth] figure{transition:transform .22s ease;
-  transform:rotateX(var(--sf-rx,0deg)) rotateY(var(--sf-ry,0deg))}
-.home-page [data-sf-depth-hero] img{transition:translate .3s ease;
-  translate:var(--sf-x,0px) var(--sf-y,0px)}}
+
 body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-book-toggle,.sf-choice-option):focus-visible{outline:2px solid currentColor;
   outline-offset:4px}
 body :is(.shell-button,.editorial-button,.sf-convert-button,.sf-book-toggle){min-height:48px}
-@media(prefers-reduced-motion:no-preference){.home-page .hero-copy h1,.birth-page .cinema-copy h1{animation:sf-title-in .55s ease-out both}
+@media(prefers-reduced-motion:no-preference){.sf-cover-copy h1{animation:sf-title-in .55s ease-out both}
 @keyframes sf-title-in{from{opacity:.7;
   transform:translateY(7px)}
 to{opacity:1;
   transform:none}}
 .sf-album-enter{animation:sf-reveal .3s ease-out both}}
-@media(prefers-reduced-motion:no-preference){.birth-page .cinema-photo.hero-art img{translate:var(--sf-x,0px) var(--sf-y,0px);
-  transition:translate .3s ease}}
+
 body .shell-header.sf-header-scrolled{box-shadow:0 2px 12px #0002}

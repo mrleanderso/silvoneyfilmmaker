@@ -69,7 +69,7 @@ Não ativar js/analytics-config.js até confirmar o ID GA4, consentimento e desa
 
 ## Decisões de experiência
 
-A fotografia principal não compete com molduras flutuantes. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva e o link de ampliação do álbum abrem o mesmo visualizador acessível. A navegação do livro preserva o foco nos limites e carrega páginas adjacentes sob demanda. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
+A capa compartilhada .sf-cover tem composição própria em css/cinema.css, sem depender das antigas classes hero. A Home usa o encontro entre mãe e bebê; Partos preserva a foto vertical da família. O texto das categorias fica fora da fotografia. O portfólio mantém seis imagens iniciais em uma grade editorial e onze sob demanda. O portfólio normal é padrão e os modos 3D são voluntários. A foto central da perspectiva e o link de ampliação do álbum abrem o mesmo visualizador acessível. A navegação do livro preserva o foco nos limites e carrega páginas adjacentes sob demanda. As fotos da galeria são links funcionais sem JavaScript; o orçamento continua opcional e o WhatsApp permanece direto. O atalho flutuante não duplica um CTA visível.
 
 ## Manutenção
 

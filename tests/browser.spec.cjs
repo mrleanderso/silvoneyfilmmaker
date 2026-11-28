@@ -124,3 +124,19 @@ test('álbum preserva foco no limite e amplia fotografia',async({page})=>{
   await page.keyboard.press('Escape');
   await expect(expand).toBeFocused();
 });
+
+for(const url of ['/','/partos.html'])test('capa editorial preserva fotografia e ações '+url,async({page})=>{
+  await page.goto(url);
+  const cover=page.locator('.sf-cover');
+  await expect(cover.locator('h1')).toBeVisible();
+  await expect(cover.locator('.sf-cover-primary')).toBeVisible();
+  const geometry=await cover.evaluate(el=>{
+    const image=el.querySelector('.sf-cover-media').getBoundingClientRect();
+    const copy=el.querySelector('.sf-cover-inner').getBoundingClientRect();
+    const button=el.querySelector('.sf-cover-primary').getBoundingClientRect();
+    return {separate:image.right<=copy.left+1||image.bottom<=copy.top+1,button:button.height>=44,overflow:el.scrollWidth>el.clientWidth+2};
+  });
+  expect(geometry.separate).toBeTruthy();
+  expect(geometry.button).toBeTruthy();
+  expect(geometry.overflow).toBeFalsy();
+});
