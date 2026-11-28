@@ -1,0 +1,32 @@
+/* Silvoney Filmmaker — página editorial de links, pensada para o Instagram. */
+:root{color-scheme:dark;--ink:#f5f5f5;--muted:#bdbdbd;--paper:#101010;--line:#434343;font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif}
+*{box-sizing:border-box}body{margin:0;background:#101010;color:var(--ink);min-height:100vh;min-height:100svh}a{color:inherit;text-decoration:none}a:focus-visible{outline:2px solid #fff;outline-offset:4px}h1,p,figure{margin:0}
+.bio{width:min(100%,480px);margin:0 auto;padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+.bio-hero{position:relative;text-align:center}
+.bio-hero figure{position:relative;height:clamp(205px,58vw,300px);overflow:hidden}
+.bio-hero figure img{width:100%;height:100%;display:block;object-fit:cover;object-position:50% 47%;filter:grayscale(1)}
+.bio-hero figure::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,transparent 64%,#10101044 79%,#101010 100%);pointer-events:none}
+.bio-intro{position:relative;padding:0 20px 19px;margin-top:-5px}
+.bio-mark{display:inline-flex;flex-direction:column;align-items:center;gap:3px;margin-bottom:13px;line-height:1}
+.bio-mark span{font-family:Georgia,'Times New Roman',serif;font-size:31px;letter-spacing:.11em;font-weight:400}
+.bio-mark small{font-size:9px;letter-spacing:.45em;padding-left:.45em;color:#d6d6d6}
+h1{font:400 23px/1.22 Georgia,'Times New Roman',serif;letter-spacing:-.025em;margin:0 auto 6px;max-width:330px}
+.bio-intro p{font-size:12px;color:var(--muted);letter-spacing:.04em}
+.bio-links{display:grid;gap:9px;padding:0 20px}
+.bio-link{display:flex;align-items:center;justify-content:space-between;gap:12px;min-height:66px;border:1px solid var(--line);border-radius:4px;padding:12px 15px;background:#171717;transition:background .18s,border-color .18s}
+.bio-link-copy{display:grid;gap:3px;min-width:0}
+.bio-link strong{font-weight:600;font-size:14px;line-height:1.35}
+.bio-link small{font-size:12px;color:var(--muted);line-height:1.4}
+.bio-link-icon{display:grid;place-items:center;flex:none;width:30px;height:30px}
+.bio-link.primary{background:#f5f5f5;color:#111;border-color:#f5f5f5}
+.bio-link.primary small{color:#4d4d4d}
+.bio-link.whatsapp .bio-link-icon{color:#41d779}
+.bio-link:hover{background:#262626;border-color:#888}
+.bio-link.primary:hover{background:#ddd;border-color:#ddd}
+.bio-footer{display:grid;justify-items:center;gap:14px;padding:17px 20px 0;text-align:center;color:var(--muted)}
+.bio-footer a{display:flex;align-items:center;gap:8px;font-size:12px;min-height:44px;color:#eee}
+.bio-footer a svg{width:14px;height:14px}
+.bio-footer p{font:italic 15px/1.4 Georgia,'Times New Roman',serif;color:#bdbdbd}
+@media(min-width:600px){body{background:#0b0b0b;padding:30px 20px}.bio{background:#101010;border:1px solid #272727}}
+@media(max-width:350px){.bio-links{padding-inline:14px}.bio-link{padding:10px 12px}.bio-link strong{font-size:13px}h1{font-size:21px}}
+@media(prefers-reduced-motion:reduce){.bio-link{transition:none}}
