@@ -1,0 +1,61 @@
+/* Progressive cinematic interaction; navigation is never delayed. */
+@media(prefers-reduced-motion:no-preference){@view-transition{navigation:auto}
+::view-transition-old(root){animation:sf-page-out .16s ease-in both}
+::view-transition-new(root){animation:sf-page-in .24s ease-out both}
+@keyframes sf-page-out{to{opacity:0}}
+@keyframes sf-page-in{from{opacity:.55;
+  transform:translateY(4px)}
+to{opacity:1;
+  transform:none}}
+@keyframes sf-reveal{from{opacity:.68;
+  transform:translateY(10px)}
+to{opacity:1;
+  transform:none}}
+.sf-revealed{animation:sf-reveal .42s ease-out both}
+body.home-page .hero-photo img,body.birth-page .cinema-photo.hero-art img{animation:sf-cover-in .75s ease-out both}
+@keyframes sf-cover-in{from{opacity:.8;
+  scale:1.025}
+to{opacity:1;
+  scale:1}}
+body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float){transition:background-color .18s,color .18s,border-color .18s,transform .16s,box-shadow .2s}
+body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-choice-option,.sf-whatsapp-float):active{transform:scale(.98)}
+body :is(.button,.shell-button,.editorial-button,.sf-convert-button) svg,body .sf-choice-option svg{transition:transform .2s ease}
+@media(hover:hover) and (pointer:fine){body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.sf-choice-option):hover svg{transform:translateX(3px)}
+body .benefit svg{transition:transform .22s}
+body .benefit:hover svg{transform:translateY(-3px)}
+body .category img{transition:transform .45s ease}
+body .category:hover img{transform:scale(1.035)}}}
+body .shell-header{transition:box-shadow .2s}
+body .shell-header.sf-header-scrolled{box-shadow:0 2px 12px #0002}
+body .sf-read-progress{position:absolute;
+  inset:auto 0 0;
+  height:2px;
+  pointer-events:none;
+  background:#ffffff15;
+  overflow:hidden}
+body .sf-read-progress i{display:block;
+  width:100%;
+  height:100%;
+  background:#d7d7d7;
+  transform:scaleX(var(--sf-read,0));
+  transform-origin:left}
+@media(prefers-reduced-motion:reduce){body .shell-header{transition:none}
+body .sf-revealed{animation:none}
+::view-transition-old(root),::view-transition-new(root){animation:none}}
+@media(prefers-reduced-motion:no-preference){.sf-choice-preview[data-sf-depth]{perspective:900px}
+.sf-choice-preview[data-sf-depth] figure{transition:transform .22s ease;
+  transform:rotateX(var(--sf-rx,0deg)) rotateY(var(--sf-ry,0deg))}
+.home-page [data-sf-depth-hero] img{transition:translate .3s ease;
+  translate:var(--sf-x,0px) var(--sf-y,0px)}}
+body :is(.button,.shell-button,.editorial-button,.sf-convert-button,.bio-link,.sf-book-toggle,.sf-choice-option):focus-visible{outline:2px solid currentColor;
+  outline-offset:4px}
+body :is(.shell-button,.editorial-button,.sf-convert-button,.sf-book-toggle){min-height:48px}
+@media(prefers-reduced-motion:no-preference){.home-page .hero-copy h1,.birth-page .cinema-copy h1{animation:sf-title-in .55s ease-out both}
+@keyframes sf-title-in{from{opacity:.7;
+  transform:translateY(7px)}
+to{opacity:1;
+  transform:none}}
+.sf-album-enter{animation:sf-reveal .3s ease-out both}}
+@media(prefers-reduced-motion:no-preference){.birth-page .cinema-photo.hero-art img{translate:var(--sf-x,0px) var(--sf-y,0px);
+  transition:translate .3s ease}}
+body .shell-header.sf-header-scrolled{box-shadow:0 2px 12px #0002}
