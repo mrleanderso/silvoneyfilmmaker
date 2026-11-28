@@ -15,6 +15,7 @@
   }
   set(false);
   document.documentElement.classList.add('js');
+  document.querySelectorAll('[data-js-only]').forEach(el => {el.hidden=false;});
   menu.addEventListener('click', () => set(menu.getAttribute('aria-expanded') !== 'true'));
   nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => set(false)));
   document.addEventListener('keydown', e => {

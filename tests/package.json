@@ -1,0 +1,9 @@
+{
+  "private": true,
+  "scripts": {
+    "browser": "playwright test --config playwright.config.cjs"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.0"
+  }
+}

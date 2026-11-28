@@ -1,4 +1,79 @@
 'use strict';
-(()=>{const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-const book=document.querySelector('.sf-book-experience');if(!book)return;const photos=[...document.querySelectorAll('#galeria .album .photo')].map(fig=>{const img=fig.querySelector('img');return {src:img?.getAttribute('src'),alt:img?.alt||'',caption:fig.querySelector('figcaption span')?.textContent||''}}).filter(x=>x.src);if(!photos.length)return;const toggle=book.querySelector('.sf-book-toggle'),panel=book.querySelector('#sf-book-panel'),stage=book.querySelector('.sf-book-stage'),img=book.querySelector('#sf-book-image'),caption=book.querySelector('#sf-book-caption'),count=book.querySelector('#sf-book-count'),number=book.querySelector('.sf-book-number'),prev=book.querySelector('[data-book-prev]'),next=book.querySelector('[data-book-next]');let index=0,busy=false,changeTimer=0,endTimer=0;function render(){const photo=photos[index];if(img.getAttribute('src')!==photo.src){img.hidden=false;img.src=photo.src}img.alt=photo.alt;caption.textContent=photo.caption;number.textContent=String(index+1).padStart(2,'0');count.textContent=(index+1)+' / '+photos.length;prev.disabled=index===0;next.disabled=index===photos.length-1}function finish(){clearTimeout(changeTimer);clearTimeout(endTimer);stage.removeAttribute('data-turn');busy=false;render()}function move(dir){if(busy||index+dir<0||index+dir>=photos.length)return;index+=dir;if(reduced.matches){render();return}busy=true;stage.dataset.turn=dir>0?'next':'prev';changeTimer=setTimeout(render,240);endTimer=setTimeout(finish,750)}stage.querySelector('.sf-book-right').addEventListener('animationend',e=>{if(busy&&e.target===stage.querySelector('.sf-book-right'))finish()});toggle.addEventListener('click',()=>{const open=panel.hidden;panel.hidden=!open;toggle.setAttribute('aria-expanded',String(open));toggle.textContent=open?'Fechar álbum ↑':'Abrir álbum ↗';if(open)render();else if(busy)finish()});prev.addEventListener('click',()=>move(-1));next.addEventListener('click',()=>move(1));panel.addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();move(e.key==='ArrowLeft'?-1:1)}});let start=null;stage.addEventListener('touchstart',e=>{start=null;if(e.touches.length===1)start=[e.touches[0].clientX,e.touches[0].clientY]},{passive:true});stage.addEventListener('touchcancel',()=>{start=null},{passive:true});stage.addEventListener('touchend',e=>{if(!start)return;const x=e.changedTouches[0].clientX-start[0],y=e.changedTouches[0].clientY-start[1];start=null;if(Math.abs(x)>45&&Math.abs(x)>Math.abs(y)*1.5)move(x<0?1:-1)},{passive:true});reduced.addEventListener?.('change',()=>{if(busy)finish()});const err=book.querySelector('#sf-book-error');if(err){img.addEventListener('error',()=>{err.hidden=false;img.hidden=true});img.addEventListener('load',()=>{err.hidden=true;img.hidden=false})}book.hidden=false;
+(() => {
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const book = document.querySelector('.sf-book-experience');
+  if (!book) return;
+  const q = s => book.querySelector(s);
+  const photos = [...document.querySelectorAll('#galeria .album .photo')].map(fig => {
+    const img = fig.querySelector('img');
+    return {src:img?.getAttribute('src'),alt:img?.alt || '',caption:fig.querySelector('figcaption span')?.textContent || ''};
+  }).filter(photo => photo.src);
+  const toggle=q('.sf-book-toggle'), panel=q('#sf-book-panel'), stage=q('.sf-book-stage');
+  const leaf=q('.sf-book-right'), img=q('#sf-book-image'), caption=q('#sf-book-caption');
+  const count=q('#sf-book-count'), number=q('.sf-book-number'), prev=q('[data-book-prev]'), next=q('[data-book-next]');
+  const err=q('#sf-book-error');
+  if (!photos.length || ![toggle,panel,stage,leaf,img,caption,count,number,prev,next].every(Boolean)) return;
+  let index=0, busy=false, changeTimer=0, endTimer=0, start=null;
+  function render() {
+    const photo=photos[index];
+    if (img.getAttribute('src') !== photo.src) {
+      if (err) err.hidden=true;
+      img.hidden=false;
+      img.src=photo.src;
+    }
+    img.alt=photo.alt;
+    caption.textContent=photo.caption;
+    number.textContent=String(index+1).padStart(2,'0');
+    count.textContent=(index+1)+' / '+photos.length;
+    prev.disabled=index===0;
+    next.disabled=index===photos.length-1;
+  }
+  function finish() {
+    clearTimeout(changeTimer);
+    clearTimeout(endTimer);
+    stage.removeAttribute('data-turn');
+    busy=false;
+    render();
+  }
+  function move(dir) {
+    if (busy || index+dir<0 || index+dir>=photos.length) return;
+    index+=dir;
+    if (reduced.matches) { render(); return; }
+    busy=true;
+    stage.dataset.turn=dir>0?'next':'prev';
+    changeTimer=setTimeout(render,240);
+    endTimer=setTimeout(finish,750);
+  }
+  leaf.addEventListener('animationend', e => {
+    if (busy && e.target===leaf) finish();
+  });
+  toggle.addEventListener('click', () => {
+    const open=panel.hidden;
+    panel.hidden=!open;
+    toggle.setAttribute('aria-expanded',String(open));
+    toggle.textContent=open?'Fechar álbum ↑':'Abrir álbum ↗';
+    if (open) render();
+    else if (busy) finish();
+  });
+  prev.addEventListener('click',()=>move(-1));
+  next.addEventListener('click',()=>move(1));
+  panel.addEventListener('keydown', e => {
+    if (e.key==='ArrowLeft'||e.key==='ArrowRight') {
+      e.preventDefault();move(e.key==='ArrowLeft'?-1:1);
+    }
+  });
+  stage.addEventListener('touchstart', e => {
+    start=e.touches.length===1?[e.touches[0].clientX,e.touches[0].clientY]:null;
+  },{passive:true});
+  stage.addEventListener('touchcancel',()=>{start=null},{passive:true});
+  stage.addEventListener('touchend', e => {
+    if (!start) return;
+    const x=e.changedTouches[0].clientX-start[0], y=e.changedTouches[0].clientY-start[1];
+    start=null;
+    if (Math.abs(x)>45 && Math.abs(x)>Math.abs(y)*1.5) move(x<0?1:-1);
+  },{passive:true});
+  reduced.addEventListener?.('change',()=>{if(busy)finish()});
+  img.addEventListener('error',()=>{if(err){err.hidden=false;img.hidden=true}});
+  img.addEventListener('load',()=>{if(err)err.hidden=true;img.hidden=false});
+  book.hidden=false;
 })();
