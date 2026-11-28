@@ -188,10 +188,11 @@ test('composição da exposição: controles acessíveis, fotos dentro do palco'
       const stage=el.querySelector('.sf-exhibit-stage').getBoundingClientRect();
       const controls=el.closest('#experiencia').querySelector('.sf-exhibit-controls').getBoundingClientRect();
       const photos=[...el.querySelectorAll('.sf-exhibit-print')].map(a=>a.getBoundingClientRect());
-      return {controlsBefore:controls.bottom<=stage.top+2,inside:photos.every(r=>r.left>=stage.left-2&&r.right<=stage.right+2&&r.top>=stage.top-2&&r.bottom<=stage.bottom+2),minWidth:Math.min(...photos.map(r=>r.width))};
+      return {controlsBefore:controls.bottom<=stage.top+2,inside:photos.every(r=>r.left>=stage.left-2&&r.right<=stage.right+2&&r.top>=stage.top-2&&r.bottom<=stage.bottom+2),minWidth:Math.min(...photos.map(r=>r.width)),overlap:Math.max(0,Math.min(photos[0].right,photos[1].right)-Math.max(photos[0].left,photos[1].left))*Math.max(0,Math.min(photos[0].bottom,photos[1].bottom)-Math.max(photos[0].top,photos[1].top))/(photos[0].width*photos[0].height)};
     });
     expect(result.controlsBefore).toBeTruthy();
     expect(result.inside).toBeTruthy();
     expect(result.minWidth).toBeGreaterThan(65);
+    expect(result.overlap).toBeLessThanOrEqual(.25);
   }
 });

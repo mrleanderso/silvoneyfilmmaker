@@ -138,7 +138,6 @@
   right:7%;
   width:min(43%,calc(var(--stage-height) * .92));
 }
-.sf-exhibit-edition {display:none}
 .sf-exhibit-caption {padding:16px 0 4px}
 .sf-exhibit-caption h3 {
   margin:0;
@@ -185,24 +184,24 @@
   .sf-exhibit-heading {display:block;margin-bottom:18px}
   .sf-exhibit-heading>p {margin-top:12px;max-width:none}
   .sf-exhibit-stage {--stage-height:clamp(310px,84vw,490px);perspective:850px}
-  .sf-exhibit .sf-exhibit-print--front {left:8%;width:min(56%,calc(var(--stage-height) * .7))}
-  .sf-exhibit .sf-exhibit-print--rear {right:6%;width:min(34%,calc(var(--stage-height) * .51))}
-  .sf-exhibit .sf-exhibit-print--front[data-shape=landscape] {left:4%;width:min(65%,calc(var(--stage-height) * .99))}
-  .sf-exhibit .sf-exhibit-print--rear[data-shape=wide] {right:4%;width:min(42%,calc(var(--stage-height) * .92))}
+  .sf-exhibit .sf-exhibit-print--front {left:6%;width:min(49%,calc(var(--stage-height) * .7))}
+  .sf-exhibit .sf-exhibit-print--rear {right:4%;width:min(31%,calc(var(--stage-height) * .51))}
+  .sf-exhibit .sf-exhibit-print--front[data-shape=landscape] {left:4%;width:min(60%,calc(var(--stage-height) * .99))}
+  .sf-exhibit .sf-exhibit-print--rear[data-shape=wide] {right:4%;width:min(39%,calc(var(--stage-height) * .92))}
   .sf-exhibit .sf-exhibit-controls button {font-size:13px;gap:5px}
   .sf-exhibit .sf-extra-grid {grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
 }
-@media(max-width:520px) {
-  .sf-exhibit-stage {--stage-height:clamp(320px,108vw,465px)}
+@media(max-width:440px) {
+  .sf-exhibit-stage {--stage-height:clamp(370px,126vw,540px)}
   .sf-exhibit .sf-exhibit-print--front {
     left:5%;top:5%;width:64%;
     transform:translateZ(14px) rotateY(2deg);
   }
   .sf-exhibit .sf-exhibit-print--rear {
-    right:4%;top:auto;bottom:6%;width:38%;
+    right:4%;top:auto;bottom:6%;width:41%;
     transform:translateZ(-36px) rotateY(-10deg);
   }
-  .sf-exhibit .sf-exhibit-print--front[data-shape=landscape] {left:5%;top:6%;width:88%}
+  .sf-exhibit .sf-exhibit-print--front[data-shape=landscape] {left:5%;top:6%;width:83%}
   .sf-exhibit .sf-exhibit-print--rear[data-shape=wide] {right:4%;width:53%}
   .sf-exhibit-caption h3 {font-size:clamp(25px,6.5vw,34px)}
 }
