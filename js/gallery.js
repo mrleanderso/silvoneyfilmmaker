@@ -38,18 +38,19 @@
     clearTimeout(loadTimer);
     state.textContent = 'Não foi possível carregar esta fotografia. Tente novamente ou veja a próxima.';
     state.hidden = false; retry.hidden = false;
+    large.hidden = true;
   }
   function loading() {
-    clearTimeout(loadTimer); retry.hidden = true; state.hidden = true;
+    clearTimeout(loadTimer); retry.hidden = true; state.hidden = true; large.hidden = false;
     if (!large.complete) {
       loadTimer = setTimeout(()=>{state.textContent='Carregando fotografia…';state.hidden=false},250);
     } else if (!large.naturalWidth) error();
   }
-  large.addEventListener('load',()=>{clearTimeout(loadTimer);state.hidden=true;retry.hidden=true});
+  large.addEventListener('load',()=>{clearTimeout(loadTimer);state.hidden=true;retry.hidden=true;large.hidden=false});
   large.addEventListener('error',error);
   retry.addEventListener('click',()=>{
     const url = new URL(photos[index].querySelector('img').src,location.href);
-    url.searchParams.set('retry',String(Date.now())); large.src=url.href; loading();
+    url.searchParams.set('retry',String(Date.now())); large.src=url.href; loading(); close.focus({preventScroll:true});
   });
   function showPhoto(i,motion=true) {
     if (motion) animation?.cancel();
@@ -77,7 +78,7 @@
     const start=source?.getBoundingClientRect();
     ensureThumbs();
     dialog.showModal(); showPhoto(i,false);
-    if (reduced.matches||!large.animate||!start) return;
+    if (reduced.matches||!large.animate||!start||large.hidden) return;
     const end=large.getBoundingClientRect(), ratio=source.naturalWidth/source.naturalHeight;
     if (!Number.isFinite(ratio)||!ratio||!end.width||!end.height) return;
     const w=Math.min(end.width,end.height*ratio), h=w/ratio;

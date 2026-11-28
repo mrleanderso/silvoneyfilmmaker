@@ -35,7 +35,11 @@
   plan.addEventListener('input',update);
   plan.addEventListener('change',update);
   plan.hidden = false;
-  function reveal() { if (location.hash === '#planejar') plan.open = true; }
+  function reveal() {
+    if (location.hash !== '#planejar') return;
+    plan.open = true;
+    requestAnimationFrame(() => plan.scrollIntoView?.({block:'start'}));
+  }
   addEventListener('hashchange',reveal);
   reveal();
   update();

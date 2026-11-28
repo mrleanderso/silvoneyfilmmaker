@@ -67,7 +67,7 @@ test('WhatsApp permanece sem JavaScript',async({browser})=>{
   const context=await browser.newContext({javaScriptEnabled:false});
   const page=await context.newPage();
   await page.goto('http://127.0.0.1:4173/partos.html');
-  await expect(page.locator('.cinema-actions a[href*="wa.me"]')).toBeVisible();
+  await expect(page.locator('.sf-cover-primary')).toBeVisible();
   await context.close();
 });
 
@@ -100,6 +100,7 @@ test('as fotografias têm destino direto sem JavaScript',async({browser})=>{
   const link=page.locator('a.photo-button').first();
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute('href',/\.webp$/);
+  expect(await link.evaluate(a=>getComputedStyle(a).pointerEvents)).not.toBe('none');
   await context.close();
 });
 
@@ -139,4 +140,47 @@ for(const url of ['/','/partos.html'])test('capa editorial preserva fotografia e
   expect(geometry.separate).toBeTruthy();
   expect(geometry.button).toBeTruthy();
   expect(geometry.overflow).toBeFalsy();
+});
+
+test('contato prioriza orçamento no celular',async({page},info)=>{
+  test.skip(info.project.name==='desktop');
+  await page.goto('/contato.html');
+  const positions=await page.locator('.editorial-contact').evaluate(el=>({
+    action:el.querySelector('.editorial-contact-options').getBoundingClientRect().bottom,
+    photo:el.querySelector('figure').getBoundingClientRect().top
+  }));
+  expect(positions.action).toBeLessThan(positions.photo);
+});
+test('álbum profundo abre a categoria certa e mantém histórico',async({page})=>{
+  await page.goto('/ensaios.html#familias');
+  await expect(page.locator('#familias')).toBeVisible();
+  await page.locator('[data-album="retratos"]').click();
+  await expect(page.locator('#retratos')).toBeVisible();
+  await page.goBack();
+  await expect(page.locator('#familias')).toBeVisible();
+  await expect(page.locator('[data-album="familias"]')).toHaveAttribute('aria-current','true');
+});
+test('menu restaura foco ao fechar com Escape',async({page},info)=>{
+  test.skip(info.project.name==='desktop');
+  await page.goto('/');
+  const menu=page.locator('.menu-toggle');
+  await menu.click();
+  await page.locator('.shell-nav a').first().focus();
+  await page.keyboard.press('Escape');
+  await expect(menu).toBeFocused();
+  await expect(menu).toHaveAttribute('aria-expanded','false');
+});
+test('ensaios recuperam falha de carregamento da imagem',async({page})=>{
+  await page.goto('/ensaios.html');
+  const first=page.locator('#retratos .print').first();
+  const href=await first.getAttribute('href');
+  await page.route('**/'+href,route=>route.abort());
+  // Force an image URL not already cached by the thumbnail.
+  await first.evaluate(a=>{a.href+='?viewer=1'});
+  await page.route('**/'+href+'?viewer=1',route=>route.abort());
+  await first.click();
+  await expect(page.locator('#shoot-error')).toBeVisible();
+  await expect(page.locator('#shoot-retry')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await expect(first).toBeFocused();
 });

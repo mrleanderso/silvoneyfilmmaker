@@ -40,7 +40,7 @@ test('cobertura opcional e orçamento em um único link',()=>{
   const nodes={'sf-plan-birth':birth,'sf-plan-month':month,'sf-plan-hospital':hospital};
   const root={querySelector:s=>s==='#planejar'?plan:send,querySelectorAll:()=>[button]};
   const document={querySelector:()=>root,getElementById:s=>nodes[s]};
-  vm.runInNewContext(read('js/booking.js'),{document,location:{hash:'#planejar'},addEventListener(){}});
+  vm.runInNewContext(read('js/booking.js'),{document,location:{hash:'#planejar'},addEventListener(){},requestAnimationFrame(fn){fn()}});
   let text=decodeURIComponent(send.href);
   for(const v of ['Tipo de parto: Cesárea','Previsão: 01/2027','Maternidade: Hospital & Maternidade'])assert.ok(text.includes(v));
   assert.equal(plan.hidden,false);assert.equal(plan.open,true);
