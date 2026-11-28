@@ -6,56 +6,74 @@
   const mode = document.querySelector('.im-mode');
   const help = document.querySelector('#im-help');
   const status = document.querySelector('.im-status');
-  const walls = [...document.querySelectorAll('article.im-wall')];
-  const names = ['O encontro','Os detalhes','A família'];
-  if (!view || !toolbar || !mode || !help || !status || walls.length!==3 || stops.length!==3) return;
+  const count = document.querySelector('#im-count');
+  const title = document.querySelector('#im-title');
+  const walls = [...document.querySelectorAll('.im-world > .im-wall')];
+  const header = document.querySelector('.im-header');
+  const intro = document.querySelector('.im-intro');
+  const dock = document.querySelector('.im-dock');
+  const names = ['O encontro','Os detalhes','A família','Seu registro'];
+  if (![view,toolbar,mode,help,status,count,title,header,intro,dock].every(Boolean) || walls.length!==4 || stops.length!==4) return;
   const reduced = matchMedia('(prefers-reduced-motion: reduce)');
-  const supported = CSS.supports('transform-style','preserve-3d') && CSS.supports('perspective','600px');
-  let current=0, angle=0, active=false, drag=null, suppressUntil=0;
-  const mobile = matchMedia('(max-width:680px)');
+  const supported = typeof CSS !== 'undefined' && CSS.supports('transform-style','preserve-3d') && CSS.supports('perspective','600px');
+  let current=0, angle=0, active=false, drag=null, suppressUntil=0, resizeFrame=0;
+  const mod=(n,m)=>((n%m)+m)%m;
   function measure() {
     if (!active) return;
     const w=view.clientWidth,h=view.clientHeight;
     if (!w||!h) return;
-    const lens=Math.min(w*.68,h*.86), depth=600;
-    view.style.setProperty('--lens',lens+'px');
-    view.style.setProperty('--wall-height',Math.min(1600,h*.86*depth/lens)+'px');
-    view.style.setProperty('--art-width',Math.min(1000,w*.81*depth/lens)+'px');
+    const top=Math.max(header.getBoundingClientRect().bottom,intro.getBoundingClientRect().bottom);
+    const bottom=dock.getBoundingClientRect().top;
+    const available=bottom-top;
+    if(available<145){setMode(false);return;}
+    const depth=600,lens=Math.min(w*.48,available*.88), scale=depth/lens;
+    const values={
+      '--lens':lens+'px', '--scene-center':((top+bottom)/2)+'px',
+      '--wall-height':(available*1.06*scale)+'px',
+      '--art-width':Math.min(1080,w*.88*scale)+'px',
+      '--room-title':(Math.min(62,Math.max(24,w*.046),available*.15)*scale)+'px',
+      '--room-text':(Math.min(17,Math.max(12,w*.031),available*.062)*scale)+'px',
+      '--room-gap':(Math.min(17,available*.045)*scale)+'px',
+      '--room-button':(44*scale)+'px'
+    };
+    for(const [key,value] of Object.entries(values))view.style.setProperty(key,value);
   }
   function rotate(value) {
-    angle=Math.max(0,Math.min(180,value));
+    angle=value;
     view.style.setProperty('--angle',-angle+'deg');
   }
-  function select(i) {
+  function select(i,nearest=true) {
     if (!active || !Number.isInteger(i) || i<0 || i>=walls.length) return;
+    if(walls.some((wall,n)=>n!==i&&wall.contains(document.activeElement)))stops[i].focus({preventScroll:true});
     current=i;
-    rotate(i*90);
+    const delta=mod(i*90-angle+180,360)-180;
+    rotate(nearest?angle+delta:i*90);
     stops.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));
     walls.forEach((wall,n)=>{
       wall.inert=n!==i;
       if(n!==i)wall.setAttribute('aria-hidden','true');else wall.removeAttribute('aria-hidden');
       wall.querySelectorAll('img').forEach(img=>{if(n===i)img.loading='eager'});
     });
-    document.querySelector('#im-count').textContent='0'+(i+1)+' / 03';
-    document.querySelector('#im-title').textContent=names[i];
+    count.textContent='0'+(i+1)+' / 04';
+    title.textContent=names[i];
   }
   function setMode(next) {
     active=next&&supported;
     drag=null;
     view.classList.remove('is-dragging');
+    document.body.classList.toggle('im-immersive',active);
     view.dataset.mode=active?'3d':'flat';
-    toolbar.classList.toggle('is-flat',!active);
-    mode.setAttribute('aria-pressed',String(!active));
-    mode.textContent=active?'Vista plana':'Vista 3D';
+    mode.textContent=active?'Vista plana':'Entrar em 3D';
+    mode.setAttribute('aria-pressed',String(active));
+    toolbar.hidden=!active;
     help.hidden=!active;
     status.hidden=!active;
-    stops.forEach(b=>{b.disabled=!active});
     view.tabIndex=active?0:-1;
-    if(active){measure();select(current)}
+    if(active){window.scrollTo(0,0);select(current,false);measure();}
     else walls.forEach(w=>{w.inert=false;w.removeAttribute('aria-hidden')});
   }
   if (supported) {
-    toolbar.hidden=false;
+    mode.hidden=false;
     setMode(!reduced.matches);
     mode.addEventListener('click',()=>setMode(!active));
     stops.forEach((b,i)=>b.addEventListener('click',()=>select(i)));
@@ -63,7 +81,7 @@
       if(!active||e.target!==view)return;
       if(e.key==='ArrowLeft'||e.key==='ArrowRight'||e.key==='Home'||e.key==='End'){
         e.preventDefault();
-        select(e.key==='Home'?0:e.key==='End'?2:Math.max(0,Math.min(2,current+(e.key==='ArrowRight'?1:-1))));
+        select(e.key==='Home'?0:e.key==='End'?3:mod(current+(e.key==='ArrowRight'?1:-1),4));
       }
     });
     view.addEventListener('dragstart',e=>{if(active)e.preventDefault()});
@@ -89,14 +107,16 @@
       const moved=drag.moved;drag=null;
       view.classList.remove('is-dragging');
       if(view.hasPointerCapture?.(e.pointerId))view.releasePointerCapture(e.pointerId);
-      if(moved){suppressUntil=Date.now()+400;select(Math.round(angle/90))}
+      if(moved){suppressUntil=Date.now()+400;select(mod(Math.round(angle/90),4))}
     }
     view.addEventListener('pointerup',endDrag);
     view.addEventListener('pointercancel',endDrag);
     view.addEventListener('lostpointercapture',endDrag);
-    view.addEventListener('pointerleave',e=>{if(drag&&!drag.moved)drag=null});
-    if('ResizeObserver' in window)new ResizeObserver(measure).observe(view);else addEventListener('resize',measure);
-    mobile.addEventListener?.('change',measure);
+    view.addEventListener('pointerleave',()=>{if(drag&&!drag.moved)drag=null});
+    view.addEventListener('click',e=>{if(Date.now()<suppressUntil){e.preventDefault();e.stopImmediatePropagation()}},true);
+    function scheduleMeasure(){cancelAnimationFrame(resizeFrame);resizeFrame=requestAnimationFrame(measure)}
+    if('ResizeObserver' in window){const ro=new ResizeObserver(scheduleMeasure);[view,header,intro,dock].forEach(el=>ro.observe(el));}
+    addEventListener('resize',scheduleMeasure);
     reduced.addEventListener?.('change',()=>{if(reduced.matches)setMode(false)});
   }
   const dialog=document.querySelector('.im-dialog');
@@ -107,7 +127,6 @@
   large?.addEventListener('load',()=>{if(opener)caption.textContent=opener.querySelector('img').alt});
   view.querySelectorAll('.im-photo').forEach(link=>{
     link.addEventListener('click',e=>{
-      if(Date.now()<suppressUntil){e.preventDefault();return}
       if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!dialog||!large||!caption||!close||dialog.open||typeof dialog.showModal!=='function')return;
       e.preventDefault();
       opener=link;

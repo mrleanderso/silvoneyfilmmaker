@@ -231,3 +231,16 @@ test('galeria oferece os três ambientes sem JavaScript',async({browser})=>{
   for(let i=0;i<3;i++)await expect(page.locator('#room-'+i)).toBeVisible();
   await context.close();
 });
+
+test('imersão ocupa toda a tela e a quarta parede leva às coberturas',async({page})=>{
+  await page.goto('/imersao.html');
+  const viewport=page.locator('#im-viewport');
+  await expect(viewport).toHaveAttribute('data-mode','3d');
+  expect(await viewport.evaluate(el=>{const r=el.getBoundingClientRect();return Math.abs(r.width-innerWidth)<2&&Math.abs(r.height-innerHeight)<2&&document.documentElement.scrollHeight<=innerHeight+2})).toBeTruthy();
+  await page.locator('[data-room="3"]').click();
+  await expect(page.locator('#im-title')).toHaveText('Seu registro');
+  await expect(page.locator('#room-3 .im-cta')).toHaveAttribute('href','partos.html#cobertura');
+  await expect.poll(()=>page.locator('#room-3 .im-cta').evaluate(el=>{const r=el.getBoundingClientRect();return el.contains(document.elementFromPoint(r.x+r.width/2,r.y+r.height/2))})).toBeTruthy();
+  await page.locator('#room-3 .im-cta').click();
+  await expect(page).toHaveURL(/partos\.html#cobertura$/);
+});

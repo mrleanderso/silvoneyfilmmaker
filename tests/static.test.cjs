@@ -85,3 +85,11 @@ test('imersão mantém seis fotos e alternativa nativa',()=>{
   assert.match(pages['partos.html'],/href="imersao.html"/);
   assert.match(pages['links.html'],/href="\/imersao.html"/);
 });
+
+test('imersão integral tem quatro paredes navegáveis e orçamento',()=>{
+  const html=pages['imersao.html'];
+  assert.equal((html.match(/data-room="\d+"/g)||[]).length,4);
+  assert.match(html,/id="room-3"/);
+  assert.match(html,/class="im-cta" href="partos.html#cobertura"/);
+  assert.match(read('css/immersion.css'),/\.im-immersive \.im-viewport\[data-mode="3d"\]\{position:fixed;inset:0/);
+});

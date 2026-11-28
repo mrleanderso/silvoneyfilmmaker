@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#101010">
   <meta name="description" content="Uma galeria virtual em três dimensões com fotografias reais de nascimento, por Silvoney Filmmaker.">
   <title>Entre instantes — Galeria 3D | Silvoney Filmmaker</title>
@@ -13,35 +13,28 @@
   <meta property="og:url" content="https://silvoneyfilmmaker.vercel.app/imersao.html">
   <meta property="og:image" content="https://silvoneyfilmmaker.vercel.app/assets/capa-compartilhamento-2026.jpg">
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/css/immersion.css?v=2">
-  <script src="/js/immersion.js?v=2" defer></script>
+  <link rel="stylesheet" href="/css/immersion.css?v=3">
+  <script src="/js/immersion.js?v=3" defer></script>
 </head>
 <body>
   <a class="im-skip" href="#visita">Ir para a galeria</a>
   <header class="im-header im-wrap">
     <a class="im-mark" href="index.html" aria-label="Silvoney Filmmaker, início">SILVONEY <span>FILMMAKER</span></a>
-    <a class="im-back" href="partos.html#experiencia">← Voltar ao portfólio</a>
+    <div class="im-header-actions">
+      <button type="button" class="im-mode" aria-pressed="false" hidden>Entrar em 3D</button>
+      <a class="im-back" href="partos.html#experiencia" aria-label="Voltar ao portfólio">← Voltar</a>
+    </div>
   </header>
   <main class="im-wrap" id="visita">
     <div class="im-intro">
       <div><p class="im-eyebrow">EXPOSIÇÃO VIRTUAL / 01</p><h1>Entre <em>instantes.</em></h1></div>
-      <p>Uma visita à memória do nascimento, em três ambientes. Fotografias reais, por Silvoney Martins.</p>
+      <p>Uma visita à memória do nascimento em uma sala virtual. Fotografias reais, por Silvoney Martins.</p>
     </div>
     <section class="im-gallery" aria-label="Galeria virtual de nascimento">
-      <div class="im-toolbar" hidden>
-        <div class="im-stops" role="group" aria-label="Escolha um ambiente">
-          <button type="button" data-room="0" aria-pressed="true"><span aria-hidden="true">01</span>O encontro</button>
-          <button type="button" data-room="1" aria-pressed="false"><span aria-hidden="true">02</span>Os detalhes</button>
-          <button type="button" data-room="2" aria-pressed="false"><span aria-hidden="true">03</span>A família</button>
-        </div>
-        <button type="button" class="im-mode" aria-pressed="false">Vista plana</button>
-      </div>
-      <p class="im-help" id="im-help" hidden>Arraste para girar ou escolha um ambiente. Toque em uma foto para ampliar.</p>
       <div class="im-viewport" id="im-viewport" aria-label="Espaço da exposição" aria-describedby="im-help">
         <div class="im-world">
           <div class="im-floor" aria-hidden="true"></div>
           <div class="im-ceiling" aria-hidden="true"></div>
-          <div class="im-wall im-wall--entry" aria-hidden="true"><span>SILVONEY<br><small>FILMMAKER</small></span></div>
           <article class="im-wall im-wall--0" id="room-0" aria-labelledby="room-title-0">
             <div class="im-art">
               <a class="im-photo im-photo--0" href="assets/ensaios/foto-49.webp" draggable="false"><img draggable="false" src="assets/ensaios/foto-49.webp" alt="Recém-nascido no colo da mãe" width="1280" height="1025" fetchpriority="high" decoding="async"></a>
@@ -63,14 +56,25 @@
             </div>
             <div class="im-wall-label"><h2 id="room-title-2">03 / A família</h2><p>O início de uma história compartilhada.</p></div>
           </article>
+          <section class="im-wall im-wall--entry im-end" id="room-3" aria-labelledby="room-title-3">
+            <div class="im-room-caption"><h2 id="room-title-3">O próximo instante é seu.</h2><p>Conheça as coberturas de parto e converse comigo sobre o seu registro.</p></div>
+            <a class="im-cta" href="partos.html#cobertura">Conhecer coberturas <span aria-hidden="true">↗</span></a>
+          </section>
         </div>
       </div>
-      <div class="im-status" role="status" aria-live="polite" hidden><span id="im-count">01 / 03</span><span id="im-title">O encontro</span></div>
+      <div class="im-dock">
+        <div class="im-status" role="status" aria-live="polite" hidden><span id="im-count">01 / 04</span><span id="im-title">O encontro</span></div>
+        <p class="im-help" id="im-help" hidden>Arraste para girar. Toque nas fotos para ampliar.</p>
+        <div class="im-toolbar" hidden>
+          <div class="im-stops" role="group" aria-label="Escolha um ambiente">
+            <button type="button" data-room="0" aria-pressed="true"><span aria-hidden="true">01</span>O encontro</button>
+            <button type="button" data-room="1" aria-pressed="false"><span aria-hidden="true">02</span>Os detalhes</button>
+            <button type="button" data-room="2" aria-pressed="false"><span aria-hidden="true">03</span>A família</button>
+            <button type="button" data-room="3" aria-pressed="false"><span aria-hidden="true">04</span>Seu registro</button>
+          </div>
+        </div>
+      </div>
       <noscript><p class="im-note">As fotografias estão disponíveis na vista plana. Selecione uma imagem para abrir o arquivo original.</p></noscript>
-    </section>
-    <section class="im-end">
-      <div><h2>O próximo instante é seu.</h2><p>Conheça as coberturas de parto e converse comigo sobre o seu registro.</p></div>
-      <a class="im-cta" href="partos.html#cobertura">Conhecer coberturas <span aria-hidden="true">↗</span></a>
     </section>
   </main>
   <footer class="im-footer im-wrap"><span>Silvoney Filmmaker · Cuiabá e região</span><a href="https://www.instagram.com/silvoneyfilmmaker/" target="_blank" rel="noopener noreferrer">Instagram ↗</a></footer>
