@@ -110,3 +110,7 @@ body .sf-welcome-note{font-size:10px;letter-spacing:.025em;color:#666;text-align
 @media(max-width:600px){body .sf-tour-welcome.sf-welcome-editorial{width:min(344px,calc(100% - 24px));padding:11px 15px 12px}body .sf-welcome-editorial h2{font-size:24px}body .sf-welcome-editorial .sf-welcome-description{font-size:12px;margin-bottom:9px}}
 @media(max-height:490px){body .sf-tour-welcome.sf-welcome-editorial{max-height:calc(100dvh - 44px);overflow:auto}}
 @media(prefers-reduced-motion:no-preference){body .sf-welcome-editorial:not([hidden]){animation:sf-welcome-in .28s ease-out both}@keyframes sf-welcome-in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}}
+
+/* Light editorial surface: explicit contrast for the portfolio trigger. */
+body.birth-page .sf-film-inline .sf-tour-trigger.sf-tour-invite{color:#fff;background:#111;border:1px solid #111;box-shadow:none;padding:10px 15px;min-height:48px;text-decoration:none;border-radius:3px;font-size:15px;max-width:100%}body.birth-page .sf-film-inline .sf-tour-trigger.sf-tour-invite:hover{color:#fff;background:#333;border-color:#333}body.birth-page .sf-film-inline .sf-tour-trigger.sf-tour-invite:focus-visible{outline:2px solid #111;outline-offset:4px}body.birth-page .sf-film-inline .sf-tour-trigger.sf-tour-invite svg{color:inherit;flex:none}body.birth-page .sf-film-inline .sf-tour-trigger.sf-tour-invite svg:last-child{display:none}
+body .sf-cinema [hidden]{display:none!important}
