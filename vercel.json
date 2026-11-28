@@ -3,6 +3,62 @@
     {
       "source": "/links",
       "destination": "/links.html"
+    },
+    {
+      "source": "/analytics.css",
+      "destination": "/css/analytics.css"
+    },
+    {
+      "source": "/contact-access.css",
+      "destination": "/css/contact-access.css"
+    },
+    {
+      "source": "/conversion.css",
+      "destination": "/css/conversion.css"
+    },
+    {
+      "source": "/editorial.css",
+      "destination": "/css/editorial.css"
+    },
+    {
+      "source": "/ensaios.css",
+      "destination": "/css/ensaios.css"
+    },
+    {
+      "source": "/home.css",
+      "destination": "/css/home.css"
+    },
+    {
+      "source": "/links.css",
+      "destination": "/css/links.css"
+    },
+    {
+      "source": "/portfolio.css",
+      "destination": "/css/portfolio.css"
+    },
+    {
+      "source": "/site-shell.css",
+      "destination": "/css/site-shell.css"
+    },
+    {
+      "source": "/tour.css",
+      "destination": "/css/tour.css"
+    },
+    {
+      "source": "/style.css",
+      "destination": "/css/portfolio-base.css"
+    },
+    {
+      "source": "/analytics-config.js",
+      "destination": "/js/analytics-config.js"
+    },
+    {
+      "source": "/analytics.js",
+      "destination": "/js/analytics.js"
+    },
+    {
+      "source": "/tour.js",
+      "destination": "/js/tour.js"
     }
   ],
   "headers": [

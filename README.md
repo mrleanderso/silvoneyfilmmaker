@@ -4,15 +4,49 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 
 ## Organização
 
-- HTML na raiz; arquivos de mídia em assets/.
-- js/navigation.js: menu e foco; js/gallery.js: galeria de partos.
-- js/ensaios.js: álbuns de ensaios; js/motion.js: animações.
-- js/album3d.js: álbum interativo; js/booking.js: opções e orçamento.
-- css/motion.css, css/booking.css e css/album3d.css: estilos dos módulos.
-- js/cinema.js e css/cinema.css: abertura editorial e galeria em perspectiva (CSS 3D, sem biblioteca externa).
-- css/partos.css: navegação contextual, confiança e modos do portfólio na página Partos.
-- CSS anterior permanece enquanto não houver comparação visual de todas as páginas.
-- Scripts antigos não são carregados pelas seis páginas atuais, mas foram preservados no histórico e na raiz para revisão de dependências externas.
+```text
+/
+├── index.html           # Início
+├── partos.html          # Portfólio de nascimento
+├── ensaios.html         # Ensaios e retratos
+├── sobre.html           # Sobre o fotógrafo
+├── contato.html         # Contato e orçamento
+├── links.html           # Links da bio
+├── assets/              # Fotografias, marcas e miniaturas
+├── css/                 # Estilos
+├── js/                  # Interações e Analytics
+├── tests/               # Testes estáticos e de navegador
+├── robots.txt
+├── sitemap.xml
+└── vercel.json
+```
+
+### CSS
+
+| Arquivo | Responsabilidade |
+|---|---|
+| home.css | Base visual das páginas editoriais e Início |
+| portfolio-base.css | Base histórica das páginas Partos e Ensaios |
+| site-shell.css | Cabeçalho, navegação e estrutura compartilhada |
+| editorial.css | Composição editorial compartilhada |
+| partos.css / ensaios.css / portfolio.css / links.css | Layouts específicos |
+| cinema.css / album3d.css / motion.css | Experiências fotográficas e movimento |
+| booking.css / conversion.css / contact-access.css | Orçamento e acesso ao contato |
+| tour.css / analytics.css | Tour e privacidade |
+
+### JavaScript
+
+| Arquivo | Responsabilidade |
+|---|---|
+| navigation.js | Menu e foco |
+| gallery.js / ensaios.js | Visualizadores e álbuns |
+| cinema.js / album3d.js | Portfólio em perspectiva e livro 3D |
+| motion.js | Movimento e visibilidade do atalho de contato |
+| booking.js | Coberturas e orçamento |
+| tour.js | Tour fotográfico |
+| analytics-config.js / analytics.js | Configuração, consentimento e eventos |
+
+Todos os CSS e JS de produção ficam nas suas pastas. As seis páginas continuam na raiz para manter suas URLs. A configuração da Vercel mantém compatibilidade com os caminhos antigos dos recursos ativos; os arquivos legados removidos continuam recuperáveis no histórico Git. A ordem de carregamento dos estilos foi preservada.
 
 ## Testes
 
@@ -31,7 +65,7 @@ Valide também em Safari/iPhone e Chrome/Android físicos, inclusive navegador i
 
 ## Analytics
 
-Não ativar analytics-config.js até confirmar o ID GA4, consentimento e desativação da medição otimizada automática de links externos e formulários. Não enviar tipo de parto, previsão, maternidade ou texto da conversa ao Analytics. Configurar eventos como cliques, não como confirmação de contrato.
+Não ativar js/analytics-config.js até confirmar o ID GA4, consentimento e desativação da medição otimizada automática de links externos e formulários. Não enviar tipo de parto, previsão, maternidade ou texto da conversa ao Analytics. Configurar eventos como cliques, não como confirmação de contrato.
 
 ## Decisões de experiência
 

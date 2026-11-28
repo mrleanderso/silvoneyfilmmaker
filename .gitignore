@@ -1,0 +1,15 @@
+# Dependências e relatórios locais
+node_modules/
+playwright-report/
+test-results/
+coverage/
+.cache/
+
+# Configuração local
+.vercel/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+*.log

@@ -1,4 +1,0 @@
-Silvoney Filmmaker — Fine Art Monocromático
-Site estático. Publique esta pasta como projeto na Vercel (sem framework, sem comando de build).
-Após definir o domínio, substitua os valores de og:image e twitter:image em index.html pelo endereço HTTPS absoluto de assets/compartilhamento.jpg. Confirme a autorização das famílias para publicação de fotos.
-O contato abre WhatsApp; o site não confirma reservas. Nenhum vídeo foi acrescentado.

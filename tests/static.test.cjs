@@ -51,3 +51,15 @@ test('cobertura opcional e orçamento em um único link',()=>{
   for(const n of [birth,month,hospital])n.value='';
   plan.fire('input');assert.doesNotMatch(decodeURIComponent(send.href),/Tipo de parto:|Previsão:|Maternidade:|Cobertura:/);
 });
+
+test('CSS e JavaScript de produção estão nas pastas corretas',()=>{
+  const entries=fs.readdirSync(root,{withFileTypes:true});
+  assert.deepEqual(entries.filter(x=>x.isFile()&&/\.(css|js)$/.test(x.name)).map(x=>x.name),[]);
+  for(const [page,html] of Object.entries(pages)){
+    for(const m of html.matchAll(/\b(?:src|href)="([^"]+\.(?:css|js)(?:\?[^"]*)?)"/g)){
+      const ref=m[1].split('?')[0];
+      if(/^https?:/i.test(ref))continue;
+      assert.match(ref,ref.endsWith('.css')?/^\/css\//:/^\/js\//,page+': '+ref);
+    }
+  }
+});
