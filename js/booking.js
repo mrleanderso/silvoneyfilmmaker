@@ -48,7 +48,11 @@
   }
   function select(id, syncPlan = true) {
     const option = options.find(o => o.id === id);
-    buttons.forEach(b => b.setAttribute('aria-pressed',String(b.dataset.sfChoice === id)));
+    buttons.forEach(b => {
+      const selected = b.dataset.sfChoice === id;
+      b.setAttribute('aria-pressed',String(selected));
+      b.textContent = selected ? 'Cobertura selecionada ✓' : 'Selecionar cobertura →';
+    });
     if (preview && title && desc && contact) {
       preview.hidden = !option;
       if (option) {
@@ -77,7 +81,15 @@
   if (!buttons.length || !preview || !title || !desc || !contact) return;
   buttons.forEach(button => {
     button.hidden = false;
-    button.addEventListener('click', () => select(button.dataset.sfChoice));
+    button.addEventListener('click', () => {
+      select(button.dataset.sfChoice);
+      if (matchMedia('(max-width:820px)').matches && preview.scrollIntoView) {
+        const bounds=preview.getBoundingClientRect();
+        if(bounds.bottom>innerHeight || bounds.top<0) {
+          preview.scrollIntoView({block:'nearest',behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});
+        }
+      }
+    });
   });
   root.querySelectorAll('[data-coverage-direct]').forEach(a => {a.hidden = true;});
 })();

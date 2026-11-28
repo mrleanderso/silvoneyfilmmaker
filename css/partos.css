@@ -18,10 +18,10 @@
 .birth-portfolio-count {font:400 13px/1.4 system-ui,sans-serif;color:#555;margin:0}
 .birth-view-switch {display:flex;border:1px solid #111;border-radius:3px;padding:3px;gap:3px}
 .birth-view-switch[hidden],#sf-gallery-panel[hidden],.sf-book-experience[hidden] {display:none!important}
-.birth-view-switch button {border:0;background:#fff;color:#111;font:500 13px/1.4 system-ui,sans-serif;min-height:44px;padding:9px 17px;cursor:pointer}
+.birth-view-switch button {width:auto;min-width:0;border:0;background:#fff;color:#111;font:500 13px/1.4 system-ui,sans-serif;min-height:44px;padding:9px 17px;cursor:pointer}
 .birth-view-switch button[aria-pressed=true] {background:#111;color:#fff}
 .birth-tour-note {font:400 12px/1.5 system-ui,sans-serif;color:#555;margin-top:8px}
-.birth-page .sf-coverage-note a {text-underline-offset:3px}
+.birth-page .birth-coverage-note a {text-underline-offset:3px}
 @media(max-width:820px) {
   .birth-page .birth-trust {padding-block:14px}
   .birth-trust>div {flex-direction:column;gap:7px;text-align:center;padding:5px}
@@ -30,7 +30,7 @@
   .birth-local-nav {gap:4px 16px}
   .birth-portfolio-toolbar {margin-top:18px}
   .birth-view-switch {width:100%}
-  .birth-view-switch button {flex:1}
+  .birth-view-switch button {flex:1;width:auto}
 }
 @media(max-width:360px) {
   .birth-trust small {display:none}
