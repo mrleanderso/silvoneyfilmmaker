@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://silvoneyfilmmaker.vercel.app/sitemap.xml
