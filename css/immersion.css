@@ -52,8 +52,6 @@ h1 em{font-weight:400;color:#c9c7c2}
 .im-wall--1{--wall-angle:90deg}
 .im-wall--2{--wall-angle:180deg}
 .im-wall--entry{--wall-angle:270deg}
-.im-viewport[data-mode="3d"] .im-wall--entry span{color:#dedbd4;font:400 58px/1.1 var(--display);letter-spacing:.16em;text-align:center}
-.im-wall--entry small{font:400 18px/1 system-ui,sans-serif;letter-spacing:.35em}
 .im-viewport[data-mode="3d"] .im-art{width:var(--art-width);height:76%;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:38px;align-items:center;justify-items:center;transform:translateZ(2px)}
 .im-viewport[data-mode="3d"] .im-photo{display:grid;place-items:center;width:100%;height:100%;max-height:100%;min-height:0;position:relative}
 .im-viewport[data-mode="3d"] .im-photo img{width:auto;height:auto;max-width:100%;max-height:calc(var(--wall-height) * .72);border:9px solid #e6e3dc;box-shadow:0 4px 0 #77736a,0 15px 28px #1118;background:#e6e3dc}
