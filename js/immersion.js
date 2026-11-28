@@ -44,6 +44,7 @@
     drag=null;
     view.classList.remove('is-dragging');
     view.dataset.mode=active?'3d':'flat';
+    toolbar.classList.toggle('is-flat',!active);
     mode.setAttribute('aria-pressed',String(!active));
     mode.textContent=active?'Vista plana':'Vista 3D';
     help.hidden=!active;
@@ -65,8 +66,10 @@
         select(e.key==='Home'?0:e.key==='End'?2:Math.max(0,Math.min(2,current+(e.key==='ArrowRight'?1:-1))));
       }
     });
+    view.addEventListener('dragstart',e=>{if(active)e.preventDefault()});
     view.addEventListener('pointerdown',e=>{
       if(!active||!e.isPrimary||e.button!==0)return;
+      suppressUntil=0;
       drag={id:e.pointerId,x:e.clientX,y:e.clientY,angle,moved:false};
     });
     view.addEventListener('pointermove',e=>{
@@ -101,10 +104,11 @@
   const caption=dialog?.querySelector('.im-dialog-caption');
   const close=dialog?.querySelector('.im-close');
   let opener=null;
+  large?.addEventListener('load',()=>{if(opener)caption.textContent=opener.querySelector('img').alt});
   view.querySelectorAll('.im-photo').forEach(link=>{
     link.addEventListener('click',e=>{
       if(Date.now()<suppressUntil){e.preventDefault();return}
-      if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!dialog||typeof dialog.showModal!=='function')return;
+      if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||!dialog||!large||!caption||!close||dialog.open||typeof dialog.showModal!=='function')return;
       e.preventDefault();
       opener=link;
       const img=link.querySelector('img');
@@ -116,6 +120,7 @@
   });
   if(dialog&&close){
     close.addEventListener('click',()=>dialog.close());
+    large?.addEventListener('error',()=>{caption.textContent='Não foi possível carregar esta imagem. Feche e tente novamente.'});
     dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));
   }
 })();

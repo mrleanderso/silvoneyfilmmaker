@@ -66,3 +66,9 @@
 }
 @media(max-width:360px) {.sf-exhibit .sf-exhibit-index a {flex-direction:column;gap:2px}}
 @media(prefers-reduced-motion:reduce) {.sf-exhibit-print {transform:none!important}}
+
+/* Convite opcional à sala virtual independente. */
+.sf-exhibit-heading>div:last-child{max-width:30ch}
+.sf-exhibit-heading .im-invite{display:inline-flex;align-items:center;min-height:44px;text-decoration:underline;text-underline-offset:4px;color:inherit;font-size:14px}
+.sf-exhibit-heading>div:last-child p{margin:0;color:var(--exhibit-muted);font-size:14px}
+@media(max-width:820px){.sf-exhibit-heading>div:last-child{margin-top:12px}}

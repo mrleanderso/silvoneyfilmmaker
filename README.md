@@ -84,3 +84,5 @@ A exposição usa três momentos contínuos, índice de links nativos, composiç
 ## Entre instantes
 
 Galeria virtual independente em /imersao.html: sala com quatro paredes, piso e teto em CSS 3D, câmera com três posições e arraste horizontal, seis imagens originais e ampliação. Vista plana nativa disponível sem JavaScript e por preferência de movimento reduzido. Sem WebGL, bibliotecas ou fontes remotas. A experiência não altera a jornada comercial de Partos.
+
+Validação desta versão: geometria da sala reproduzida em Chromium, oito larguras de 320 a 1440 px, três posições (24 cenários) com imagens de teste nas dimensões originais. Após limitar a altura real dos quadros, as duas imagens de cada posição ficaram nos limites e tiveram seus centros clicáveis. O navegador da Vercel e dispositivos físicos não foram validados.

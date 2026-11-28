@@ -209,3 +209,25 @@ test('imersão respeita movimento reduzido',async({page})=>{
   await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','flat');
   await expect(page.locator('#room-2')).toBeVisible();
 });
+
+test('fotografias da sala 3D ficam dentro da área visível',async({page})=>{
+  await page.goto('/imersao.html');
+  for(let i=0;i<3;i++){
+    await page.locator('[data-room="'+i+'"]').click();
+    await expect.poll(()=>page.locator('#room-'+i+' img').evaluateAll(images=>{
+      const view=document.querySelector('#im-viewport').getBoundingClientRect();
+      return images.every(img=>{
+        const r=img.getBoundingClientRect();
+        return img.complete&&img.naturalWidth>0&&r.width>60&&r.height>60&&r.left>=view.left-2&&r.right<=view.right+2&&r.top>=view.top-2&&r.bottom<=view.bottom+2&&document.elementFromPoint(r.left+r.width/2,r.top+r.height/2)===img;
+      });
+    })).toBeTruthy();
+  }
+});
+test('galeria oferece os três ambientes sem JavaScript',async({browser})=>{
+  const context=await browser.newContext({javaScriptEnabled:false});
+  const page=await context.newPage();
+  await page.goto('http://127.0.0.1:4173/imersao.html');
+  await expect(page.locator('.im-toolbar')).not.toBeVisible();
+  for(let i=0;i<3;i++)await expect(page.locator('#room-'+i)).toBeVisible();
+  await context.close();
+});
