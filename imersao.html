@@ -13,11 +13,12 @@
   <meta property="og:url" content="https://silvoneyfilmmaker.vercel.app/imersao.html">
   <meta property="og:image" content="https://silvoneyfilmmaker.vercel.app/assets/capa-compartilhamento-2026.jpg">
   <link rel="icon" href="assets/favicon.png" type="image/png">
-  <link rel="stylesheet" href="/css/immersion.css?v=7">
-  <script src="/js/film-reel.js?v=1" defer></script>
-  <script src="/js/immersion.js?v=6" defer></script>
+  <link rel="stylesheet" href="/css/immersion.css?v=8">
+  <script src="/js/film-reel.js?v=2" defer></script>
+  <script src="/js/immersion.js?v=7" defer></script>
 </head>
 <body>
+  <audio id="score" src="/assets/entre-instantes.mp3" loop preload="auto" playsinline></audio>
   <a class="im-skip" href="#visita">Ir para o conteúdo</a>
   <main class="im-stage" id="visita" data-scene="0">
     <div class="im-orbits" aria-hidden="true"><i></i><i></i><i></i></div>
@@ -86,15 +87,17 @@
         </div>
       </section>
     </div>
-    <section class="film-reel" aria-label="Filme fotográfico interativo" hidden>
-      <div class="film-window"><div class="film-ring"></div></div>
+    <div class="film-reel" hidden>
+      <div class="film-window" aria-label="Fotografias do nascimento"><div class="film-ring"></div><div class="film-loupe" aria-hidden="true" hidden></div></div>
       <div class="film-console">
-        <button type="button" class="film-prev" aria-label="Foto anterior">‹</button>
-        <div class="film-caption" role="status"></div>
-        <button type="button" class="film-next" aria-label="Próxima foto">›</button>
+        <div class="film-tools">
+          <button class="film-play" type="button" aria-pressed="false">▷ Assistir sequência</button>
+          <button class="film-lens" type="button" aria-pressed="false">Lupa</button>
+          <button class="film-open" type="button">Ver foto inteira</button>
+        </div>
+        <div class="film-strip" aria-label="Escolher fotografia"></div>
       </div>
-      <p class="film-hint">Arraste para girar · Toque na foto para ampliar</p>
-    </section>
+    </div>
     <nav class="im-dock" aria-label="Capítulos" hidden>
       <div class="im-meta"><span id="im-progress-text" role="status">01 / 04 · O encontro</span><span>Entre instantes · Silvoney Filmmaker</span></div>
       <div class="im-progress">

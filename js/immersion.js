@@ -5,7 +5,7 @@
   const scenes=[...root.querySelectorAll('.im-scene')], nav=[...root.querySelectorAll('[data-scene-go]')];
   const mode=root.querySelector('#im-mode'), sound=root.querySelector('#im-sound'), dock=root.querySelector('.im-dock'), progress=root.querySelector('#im-progress-text');
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-  let current=0, flat=false, frame=0, point=null, context=null, voices=[], timer=0, master=null, playing=false, audioRequest=0;
+  let current=0, flat=false, frame=0, point=null;
   const names=['O encontro','Os detalhes','A família','Seu registro'];
   const reel=createFilmReel(root, index=>select(Math.floor(index/2)));
   function resetMotion(){cancelAnimationFrame(frame);frame=0;point=null;for(const key of ['--mx','--my','--dx','--dy','--rx','--ry'])root.style.removeProperty(key)}
@@ -19,10 +19,35 @@
   function followPointer(e){if(flat||reduced.matches)return;const r=root.getBoundingClientRect();point=[Math.max(0,Math.min(1,(e.clientX-r.left)/r.width)),Math.max(0,Math.min(1,(e.clientY-r.top)/r.height))];if(frame)return;frame=requestAnimationFrame(()=>{frame=0;if(!point)return;const [x,y]=point;root.style.setProperty('--mx',x*100+'%');root.style.setProperty('--my',y*100+'%');root.style.setProperty('--dx',(x-.5)*12+'px');root.style.setProperty('--dy',(y-.5)*10+'px');root.style.setProperty('--rx',(y-.5)*-8+'deg');root.style.setProperty('--ry',(x-.5)*10+'deg')})}
   root.addEventListener('pointermove',followPointer);root.addEventListener('pointerdown',followPointer);
   root.addEventListener('pointerleave',resetMotion);root.addEventListener('pointercancel',resetMotion);
-  // Original ambient sound, synthesized locally; never autoplay.
-  function stopSound(){audioRequest++;playing=false;clearInterval(timer);timer=0;for(const v of voices){try{v.stop()}catch{}}voices=[];if(master){master.disconnect();master=null}if(context?.state==='running')context.suspend().catch(()=>{});sound.textContent='Som desligado';sound.setAttribute('aria-pressed','false')}
-  sound.addEventListener('click',async()=>{if(playing||sound.dataset.loading){stopSound();delete sound.dataset.loading;return}const request=++audioRequest;try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('unsupported');context??=new Audio();sound.dataset.loading='1';await context.resume();if(request!==audioRequest){if(context.state==='running'&&!playing)context.suspend().catch(()=>{});return}master=context.createGain();master.gain.value=.055;master.connect(context.destination);let step=0;const tones=[261.63,329.63,392,523.25,440,329.63,293.66,392];function note(){if(!playing||!master)return;const t=context.currentTime,o=context.createOscillator(),g=context.createGain();o.type='sine';o.frequency.value=tones[step++%tones.length];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.28,t+.7);g.gain.exponentialRampToValueAtTime(.001,t+3.8);o.connect(g);g.connect(master);o.start(t);o.stop(t+4);voices.push(o);o.onended=()=>{voices=voices.filter(v=>v!==o);o.disconnect();g.disconnect()}}playing=true;note();timer=setInterval(note,1800);sound.textContent='Som ligado';sound.setAttribute('aria-pressed','true')}catch{stopSound();delete sound.dataset.loading;sound.textContent='Som indisponível'}finally{if(request===audioRequest)delete sound.dataset.loading}});
-  document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSound();delete sound.dataset.loading;resetMotion()}});addEventListener('pagehide',stopSound);
+  const score=document.getElementById('score');
+  let muted=false;
+  try { muted=sessionStorage.getItem('sf-score-muted')==='yes'; } catch {}
+  // The master level is also baked into the recording for mobile volume controls.
+  score.volume=.42;
+  function soundLabel(){
+    sound.textContent=muted?'Som desligado':score.paused?'Ativar som':'Som baixo';
+    sound.setAttribute('aria-pressed', String(!muted && !score.paused));
+  }
+  function startScore(){
+    if(!muted && !document.hidden && score.paused)score.play().catch(soundLabel);
+  }
+  sound.addEventListener('click',()=>{
+    muted=!score.paused && !muted;
+    try {sessionStorage.setItem('sf-score-muted',muted?'yes':'no')} catch {}
+    if(muted)score.pause();else startScore();
+    soundLabel();
+  });
+  for(const type of ['playing','pause','error'])score.addEventListener(type,soundLabel);
+  function startOnGesture(e){if(!sound.contains(e.target))startScore()}
+  document.addEventListener('click',startOnGesture);
+  document.addEventListener('pointerup',startOnGesture);
+  document.addEventListener('keydown',startOnGesture);
+  document.addEventListener('visibilitychange',()=>{
+    if(document.hidden){score.pause();resetMotion()}else startScore();
+  });
+  addEventListener('pagehide',()=>score.pause());
+  addEventListener('pageshow',startScore);
+  soundLabel();startScore();
   const chat=root.querySelector('.im-chat'), message=chat.querySelector('.im-chat-message'), choices=chat.querySelector('.im-chat-choices'), answer=chat.querySelector('.im-chat-answer'), send=chat.querySelector('.im-send'), restart=chat.querySelector('.im-reset');
   let kind='',service='',favorite='';
   const choice=chat.querySelector('.film-choice');
