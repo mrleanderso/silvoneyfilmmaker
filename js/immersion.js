@@ -7,8 +7,9 @@
   const reduced=matchMedia('(prefers-reduced-motion: reduce)');
   let current=0, flat=false, frame=0, point=null, context=null, voices=[], timer=0, master=null, playing=false, audioRequest=0;
   const names=['O encontro','Os detalhes','A família','Seu registro'];
+  const reel=createFilmReel(root, index=>select(Math.floor(index/2)));
   function resetMotion(){cancelAnimationFrame(frame);frame=0;point=null;for(const key of ['--mx','--my','--dx','--dy','--rx','--ry'])root.style.removeProperty(key)}
-  function select(i,focus=false){if(!Number.isInteger(i)||i<0||i>=scenes.length)return;current=i;root.dataset.scene=String(i);scenes.forEach((s,n)=>s.hidden=!flat&&n!==i);nav.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));progress.textContent='0'+(i+1)+' / 04 · '+names[i];resetMotion();if(focus){const h=scenes[i].querySelector('h2');h.tabIndex=-1;h.focus({preventScroll:true});scenes[i].scrollIntoView({block:'nearest',behavior:'instant'})}}
+  function select(i,focus=false){if(!Number.isInteger(i)||i<0||i>=scenes.length)return;current=i;reel.show(i,flat);root.dataset.scene=String(i);scenes.forEach((s,n)=>s.hidden=!flat&&n!==i);nav.forEach((b,n)=>b.setAttribute('aria-pressed',String(n===i)));progress.textContent='0'+(i+1)+' / 04 · '+names[i];resetMotion();if(focus){const h=scenes[i].querySelector('h2');h.tabIndex=-1;h.focus({preventScroll:true});scenes[i].scrollIntoView({block:'nearest',behavior:'instant'})}}
   function setFlat(value){flat=value;root.dataset.mode=flat?'flat':'immersive';mode.textContent=flat?'Imersão':'Vista calma';mode.setAttribute('aria-pressed',String(flat));dock.hidden=flat;select(current);root.querySelectorAll('[data-next]').forEach(b=>b.hidden=flat)}
   mode.hidden=false;sound.hidden=false;setFlat(reduced.matches);
   nav.forEach((b,i)=>b.addEventListener('click',()=>select(i,true)));
@@ -23,12 +24,34 @@
   sound.addEventListener('click',async()=>{if(playing||sound.dataset.loading){stopSound();delete sound.dataset.loading;return}const request=++audioRequest;try{const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio)throw Error('unsupported');context??=new Audio();sound.dataset.loading='1';await context.resume();if(request!==audioRequest){if(context.state==='running'&&!playing)context.suspend().catch(()=>{});return}master=context.createGain();master.gain.value=.055;master.connect(context.destination);let step=0;const tones=[261.63,329.63,392,523.25,440,329.63,293.66,392];function note(){if(!playing||!master)return;const t=context.currentTime,o=context.createOscillator(),g=context.createGain();o.type='sine';o.frequency.value=tones[step++%tones.length];g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(.28,t+.7);g.gain.exponentialRampToValueAtTime(.001,t+3.8);o.connect(g);g.connect(master);o.start(t);o.stop(t+4);voices.push(o);o.onended=()=>{voices=voices.filter(v=>v!==o);o.disconnect();g.disconnect()}}playing=true;note();timer=setInterval(note,1800);sound.textContent='Som ligado';sound.setAttribute('aria-pressed','true')}catch{stopSound();delete sound.dataset.loading;sound.textContent='Som indisponível'}finally{if(request===audioRequest)delete sound.dataset.loading}});
   document.addEventListener('visibilitychange',()=>{if(document.hidden){stopSound();delete sound.dataset.loading;resetMotion()}});addEventListener('pagehide',stopSound);
   const chat=root.querySelector('.im-chat'), message=chat.querySelector('.im-chat-message'), choices=chat.querySelector('.im-chat-choices'), answer=chat.querySelector('.im-chat-answer'), send=chat.querySelector('.im-send'), restart=chat.querySelector('.im-reset');
-  let kind='',service='';
+  let kind='',service='',favorite='';
+  const choice=chat.querySelector('.film-choice');
+  function updateChoice(){
+    choice.hidden=!favorite;
+    choice.textContent=favorite?'Momento escolhido · '+favorite:'';
+    if(!send.hidden){
+      const url=new URL(send.href);
+      const base=url.searchParams.get('text').split(' O momento que escolhi:')[0];
+      url.searchParams.set('text',base+(favorite?' O momento que escolhi: '+favorite+'.':''));
+      send.href=url.href;
+    }
+  }
   function options(items,fn){choices.replaceChildren();items.forEach(label=>{const b=document.createElement('button');b.type='button';b.textContent=label;b.addEventListener('click',()=>fn(label));choices.append(b)})}
   function summary(){answer.textContent=[kind,service].filter(Boolean).join(' · ');answer.hidden=!answer.textContent}
-  function begin(){kind=service='';summary();message.textContent='Você já sabe como será o parto?';send.hidden=true;restart.hidden=true;options(['Cesárea','Parto normal','Ainda não sei'],label=>{kind=label;summary();message.textContent='O que você gostaria de guardar desse dia?';options(['Fotografias','Filme','Fotografias e filme','Ainda quero conhecer'],label=>{service=label;summary();message.textContent='Tudo certo. Se quiser, podemos continuar pelo WhatsApp.';choices.replaceChildren();const text='Olá, Silvoney! Conheci a experiência Entre instantes e gostaria de saber mais. Tipo de parto: '+kind+'. Interesse: '+service+'.';send.href='https://wa.me/5565984010597?text='+encodeURIComponent(text);send.hidden=false;restart.hidden=false;send.focus({preventScroll:true})});choices.firstElementChild?.focus({preventScroll:true})})}
+  function begin(){kind=service='';summary();message.textContent='Você já sabe como será o parto?';send.hidden=true;restart.hidden=true;options(['Cesárea','Parto normal','Ainda não sei'],label=>{kind=label;summary();message.textContent='O que você gostaria de guardar desse dia?';options(['Fotografias','Filme','Fotografias e filme','Ainda quero conhecer'],label=>{service=label;summary();message.textContent='Tudo certo. Se quiser, podemos continuar pelo WhatsApp.';choices.replaceChildren();const text='Olá, Silvoney! Conheci a experiência Entre instantes e gostaria de saber mais. Tipo de parto: '+kind+'. Interesse: '+service+'.'+(favorite?' O momento que escolhi: '+favorite+'.':'');send.href='https://wa.me/5565984010597?text='+encodeURIComponent(text);send.hidden=false;restart.hidden=false;send.focus({preventScroll:true})});choices.firstElementChild?.focus({preventScroll:true})})}
   restart.addEventListener('click',()=>{begin();choices.firstElementChild?.focus()});chat.hidden=false;begin();
   const dialog=document.querySelector('.im-dialog'), large=dialog.querySelector('.im-large'), caption=dialog.querySelector('.im-dialog-caption');let opener=null;
-  root.querySelectorAll('.im-photo').forEach(a=>a.addEventListener('click',e=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||typeof dialog.showModal!=='function')return;e.preventDefault();opener=a;large.src=a.href;large.alt=a.querySelector('img').alt;caption.textContent=large.alt;dialog.showModal()}));
+  const save=dialog.querySelector('.film-save');
+  function updateSave(){
+    const chosen=favorite===large.alt;
+    save.setAttribute('aria-pressed',String(chosen));
+    save.textContent=chosen?'Remover escolha':'Escolher este momento';
+  }
+  save.addEventListener('click',()=>{
+    favorite=favorite===large.alt?'':large.alt;
+    updateSave();updateChoice();
+    if(favorite)dialog.close();
+  });
+  root.querySelectorAll('.im-photo').forEach(a=>a.addEventListener('click',e=>{if(e.ctrlKey||e.metaKey||e.shiftKey||e.altKey||typeof dialog.showModal!=='function')return;e.preventDefault();opener=a;large.src=a.href;large.alt=a.querySelector('img').alt;caption.textContent=large.alt;updateSave();dialog.showModal()}));
   dialog.querySelector('.im-close').addEventListener('click',()=>dialog.close());dialog.addEventListener('close',()=>opener?.focus({preventScroll:true}));large.addEventListener('error',()=>{caption.textContent='Não foi possível carregar a fotografia. Feche e tente novamente.'});large.addEventListener('load',()=>{caption.textContent=large.alt});
 })();

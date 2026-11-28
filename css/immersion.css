@@ -12,3 +12,73 @@
 @media(prefers-reduced-motion:reduce){.im-photo,.im-orbits i{transform:none!important;transition:none!important}} .im-stage[data-mode="flat"] .im-photo,.im-stage[data-mode="flat"] .im-orbits i{transform:none;transition:none}
 
 @media(prefers-reduced-motion:no-preference){.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-copy,.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-art,.im-stage[data-mode="immersive"] .im-scene:not([hidden]) .im-chat{animation:im-arrive .48s ease-out both}@keyframes im-arrive{from{opacity:.3;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}}
+
+/* A continuous six-frame strip, folded into a hexagonal reel. */
+.im-stage[data-mode="immersive"] .im-art {display:none}
+.film-reel {
+  min-width:0;
+  color:#fff1dc;
+  text-align:center;
+  container-type:inline-size;
+}
+.film-window {
+  --width:52cqw;
+  --radius:calc(var(--width) * .8660254);
+  position:relative;
+  height:clamp(210px,53cqw,400px);
+  perspective:760px;
+  overflow:hidden;
+  touch-action:pan-y pinch-zoom;
+  user-select:none;
+  cursor:grab;
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+}
+.film-window:active {cursor:grabbing}
+.film-ring {
+  position:absolute;
+  inset:5% 0;
+  margin:auto;
+  width:var(--width);
+  transform-style:preserve-3d;
+  transform:translateZ(calc(-1 * var(--radius))) rotateX(calc(-3deg + var(--rx) * .55)) rotateY(var(--angle,0deg));
+  transition:transform .55s cubic-bezier(.2,.76,.22,1);
+}
+.film-ring.dragging {transition:none}
+.film-ring .im-photo {
+  position:absolute;
+  inset:0;
+  margin:0;
+  padding:17px 5px;
+  background:#211b1b;
+  border-block:1px solid #9b7551;
+  box-shadow:inset 0 0 14px #080606;
+  backface-visibility:hidden;
+  transform:rotateY(var(--face)) translateZ(var(--radius));
+}
+.film-ring .im-photo::before,.film-ring .im-photo::after {
+  content:"";
+  position:absolute;
+  left:4px;right:4px;height:5px;
+  background:repeating-linear-gradient(90deg,#bba68f 0 7px,transparent 7px 17px);
+}
+.film-ring .im-photo::before {top:5px}
+.film-ring .im-photo::after {bottom:5px}
+.film-ring figure,.film-ring .im-photo img {width:100%;height:100%;max-height:none}
+.film-ring .im-photo img {border:0;border-radius:0;background:#0e0c0b;object-fit:contain;box-shadow:none}
+.film-ring .im-photo[inert] {filter:brightness(.48)}
+.film-ring figcaption {display:none}
+.film-console {display:flex;align-items:center;justify-content:center;gap:12px;margin-top:8px}
+.film-console button,.film-save {
+  border:1px solid #ead4bd66;background:#18141a;color:#fff2e1;
+  border-radius:100px;min-width:44px;min-height:44px;
+}
+.film-console button {font:28px/1 Georgia,serif}
+.film-caption {font:italic clamp(18px,3.5cqw,26px)/1.2 var(--display);width:min(64%,320px)}
+.film-hint {margin-top:8px;font-size:13px;color:#e6dcda}
+.film-save {display:block;padding:8px 18px;margin:0 auto 4px}
+.film-save:hover,.film-console button:hover {background:#463439}
+.film-choice {color:#ffdbac;margin-bottom:12px}
+@media(prefers-reduced-motion:reduce){
+  .film-ring {transition:none}
+  .film-ring .im-photo {transform:rotateY(var(--face)) translateZ(var(--radius))!important}
+}
