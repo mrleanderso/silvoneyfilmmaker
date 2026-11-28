@@ -12,6 +12,7 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 ├── sobre.html           # Sobre o fotógrafo
 ├── contato.html         # Contato e orçamento
 ├── links.html           # Links da bio
+├── imersao.html         # Galeria virtual Entre instantes
 ├── assets/              # Fotografias, marcas e miniaturas
 ├── css/                 # Estilos
 ├── js/                  # Interações e Analytics
@@ -45,7 +46,7 @@ Site estático em HTML, CSS e JavaScript. URLs públicas preservadas, incluindo 
 | booking.js | Coberturas e orçamento |
 | analytics-config.js / analytics.js | Configuração, consentimento e eventos |
 
-Todos os CSS e JS de produção ficam nas suas pastas. As seis páginas continuam na raiz para manter suas URLs. A configuração da Vercel mantém compatibilidade com os caminhos antigos dos recursos ativos; os arquivos legados removidos continuam recuperáveis no histórico Git. A ordem de carregamento dos estilos foi preservada.
+Todos os CSS e JS de produção ficam nas suas pastas. As páginas existentes continuam na raiz para manter suas URLs. A configuração da Vercel mantém compatibilidade com os caminhos antigos dos recursos ativos; os arquivos legados removidos continuam recuperáveis no histórico Git. A ordem de carregamento dos estilos foi preservada.
 
 ## Testes
 
@@ -79,3 +80,7 @@ Antes de alterar layout, execute os testes e compare as seis páginas em 320, 39
 A galeria de Partos oferece ampliação nativa sem JavaScript. A página Ensaios mantém URLs de álbuns, histórico, foco e recuperação de falhas. O contato mobile prioriza as ações de contratação. A exposição não exige modal nem reprodução automática. As imagens de capa não têm animação de entrada que atrase sua apresentação. Consulte `docs/auditoria-ux.md` para decisões e limites da revisão.
 
 A exposição usa três momentos contínuos, índice de links nativos, composição editorial alternada, movimento espacial discreto vinculado à rolagem e proporções próprias no celular. Não há carrossel, rolagem forçada ou dependência externa.
+
+## Entre instantes
+
+Galeria virtual independente em /imersao.html: sala com quatro paredes, piso e teto em CSS 3D, câmera com três posições e arraste horizontal, seis imagens originais e ampliação. Vista plana nativa disponível sem JavaScript e por preferência de movimento reduzido. Sem WebGL, bibliotecas ou fontes remotas. A experiência não altera a jornada comercial de Partos.

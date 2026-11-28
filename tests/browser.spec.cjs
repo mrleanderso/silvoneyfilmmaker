@@ -1,5 +1,5 @@
 const {test,expect}=require('@playwright/test');
-const pages=['/','/partos.html','/ensaios.html','/sobre.html','/contato.html','/links'];
+const pages=['/','/partos.html','/ensaios.html','/sobre.html','/contato.html','/links','/imersao.html'];
 for(const url of pages)test('carrega sem erros e sem overflow '+url,async({page})=>{
   const errors=[];
   page.on('pageerror',e=>errors.push(e.message));
@@ -141,10 +141,10 @@ test('exposição contínua, navegação e ampliação',async({page})=>{
   await page.keyboard.press('Escape');
   await expect(photo).toBeFocused();
 });
-test('link da bio chega à exposição',async({page})=>{
+test('link da bio chega à galeria 3D',async({page})=>{
   await page.goto('/links');
-  await page.locator('a[href="/partos.html#experiencia"]').click();
-  await expect(page.locator('#exhibit-act-1')).toBeVisible();
+  await page.locator('a[href="/imersao.html"]').click();
+  await expect(page.locator('h1')).toContainText('Entre');
 });
 test('primeiro ato e galeria funcionam sem JavaScript',async({browser})=>{
   const context=await browser.newContext({javaScriptEnabled:false});
@@ -187,4 +187,25 @@ test('exposição sem sobreposição e navegação nativa',async({page})=>{
     expect(result.inside).toBeTruthy();
     expect(result.overlap).toBe(0);
   }
+});
+
+test('imersão permite girar, ampliar e voltar à vista plana',async({page})=>{
+  await page.goto('/imersao.html');
+  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','3d');
+  await page.locator('[data-room="2"]').click();
+  await expect(page.locator('#im-title')).toHaveText('A família');
+  await expect(page.locator('#room-0')).toHaveAttribute('aria-hidden','true');
+  await expect(page.locator('#room-2')).not.toHaveAttribute('aria-hidden','true');
+  await page.locator('#room-2 .im-photo--0').click();
+  await expect(page.locator('.im-dialog')).toBeVisible();
+  await page.keyboard.press('Escape');
+  await page.locator('.im-mode').click();
+  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','flat');
+  await expect(page.locator('#room-0')).toBeVisible();
+});
+test('imersão respeita movimento reduzido',async({page})=>{
+  await page.emulateMedia({reducedMotion:'reduce'});
+  await page.goto('/imersao.html');
+  await expect(page.locator('#im-viewport')).toHaveAttribute('data-mode','flat');
+  await expect(page.locator('#room-2')).toBeVisible();
 });

@@ -4,7 +4,7 @@ const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const root=path.resolve(__dirname,'..');
-const names=['index.html','partos.html','ensaios.html','sobre.html','contato.html','links.html'];
+const names=['index.html','partos.html','ensaios.html','sobre.html','contato.html','links.html','imersao.html'];
 const read=p=>fs.readFileSync(path.join(root,p),'utf8');
 const pages=Object.fromEntries(names.map(p=>[p,read(p)]));
 for(const [p,html] of Object.entries(pages)){
@@ -74,4 +74,14 @@ test('Partos tem uma coleção única e 18 imagens distintas',()=>{
   assert.equal(images.length,18);
   assert.equal(new Set(images).size,18);
   assert.equal((main.match(/href="https:\/\/wa\.me\//g)||[]).length,2);
+});
+
+test('imersão mantém seis fotos e alternativa nativa',()=>{
+  const html=pages['imersao.html'];
+  assert.equal((html.match(/<article class="im-wall /g)||[]).length,3);
+  const photos=[...html.matchAll(/<a class="im-photo[^"]*" href="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(photos.length,6);assert.equal(new Set(photos).size,6);
+  assert.match(html,/<noscript>/);
+  assert.match(pages['partos.html'],/href="imersao.html"/);
+  assert.match(pages['links.html'],/href="\/imersao.html"/);
 });
